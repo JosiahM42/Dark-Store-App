@@ -1,7 +1,21 @@
+/*
+    Author:  Josiah Murray
+    Date Started: 06/08/2021
+*/
+
 import React from'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+/*
+    Function Name: SelectorScreen
+    Function Description: Defines the contents of the Sign In/ Sign Up screen
+    Arguments: N/A
+*/
+
 export const SelectorScreen = () => {
+    
+    // 
     const screenNavigate = useNavigation();
     
     return (
@@ -20,6 +34,7 @@ export const SelectorScreen = () => {
                     onPress={() => screenNavigate.navigate('Sign Up')}
                     style={styles.button}
                     underlayColor="#DDDDDD"
+                    backgroundColor="#99D98C"
                 >
                     <Text style={styles.textButton}>Sign Up</Text>
                 </TouchableHighlight>
@@ -31,22 +46,7 @@ export const SelectorScreen = () => {
                 >
                     <Text style={styles.textButton}>Sign In</Text>
                 </TouchableHighlight>
-                {/* <TouchableOpacity
-                    onPress={() => screenNavigate.navigate('Sign Up')}
-                    style={styles.button}
-                >
-                    <Text style={{fontSize: 20}}>Sign Up</Text>
-                </TouchableOpacity> */}
-
-                {/* <TouchableOpacity
-                    onPress={() => screenNavigate.navigate('Sign In')}
-                    style={styles.button}
-                    activeOpacity = "1.6"
-                >
-                    <Text style={{fontSize: 20}}>Sign In</Text>
-                </TouchableOpacity> */}
             </View>
-
 
         </View>
         
@@ -84,7 +84,8 @@ export const styles = StyleSheet.create({
     },
     button: {
         alignItems: "center",
-        backgroundColor: "#d3d3d3",
+        // backgroundColor: "#d3d3d3",
+        backgroundColor: "#119822",
         padding: "5%",
         width: "45%",
         bottom: "29%",
@@ -94,7 +95,14 @@ export const styles = StyleSheet.create({
     textButton: {
         fontSize: 20,
         textAlign: 'center',
+        color: "#ffffff"
         
     }
 
 });
+
+// Colours I like
+// #38b000
+// #55a630 Or #529e30 // They are similar
+// #119822
+// #ED8F4E
