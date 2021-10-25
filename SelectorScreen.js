@@ -31,7 +31,7 @@ export const SelectorScreen = () => {
 
             <View style={styles.screenHorizontalLayout}>
                 <TouchableHighlight
-                    onPress={() => screenNavigate.navigate('Sign Up')}
+                    onPress={() => screenNavigate.navigate('SignUp')}
                     style={styles.button}
                     underlayColor="#DDDDDD"
                     backgroundColor="#99D98C"
@@ -40,7 +40,7 @@ export const SelectorScreen = () => {
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                    onPress={() => screenNavigate.navigate('Sign In')}
+                    onPress={() => screenNavigate.navigate('SignIn')}
                     style={styles.button}
                     underlayColor="#DDDDDD"
                 >
