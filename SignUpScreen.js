@@ -20,13 +20,29 @@ export const SignUpScreen = () => {
     const [getPhone, setPhone] = useState('');
 
     //const screenNavigate = useNavigation();
-
+    // const userProfileSetUp = () => {
+    //     auth
+    //         .onAuthStateChanged(function(user)
+    //         {
+    //             if (user){
+    //                 user.updateProfile({
+    //                     displayName: getName,
+    //                 })
+                    
+    //                 .then((userProfile) =>{
+    //                     console.log("User Profile created", user.displayName)
+    //                 })
+    //                 .catch(error => alert(error.message))
+    //             }
+    //         })
+    // }
     const userSignUp = () => {
         auth
             .createUserWithEmailAndPassword(getEmail, getPassword)
-            .then((Usercredential) => {
-                const user = Usercredential.user;
-                console.log(user.getEmail);
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log("Signed up with", user.email);
+                //getUserData
             } )
             .catch(error => alert(error.message))
     }
