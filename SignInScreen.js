@@ -6,29 +6,43 @@
 import React, { useState } from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
 // import { useNavigation } from '@react-navigation/native';
+import { auth } from './firebase/config';
 
 export const SignInScreen = () => {
 
     //const screenNavigate = useNavigation();
 
-    const [username, setUsername] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [phone, setPhone] = useState('');
+    const [getName, setName] = useState('');
+    const [getEmail, setEmail] = useState('');
+    const [getPassword, setPassword] = useState('');
+    const [getPhone, setPhone] = useState('');
+
+    const userSignIn = () => {
+        auth
+            .signInWithEmailAndPassword(getEmail, getPassword)
+            .then((Usercredential) => {
+                const user = Usercredential.user;
+                console.log('Logged in with', user.getEmail);
+            } )
+            .catch(error => alert(error.message))
+    } 
 
     return (
 
         <View style={styles.screenVerticalLayout}>
             <TextInput
                 style={{ padding: 8, backgroundColor: '#f5f5f5' }}
-                onChangeText={name => setUsername(name)}
-                placeholder="Name"
+                value={getEmail}
+                onChangeText={email => setEmail(email)}
+                placeholder="Enter your email"
             />
 
             <TextInput
                 style={{ padding: 8, backgroundColor: '#f5f5f5' }}
-                onChangeText={email => setUserEmail(email)}
-                placeholder="Hi"
+                value={getPassword}
+                onChangeText={password => setPassword(password)}
+                placeholder="Enter your password"
+                secureTextEntry
             />
 
             {/* <TouchableHighlight

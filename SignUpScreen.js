@@ -6,9 +6,12 @@
 import React, { useState } from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
 // import { useNavigation } from '@react-navigation/native';
-//import { auth } from './firebase/config';
-import auth from '@react-native-firebase/auth';
+import { auth } from './firebase/config';
+//import auth from 'firebase';
 
+
+// https://youtu.be/ql4J6SpLXZA?t=1268
+// see this video
 
 export const SignUpScreen = () => {
     const [getName, setName] = useState('');
@@ -19,13 +22,13 @@ export const SignUpScreen = () => {
     //const screenNavigate = useNavigation();
 
     const userSignUp = () => {
-        auth()
+        auth
             .createUserWithEmailAndPassword(getEmail, getPassword)
-            .then(credentials => {
-                const user = credentials.user;
+            .then((Usercredential) => {
+                const user = Usercredential.user;
                 console.log(user.getEmail);
             } )
-            .error(error => alert(error.message))
+            .catch(error => alert(error.message))
     }
 
     return (
@@ -71,7 +74,7 @@ export const SignUpScreen = () => {
 
             <View style = {styles.buttonLayout}>
                 <TouchableHighlight
-                    onPress={() => userSignUp}
+                    onPress={() => userSignUp()}
                     //onPress={() => screenNavigate.navigate('SignUp')}
                     style={styles.button}
                     underlayColor="#DDDDDD"
