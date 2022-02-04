@@ -2,16 +2,11 @@
     Author:  Josiah Murray
     Date Started: 06/08/2021
 */
-
 import React, { useState } from'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
-// import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Pressable} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { auth } from './firebase/config';
 //import auth from 'firebase';
-
-
-// https://youtu.be/ql4J6SpLXZA?t=1268
-// see this video
 
 export const SignUpScreen = () => {
     const [getName, setName] = useState('');
@@ -19,23 +14,8 @@ export const SignUpScreen = () => {
     const [getPassword, setPassword] = useState('');
     const [getPhone, setPhone] = useState('');
 
-    //const screenNavigate = useNavigation();
-    // const userProfileSetUp = () => {
-    //     auth
-    //         .onAuthStateChanged(function(user)
-    //         {
-    //             if (user){
-    //                 user.updateProfile({
-    //                     displayName: getName,
-    //                 })
-                    
-    //                 .then((userProfile) =>{
-    //                     console.log("User Profile created", user.displayName)
-    //                 })
-    //                 .catch(error => alert(error.message))
-    //             }
-    //         })
-    // }
+    const screenNavigate = useNavigation()
+
     const userSignUp = () => {
         auth
             .createUserWithEmailAndPassword(getEmail, getPassword)
@@ -99,6 +79,12 @@ export const SignUpScreen = () => {
                     <Text style={styles.textButton}>Sign Up</Text>
                 </TouchableHighlight>
 
+            </View>
+
+            <View style = {styles.pageSwitch}>
+                <Pressable onPress={() => screenNavigate.navigate('SignIn')}>
+                    <Text>Already have an account? Login</Text>
+                </Pressable>
             </View>
         </View>
     )
@@ -177,27 +163,9 @@ export const styles = StyleSheet.create({
         top: "2%",
     },
 
-})
+    pageSwitch: {
+        fontSize: 18,
+        bottom: "8%",
+    },
 
-    // const ErrorHandler = () => {
-    //     if(!getName && !getEmail && !getPassword && !getPhone){
-    //         alert('Please enter your details in the fields');
-    //     }
-    //     else if(!getName){
-    //         alert('Please enter your name');
-    //     }
-    //     else if(!getEmail){
-    //         alert('Please enter an email');
-    //     }
-    //     else if(!getPassword){
-    //         alert('Please enter a password');
-    //     }
-    //     else if(!getPhone){
-    //         alert('Please enter a phone number');
-    //     }
-        
-    //     else{
-    //         screenNavigate.navigate('Home');
-    //     }
-                
-    // }
+})

@@ -3,10 +3,10 @@
     Date Started: 06/08/2021
 */
 
-import React from'react';
+import React, { useEffect } from'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { auth } from './firebase/config';
 /*
     Function Name: SelectorScreen
     Function Description: Defines the contents of the Sign In/ Sign Up screen
@@ -17,6 +17,15 @@ export const SelectorScreen = () => {
     
     // 
     const screenNavigate = useNavigation();
+
+    useEffect(() => {
+        const moveOn = auth.onAuthStateChanged(user => {
+            if (user) {
+                screenNavigate.navigate("Home")
+            }
+        })
+        return moveOn
+    })
     
     return (
         <View style={styles.screenVerticalLayout}>

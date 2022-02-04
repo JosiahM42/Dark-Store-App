@@ -3,14 +3,14 @@
     Date Started: 06/08/2021
 */
 
-import React, { useState } from'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
-// import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from'react';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Pressable} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { auth } from './firebase/config';
 
 export const SignInScreen = () => {
 
-    //const screenNavigate = useNavigation();
+    const screenNavigate = useNavigation();
 
     const [getName, setName] = useState('');
     const [getEmail, setEmail] = useState('');
@@ -23,14 +23,25 @@ export const SignInScreen = () => {
             .then((userCredential) => {
                 const user = userCredential.user;
                 console.log("logged in with", user.email);
-                //getUserData
+                
             } )
             .catch(error => alert(error.message))
     } 
 
+    // This will allow the user to move to the next screen if they are logged in
+    useEffect(() => {
+        const moveOn = auth.onAuthStateChanged(user => {
+            if (user) {
+                screenNavigate.navigate("Home")
+            }
+        })
+        return moveOn
+    })
+
     return (
 
         <View style={styles.screenVerticalLayout}>
+            <Text style={styles.title}> Sign In </Text>
             <Text style={styles.headings}>Email</Text>
             <TextInput
                 style={styles.textInput}
@@ -61,6 +72,12 @@ export const SignInScreen = () => {
                     <Text style={styles.textButton}>Sign In</Text>
                 </TouchableHighlight>
 
+            </View>
+
+            <View style = {styles.pageSwitch}>
+                <Pressable onPress={() => screenNavigate.navigate('SignUp')}>
+                    <Text>Don't have an account? Sign Up</Text>
+                </Pressable>
             </View>
 
             {/* <TouchableHighlight
@@ -148,6 +165,9 @@ export const styles = StyleSheet.create({
         top: "2%",
     },
 
-
+    pageSwitch: {
+        fontSize: 18,
+        bottom: "8%",
+    },
 
 })
