@@ -25,6 +25,7 @@ else {
 
 const auth = firebase.auth()
 
+
 export { auth };
 
 // // Import the functions you need from the SDKs you need

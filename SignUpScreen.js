@@ -3,9 +3,10 @@
     Date Started: 06/08/2021
 */
 import React, { useState } from'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, Pressable} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, Pressable, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from './firebase/config';
+
 //import auth from 'firebase';
 
 export const SignUpScreen = () => {
@@ -18,19 +19,49 @@ export const SignUpScreen = () => {
 
     const userSignUp = () => {
         auth
+            // This uses the email and password provided by the user to create a new account 
             .createUserWithEmailAndPassword(getEmail, getPassword)
             .then((userCredential) => {
                 const user = userCredential.user;
                 console.log("Signed up with", user.email);
-                //getUserData
+                screenNavigate.navigate("Home")
             } )
             .catch(error => alert(error.message))
+    }
+
+    const signUpWithGoogle = () => {
+        // This creates a new instance of the Google authentication provider class
+        var authProvider = new auth.GoogleAuthProvider()
+        
+        // This will set the authentication popup to be in english
+        auth.languageCode = 'en';;
+
+        auth
+            .signInWithPopup(authProvider)
+            .then((signUpResult) => {
+                var userCredential = signUpResult.userCredential;
+                
+                var token = userCredential.accessToken;
+
+                var user = signUpResult.user
+            })
+            .catch(error => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+            })
+                
     }
 
     return (
 
         <View style={styles.screenVerticalLayout}>
             <Text style={styles.title}> Sign Up </Text>
+
             
             {/* <Text style={styles.headings}>Name</Text>
             <TextInput
@@ -78,8 +109,27 @@ export const SignUpScreen = () => {
                 >
                     <Text style={styles.textButton}>Sign Up</Text>
                 </TouchableHighlight>
-
+                
             </View>
+            
+            {/*The following View container contains the line*/}
+            {/* <View style={styles.signUpWithContainer}>
+                <View style={styles.signUpWithGoogleLine} />
+                    <View>
+                        <Text style={styles.signUpWithGoogleText}>Or sign up with Google</Text>
+                    </View>
+                <View style={styles.signUpWithGoogleLine} />
+            </View> */}
+            
+            {/* <View style={styles.signInWithGoogleButtonLayout}>
+                <TouchableOpacity
+                    onPress={() => signUpWithGoogle}
+                >
+                    <Image style={{}}> 
+                    source={require('./assets/btn-google-signin.png')} 
+                    </Image>
+                </TouchableOpacity>
+            </View> */}
 
             <View style = {styles.pageSwitch}>
                 <Pressable onPress={() => screenNavigate.navigate('SignIn')}>
@@ -149,7 +199,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "#119822",
         padding: "5%",
         width: "50%",
-        top: "20%",
+        top: "15%",
         borderRadius: 10,
         //borderColor: 'black',
         //borderWidth: 1,
@@ -163,9 +213,40 @@ export const styles = StyleSheet.create({
         top: "2%",
     },
 
+    // signUpWithContainer: {
+    //     flexDirection: 'row',
+    //     alignItems: 'center', 
+    //     bottom: '50%',
+    // },
+
+    // signUpWithGoogleLine: {
+    //     flex: 1, 
+    //     height: 1, 
+    //     backgroundColor: 'black', 
+    //     margin: "5%",
+    // },
+    
+    // signUpWithGoogleText: {
+    //     width: "100%", 
+    //     textAlign: 'center',
+    // },
+    
+    // signInWithGoogleButtonLayout: {
+    //     flex: 1,
+    //     alignItems: "center",
+    //     justifyContent: "center",
+    // },
+    
     pageSwitch: {
         fontSize: 18,
         bottom: "8%",
     },
-
 })
+
+{/* <View style={{flexDirection: 'row', alignItems: 'center', bottom: '45%'}}>
+                <View style={{flex: 1, height: 1, backgroundColor: 'black', margin: "5%"}} />
+                    <View>
+                        <Text style={{width: "100%", textAlign: 'center'}}>Or sign up with Google</Text>
+                    </View>
+                <View style={{flex: 1, height: 1, width: 2, backgroundColor: 'black', margin: "5%"}} />
+    </View> */}

@@ -28,6 +28,14 @@ export const SignInScreen = () => {
             .catch(error => alert(error.message))
     } 
 
+    const resetPassword = () => {
+        auth
+            .sendPasswordResetEmail(getEmail)
+            .then(() => {
+                alert("Password reset email has been sent")
+            })
+    }
+
     // This will allow the user to move to the next screen if they are logged in
     useEffect(() => {
         const moveOn = auth.onAuthStateChanged(user => {
@@ -60,6 +68,12 @@ export const SignInScreen = () => {
                 secureTextEntry
                 //underlineColorAndroid= 'black'
             />
+
+            <View style = {styles.forgotPassword}>
+                <Pressable onPress={resetPassword}>
+                    <Text>Forgotten Password?</Text>
+                </Pressable>
+            </View>
 
             <View style = {styles.buttonLayout}>
                 <TouchableHighlight
@@ -143,6 +157,12 @@ export const styles = StyleSheet.create({
         borderBottomColor: '#000', // Add this to specify bottom border color
         borderBottomWidth: 1,     // Add this to specify bottom border thickness
 
+    },
+
+    forgotPassword: {
+        fontSize: 20,
+        top: "3%",
+        paddingLeft: "55%"
     },
 
     button: {
