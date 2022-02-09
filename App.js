@@ -8,6 +8,7 @@ import { SelectorScreen } from './SelectorScreen';
 import { SignUpScreen } from './SignUpScreen';
 import { SignInScreen } from './SignInScreen';
 import HomeScreen from './HomeScreen';
+import { AddressScreen } from './AddressScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export const AuthNavigate = () => (
     <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
     <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+    <Stack.Screen options={{headerShown: false}} name="Address" component={AddressScreen} />
   </Stack.Navigator>
 );
 

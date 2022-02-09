@@ -40,7 +40,7 @@ export const SignInScreen = () => {
     useEffect(() => {
         const moveOn = auth.onAuthStateChanged(user => {
             if (user) {
-                screenNavigate.navigate("Home")
+                screenNavigate.navigate("Address")
             }
         })
         return moveOn
