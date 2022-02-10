@@ -18,14 +18,14 @@ export const SelectorScreen = () => {
     // 
     const screenNavigate = useNavigation();
 
-    useEffect(() => {
-        const moveOn = auth.onAuthStateChanged(user => {
-            if (user) {
-                screenNavigate.navigate("Home")
-            }
-        })
-        return moveOn
-    })
+    // useEffect(() => {
+    //     const moveOn = auth.onAuthStateChanged(user => {
+    //         if (user) {
+    //             screenNavigate.navigate("Home")
+    //         }
+    //     })
+    //     return moveOn
+    // })
     
     return (
         <View style={styles.screenVerticalLayout}>
