@@ -11,6 +11,12 @@ export const AddressScreen = () => {
     const [getLat, setLat] = useState(0.0);
     const [getLong, setLong] = useState(0.0);
 
+
+    // let userAddress = getUserAddress()
+    // let long = userAddress.results[0].geometry.location.lng;
+    // let lat = userAddress.results[0].geometry.location.lat;
+
+
     // Geocoder.from("BS16 1QY")
 	// 	    .then(json => {
 	// 		var location = json.results[0].geometry.location;
@@ -30,9 +36,27 @@ export const AddressScreen = () => {
         // longitudeDelta: 0.0421,
     };
 
-    let userCoordinate = {
-        latitude: 0.0,
-        longitude: 0.0,
+    // let userCoordinate = [
+    //     {
+    //         latitude: getLat,
+    //         longitude: getLong,
+    //     },
+    //     {
+    //         latitude: 51.500986,
+    //         longitude: -2.548292,
+    //     },
+    // ]
+
+    let userCoordinate = 
+    {
+        // latitude: 51.500986,
+        // longitude: -2.548292,
+        latitude: getLat,
+        longitude: getLong,
+    };
+    
+    function calculateDistance(){
+        
     }
 
     function displayMap(){
@@ -54,7 +78,7 @@ export const AddressScreen = () => {
                             source={require('./assets/icons8-warehouse.png')} 
                             style={styles.marker} 
                         />
-                    </Marker>
+                    </Marker> 
                     
                     <Marker
                         coordinate={userCoordinate}
@@ -110,19 +134,6 @@ export const AddressScreen = () => {
         .catch(error => 
             alert(error.message)
         )
-        
-            
-        // if (getLat !== 0.0) {
-        //     userCoordinate.latitude = getLat;
-        // }
-        console.log(getLat);
-        // console.log(userCoordinate.latitude);
-        // if (getLong !== 0.0) {
-        //     userCoordinate.longitude = getLong;
-        // }
-        console.log(getLong);
-        // console.log(userCoordinate.longitude);
-        //displayMap()
         
     }
 
