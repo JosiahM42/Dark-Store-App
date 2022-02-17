@@ -1,7 +1,7 @@
 import React, { useState } from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { auth } from './firebase/config';
+import { auth } from './firebase/firebaseConfig';
 
 
 // https://www.youtube.com/watch?v=ql4J6SpLXZA&t=1268s

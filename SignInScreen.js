@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { auth } from './firebase/config';
+import { auth } from './firebase/firebaseConfig';
 
 export const SignInScreen = () => {
 
@@ -40,7 +40,7 @@ export const SignInScreen = () => {
     useEffect(() => {
         const moveOn = auth.onAuthStateChanged(user => {
             if (user) {
-                screenNavigate.navigate("Address")
+                screenNavigate.navigate("Home")
             }
         })
         return moveOn

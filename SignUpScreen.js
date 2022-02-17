@@ -5,7 +5,7 @@
 import React, { useState } from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, Pressable, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { auth } from './firebase/config';
+import { auth } from './firebase/firebaseConfig';
 
 //import auth from 'firebase';
 

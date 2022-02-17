@@ -16,11 +16,11 @@ const Stack = createStackNavigator();
 
 export const AuthNavigate = () => (
   <Stack.Navigator>
+    <Stack.Screen options={{headerShown: false}} name="Address" component={AddressScreen} />
     <Stack.Screen options={{headerShown: false}} name="Selector" component={SelectorScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
     <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
-    <Stack.Screen options={{headerShown: false}} name="Address" component={AddressScreen} />
   </Stack.Navigator>
 );
 

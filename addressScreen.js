@@ -1,20 +1,25 @@
 //https://github.com/react-native-maps/react-native-maps
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import React, { useState } from'react';
+import React, { useState, useEffect } from'react';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, Image} from 'react-native';
 import Geocoder from 'react-native-geocoding';
+import { auth } from './firebase/firebaseConfig';
+
+//import getDistance from 'geolib/es/getDistance';
+import * as geolib from 'geolib';
 
 export const AddressScreen = () => {
+
+    // Google Maps API key
+    const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
+
+    const screenNavigate = useNavigation();
     
     const [getLocation, setLocation] = useState('');
 
-    const [getLat, setLat] = useState(0.0);
-    const [getLong, setLong] = useState(0.0);
-
-
-    // let userAddress = getUserAddress()
-    // let long = userAddress.results[0].geometry.location.lng;
-    // let lat = userAddress.results[0].geometry.location.lat;
+    const [getLat, setLat] = useState(0);
+    const [getLong, setLong] = useState(0);
 
 
     // Geocoder.from("BS16 1QY")
@@ -27,25 +32,25 @@ export const AddressScreen = () => {
     //         );
 
 
+
+    // This will allow the user to move to the next screen if they are logged in
+    useEffect(() => {
+        const moveOn = auth.onAuthStateChanged(user => {
+            if (user) {
+                screenNavigate.navigate("Home")
+            }
+        })
+        return moveOn
+    })
+
+
+
     const darkStoreRegion = {
         latitude: 51.500986,
         longitude: -2.548292,
-        latitudeDelta: 0.04,
-        longitudeDelta: 0.04,
-        // latitudeDelta: 0.0922,
-        // longitudeDelta: 0.0421,
+        latitudeDelta: 0.07,
+        longitudeDelta: 0.07,
     };
-
-    // let userCoordinate = [
-    //     {
-    //         latitude: getLat,
-    //         longitude: getLong,
-    //     },
-    //     {
-    //         latitude: 51.500986,
-    //         longitude: -2.548292,
-    //     },
-    // ]
 
     let userCoordinate = 
     {
@@ -55,9 +60,7 @@ export const AddressScreen = () => {
         longitude: getLong,
     };
     
-    function calculateDistance(){
-        
-    }
+
 
     function displayMap(){
         return(
@@ -102,9 +105,10 @@ export const AddressScreen = () => {
                     placeholder="Enter your address e.g. 000 avenue, BS16 1QY"
                     //underlineColorAndroid= 'black'
                 />
-                <View style = {styles.buttonLayout}>
-                <TouchableHighlight
-                    onPress={() => geocodingUserAddress()}
+
+                <View style = {styles.buttonlayout}>
+                     <TouchableHighlight
+                    onPress={() => getAddressDistance()}
                     //onPress={() => screenNavigate.navigate('SignUp')}
                     style={styles.button}
                     underlayColor="#DDDDDD"
@@ -112,7 +116,6 @@ export const AddressScreen = () => {
                 >
                     <Text style={styles.textButton}>Sign Up</Text>
                 </TouchableHighlight>
-                
             </View>
                 
             </View>
@@ -120,29 +123,75 @@ export const AddressScreen = () => {
     }
 
     function geocodingUserAddress(){
-        //var location;
         //geocoding Google API Key
-        Geocoder.init("AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo");
+        Geocoder.init(googleMapsKey);
 
         Geocoder.from(getLocation)
         .then(json => {
             var location = json.results[0].geometry.location;
             setLat(location.lat);
             setLong(location.lng);
-            console.log(location);
+            console.log(location.lat);
         })
         .catch(error => 
             alert(error.message)
         )
+
+        // console.log(getLat);
+        // console.log(getLong);
+        
+        //getAddressDistance();
         
     }
+
+    function getAddressDistance(){
+        geocodingUserAddress();
+
+        var distance = geolib.getPreciseDistance(
+            {latitude: darkStoreRegion.latitude, longitude: darkStoreRegion.longitude},
+            {latitude: userCoordinate.latitude, longitude: userCoordinate.longitude}
+        );
+
+        //var miles = Math.round(geolib.convertDistance(distance, 'mi') * 100)/100;
+        var miles = geolib.convertDistance(distance, 'mi');
+
+        // setLat(getLat => getLat = 0);
+        // setLong(getLong => getLong = 0);
+        setLocation('');
+        
+        if (Math.round(miles* 100)/100 <= 5.00)
+        {
+
+            console.log("Customer is in range");
+            screenNavigate.navigate("Selector");
+
+        }
+        else {
+            console.log("Customer is out of range");
+        }
+
+        //return `User is ${Math.round(miles * 100)/100} miles away.`
+    
+    }
+
+    // useEffect(() => {
+    //     if(getLat != 0){
+    //         setLat(1.22)
+    //     }
+    //   }, [getLat])
+      
+    //   useEffect(() => {
+    //       if(getLong != 0){
+    //           setLong(1.22)
+    //       }
+    //   }, [getLong])
 
     return (
 
         <View style={{flex: 1}}>
             {displayMap()}
             {getUserAddress()}
-            {/* {geocodingUserAddress()} */}
+            {/* {userButton()} */}
         </View>
         
     );
@@ -165,8 +214,17 @@ export const styles = StyleSheet.create({
         justifyContent:'center',
         
         // paddingTop: "50%",
-
     },
+
+    // bLayout:{
+    //     position: 'absolute',
+    //     flex: 1,
+    //     bottom: "40%",
+    //     height: "80%",
+    //     width: "100%",
+    //     //paddingTop: "60%",
+    //     justifyContent: 'center',
+    // },
 
     headings: {
         //paddingTop: "1%",
@@ -185,6 +243,26 @@ export const styles = StyleSheet.create({
         borderBottomColor: '#000', // Add this to specify bottom border color
         borderBottomWidth: 1,     // Add this to specify bottom border thickness
 
+    },
+
+    buttonlayout: {
+        position: 'absolute',
+        alignItems: "center",
+        // padding: "5%",
+        width: "50%",
+        top: "132%",
+    },
+
+    button: {
+        alignItems: "center",
+        //backgroundColor: "#d3d3d3",
+        backgroundColor: "#119822",
+        padding: "8%",
+        width: "70%",
+        //top: "80%",
+        borderRadius: 10,
+        //borderColor: 'black',
+        //borderWidth: 1,
     },
 
     // topHalf: {
