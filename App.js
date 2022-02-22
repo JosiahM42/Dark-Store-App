@@ -1,18 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { LogBox, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { SelectorScreen } from './SelectorScreen';
-import { SignUpScreen } from './SignUpScreen';
-import { SignInScreen } from './SignInScreen';
-import HomeScreen from './HomeScreen';
-import { AddressScreen } from './AddressScreen';
+import { SelectorScreen } from './screens/SelectorScreen';
+import { SignUpScreen } from './screens/SignUpScreen';
+import { SignInScreen } from './screens/SignInScreen';
+import HomeScreen from './screens/HomeScreen';
+import { AddressScreen } from './screens/AddressScreen';
+
+LogBox.ignoreAllLogs(true);
+//console.disableYellowBox = true;
 
 const Stack = createStackNavigator();
 
 // const SelectorScreen = SelectorScreen()
+
 
 export const AuthNavigate = () => (
   <Stack.Navigator>
@@ -35,6 +39,7 @@ export const AuthNavigate = () => (
 // );
 
 export default function App() {
+
   return (
     <NavigationContainer>
       <AuthNavigate/>
