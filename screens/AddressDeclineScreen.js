@@ -1,61 +1,28 @@
-/*
-    Author:  Josiah Murray
-    Date Started: 06/08/2021
-*/
-
-import React, { useEffect } from'react';
+import React from'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { auth } from '../firebase/firebaseConfig';
-/*
-    Function Name: SelectorScreen
-    Function Description: Defines the contents of the Sign In/ Sign Up screen
-    Arguments: N/A
-*/
 
-export const SelectorScreen = () => {
+export const DeclineScreen = () => {
     
-    // 
     const screenNavigate = useNavigation();
-
-    // useEffect(() => {
-    //     const moveOn = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             screenNavigate.navigate("Home")
-    //         }
-    //     })
-    //     return moveOn
-    // })
     
     return (
         <View style={styles.screenVerticalLayout}>
             <View style={styles.imagePlaceholder}>
-                <Image style={styles.tick} source={require('../assets/circle-tick.png')}/>
+                <Image style={styles.tick} source={require('../assets/circle-cross.png')}/>
             </View>
             <View>
-                <Text style={styles.mainText}>Congrats, we deliver to your area.{"\n\n"} Now you can {"\n"}order the food you want, when you want and in whatever quantity you want.</Text>
+                <Text style={styles.mainText}>Sorry our service does not deliver to your area.</Text>
             </View>
-
-            {/* <View>
-                <Text style={styles.secondaryText}>Sign up today for a stress-free grocery shopping experience or if you are a returning customer, welcome back.</Text>
-            </View> */}
 
             <View style={styles.screenHorizontalLayout}>
                 <TouchableHighlight
-                    onPress={() => screenNavigate.navigate('SignUp')}
+                    onPress={() => screenNavigate.navigate('Address')}
                     style={styles.button}
                     underlayColor="#DDDDDD"
                     backgroundColor="#99D98C"
                 >
-                    <Text style={styles.textButton}>Sign Up</Text>
-                </TouchableHighlight>
-
-                <TouchableHighlight
-                    onPress={() => screenNavigate.navigate('SignIn')}
-                    style={styles.button}
-                    underlayColor="#DDDDDD"
-                >
-                    <Text style={styles.textButton}>Sign In</Text>
+                    <Text style={styles.textButton}>Try new address</Text>
                 </TouchableHighlight>
             </View>
 
@@ -72,7 +39,7 @@ export const styles = StyleSheet.create({
     },
     mainText: {
         padding: "20%",
-        top: "25%",
+        top: "40%",
         //bottom: "50%",
         paddingBottom: "16%",
         fontSize: 24,
@@ -85,7 +52,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     imagePlaceholder: {
-        top: "18%",
+        top: "20%",
         width: "30%", 
         height: "15%", 
         borderRadius: 100,
@@ -102,9 +69,9 @@ export const styles = StyleSheet.create({
     screenHorizontalLayout: {
         flexDirection:"row",
         justifyContent: 'space-around',
-        width: '90%',
-        height: "8.5%",
-        top: "60%",
+        width: '120%',
+        height: "10%",
+        top: "100%",
     },
     button: {
         alignItems: "center",
@@ -124,9 +91,3 @@ export const styles = StyleSheet.create({
     }
 
 });
-
-// Colours I like
-// #38b000
-// #55a630 Or #529e30 // They are similar
-// #119822
-// #ED8F4E

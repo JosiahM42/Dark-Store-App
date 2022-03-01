@@ -114,7 +114,7 @@ export const AddressScreen = () => {
                     underlayColor="#DDDDDD"
                     backgroundColor="#99D98C"
                 >
-                    <Text style={styles.textButton}>Sign Up</Text>
+                    <Text style={styles.textButton}>Continue</Text>
                 </TouchableHighlight>
             </View>
                 
@@ -168,6 +168,7 @@ export const AddressScreen = () => {
         }
         else {
             console.log("Customer is out of range");
+            screenNavigate.navigate("Decline");
         }
 
         //return `User is ${Math.round(miles * 100)/100} miles away.`
@@ -261,8 +262,16 @@ export const styles = StyleSheet.create({
         width: "70%",
         //top: "80%",
         borderRadius: 10,
+        
         //borderColor: 'black',
         //borderWidth: 1,
+    },
+
+    textButton: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: "#ffffff",
+        
     },
 
     // topHalf: {

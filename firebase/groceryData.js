@@ -17,13 +17,13 @@ import { firestore } from './firebaseConfig';
 // }
 
 export const uploadGroceries = () => {
-    firestore.collection('Fruit').doc('SeedlessGrapes').set({
-        productName: "Seedless Grapes",
-        price: 1.20,
-        description: "British seedless grapes.",
+    firestore.collection('Vegetables').doc('Aubergines').set({
+        productName: "Aubergines",
+        price: 0.60,
+        description: "Locally grown aubergines.",
         imageUrl: "url",
-        imageAuthor: "Rajesh Rajput",
-        imageSource: "https://unsplash.com/photos/y2MeW00BdBo",
+        imageAuthor: "Maja Vujic",
+        imageSource: "https://unsplash.com/photos/2QcrIXn98PM",
     })
     .then(() => {
         console.log("Grocery successfully added")
