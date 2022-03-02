@@ -1,19 +1,13 @@
-import React, { useState } from'react';
+import React from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { auth,firestore } from '../firebase/firebaseConfig';
-
-import { uploadGroceries } from '../firebase/groceryData';
+import { useNavigation, NavigationContainer } from '@react-navigation/native';
 
 
-// https://www.youtube.com/watch?v=ql4J6SpLXZA&t=1268s
-//watch this 
-//https://www.youtube.com/watch?v=-40TBdSRk6E&list=PL4cUxeGkcC9ixPU-QkScoRBVxtPPzVjrQ&index=22 
-
-//LogBox.ignoreAllLogs();
-const HomeScreen = () => {
-
+const BasketScreen = () => {
     const screenNavigate = useNavigation();
+    // const tabs = createBottomTabNavigator();
+
+    
 
     const signOut = () => {
         auth
@@ -25,16 +19,10 @@ const HomeScreen = () => {
     }
     return (
         <View style={styles.screenVerticalLayout}>
-            <Text>Home Screen</Text>
+            <Text>Basket Screen</Text>
             <Button
                 title = "log out"
                 onPress={signOut}
-                style = {styles.button}
-            />
-
-            <Button
-                title = "upload"
-                onPress={uploadGroceries}
                 style = {styles.button}
             />
 
@@ -42,7 +30,7 @@ const HomeScreen = () => {
     )
 }
 
-export default HomeScreen
+export default BasketScreen
 
 const styles = StyleSheet.create({
     button: {

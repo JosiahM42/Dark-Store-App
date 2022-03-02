@@ -3,21 +3,31 @@ import React from 'react';
 import { LogBox, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 
 import { SelectorScreen } from './screens/SelectorScreen';
 import { SignUpScreen } from './screens/SignUpScreen';
 import { SignInScreen } from './screens/SignInScreen';
 import HomeScreen from './screens/HomeScreen';
 import { AddressScreen } from './screens/AddressScreen';
-import {DeclineScreen} from './screens/AddressDeclineScreen'
+import {DeclineScreen} from './screens/AddressDeclineScreen';
+import BasketScreen from './screens/BasketScreen';
 
 LogBox.ignoreAllLogs(true);
 //console.disableYellowBox = true;
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 // const SelectorScreen = SelectorScreen()
 
+const TabNavigate = () => (
+  <Tab.Navigator>
+    <Tab.Screen options={{headerShown: false}} name = "Home" component={HomeScreen} />
+    <Tab.Screen options={{headerShown: false}} name = "Basket" component={BasketScreen} />
+  </Tab.Navigator>
+);
 
 export const AuthNavigate = () => (
   <Stack.Navigator>
@@ -26,9 +36,13 @@ export const AuthNavigate = () => (
     <Stack.Screen options={{headerShown: false}} name="Decline" component={DeclineScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
-    <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+    <Stack.Screen options={{headerShown: false}} name="Home" component={TabNavigate} />
   </Stack.Navigator>
 );
+
+
+
+
 
 // export const AuthNavigate = () => (
 //   <Stack.Navigator>
