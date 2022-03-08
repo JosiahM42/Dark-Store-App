@@ -4,6 +4,7 @@ import { LogBox, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons} from '@expo/vector-icons';
 
 
 import { SelectorScreen } from './screens/SelectorScreen';
@@ -23,7 +24,32 @@ const Tab = createBottomTabNavigator();
 // const SelectorScreen = SelectorScreen()
 
 const TabNavigate = () => (
-  <Tab.Navigator>
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let selectedIcon;
+
+        if (route.name === 'Home') {
+          
+          // This will change the colour of the home button
+          selectedIcon = focused
+           ? 'home'
+           : 'home-outline' ; 
+        }
+        else if (route.name === 'Basket') {
+          
+          // This will change the colour of the home button
+          selectedIcon = focused
+          ? 'basket'
+          : 'basket-outline';
+        }
+        // This will add icons to the tab
+        return <Ionicons name={selectedIcon} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: '#119822',
+      tabBarInactiveTintColor: '#808080',
+    })}
+  >
     <Tab.Screen options={{headerShown: false}} name = "Home" component={HomeScreen} />
     <Tab.Screen options={{headerShown: false}} name = "Basket" component={BasketScreen} />
   </Tab.Navigator>

@@ -10,6 +10,7 @@ export const DeclineScreen = () => {
         <View style={styles.screenVerticalLayout}>
             <View style={styles.imagePlaceholder}>
                 <Image style={styles.tick} source={require('../assets/circle-cross.png')}/>
+                {/* <Image style={styles.tick} source={{uri: 'https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Apples-matheus-cenali.jpg?alt=media&token=6b0d5a03-2c9f-4272-8db2-dcebb1de3c68'}}/> */}
             </View>
             <View>
                 <Text style={styles.mainText}>Sorry our service does not deliver to your area.</Text>
@@ -64,6 +65,8 @@ export const styles = StyleSheet.create({
     tick:{
         top: "10%",
         left: "10%",
+        width: "80%",
+        height: "80%",
          
     },
     screenHorizontalLayout: {
