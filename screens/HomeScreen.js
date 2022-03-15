@@ -1,8 +1,9 @@
-import React, { useState } from'react';
+import React, { useState, Component } from'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth,firestore } from '../firebase/firebaseConfig';
 import { ScrollView } from 'react-native-gesture-handler';
+import {productQuantity} from '../functions/IncrementDecrementButton';
 
 import { 
     categories, 
@@ -21,6 +22,9 @@ import {
 //https://www.youtube.com/watch?v=-40TBdSRk6E&list=PL4cUxeGkcC9ixPU-QkScoRBVxtPPzVjrQ&index=22 
 
 //LogBox.ignoreAllLogs();
+
+export let selectedItem = ''
+
 const HomeScreen = () => {
 
     const screenNavigate = useNavigation();
@@ -28,6 +32,7 @@ const HomeScreen = () => {
     const bakeryProducts = []
 
     // bakeryProducts.push(pullGroceries)
+    //let [quantity, setQuantity] = useState(0);
 
     const signOut = () => {
         auth
@@ -45,6 +50,9 @@ const HomeScreen = () => {
     // }
 
     const productDisplay = (categoryList, nextScreen) => {
+        let quantity = new productQuantity();
+        //let [quantity, setQuantity] = useState(0);
+
         return (
             <View style={{paddingTop: 10}}>
                 <FlatList
@@ -52,12 +60,24 @@ const HomeScreen = () => {
                     showsHorizontalScrollIndicator={false}
                     data={categoryList.slice(0,4)}
                     renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => screenNavigate.navigate(nextScreen)}>
-                            <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
-                            <Text style={styles.productTitles}> {item.productName}</Text>
-                            <Text style={{marginLeft: 20}}>£{item.price}0</Text>
+                        <View> 
+                            <TouchableOpacity onPress={() => {
+                                screenNavigate.navigate(nextScreen)
+                                selectedItem = item.productName
+                            }
+                                }>
+                                <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
+                                <Text style={styles.productTitles}> {item.productName}</Text>
+                                <Text style={{marginLeft: 80}}>£{item.price}0</Text>
+                            </TouchableOpacity>
+                            {/* <Text style={{marginLeft: 20}}>£{item.price}0</Text> */}
+                            {/* <View style={{flexDirection:"row", justifyContent: 'space-around'}}>
+                                <Text style={{marginLeft: 20}}>£{item.price}0</Text>
+                                {/* {quantity.render()} */}
+                                {/* {incrementDecrementCounter(10, 0, quantity, setQuantity)} */}
+                            {/* </View> */}
+                        </View> 
 
-                        </TouchableOpacity>
                     )}
                 />
                 <View style={{borderBottomColor: 'black', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
@@ -117,7 +137,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
 
-                {productDisplay(bakeryList, "basket")}
+                {productDisplay(bakeryList, "Product")}
                 
 
                 <View style={{paddingTop: 10}}>
@@ -128,7 +148,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
 
-                {productDisplay(fruitList, "basket")}
+                {productDisplay(fruitList, "Product")}
                 
                 {/* https://www.npmjs.com/package/react-native-increment-decrement-button */}
 
@@ -140,7 +160,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
                 
-                {productDisplay(dairyList, "basket")}
+                {productDisplay(dairyList, "Product")}
 
 
                 <View style={{paddingTop: 10 }}>
@@ -151,7 +171,27 @@ const HomeScreen = () => {
                     </View>
                 </View>
 
-                {productDisplay(plantBasedList, "basket")}
+                {productDisplay(plantBasedList, "Basket")}
+
+                <View style={{paddingTop: 10 }}>
+
+                    <View style={{flexDirection:"row"}}>
+                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Poultry</Text>
+                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
+                    </View>
+                </View>
+
+                {productDisplay(poultryList, "Basket")}
+
+                <View style={{paddingTop: 10 }}>
+
+                    <View style={{flexDirection:"row"}}>
+                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Vegetables</Text>
+                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
+                    </View>
+                </View>
+
+                {productDisplay(vegetableList, "Basket")}
 
 
             </ScrollView>
@@ -217,4 +257,8 @@ const styles = StyleSheet.create({
         marginRight: 25
     },
 
+    quantityFormat: {
+        // flex: 1,
+        flexDirection: 'row',
+    }
 })

@@ -1,7 +1,7 @@
 import React from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, Button} from 'react-native';
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
-
+import { auth} from '../firebase/firebaseConfig';
 
 const BasketScreen = () => {
     const screenNavigate = useNavigation();

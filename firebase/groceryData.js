@@ -296,7 +296,7 @@ export const bakeryList = [
       "description": "Locally sourced royal gala apples.",
       "imageAuthor": "Matheus Cenali",
       "imageSource": "https://unsplash.com/photos/wXuzS9xR49M",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Apples-matheus-cenali.jpg?alt=media&token=6b0d5a03-2c9f-4272-8db2-dcebb1de3c68",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Fruit%2FApples-matheus-cenali.jpg?alt=media&token=f01e4b4a-1c6e-4b36-a0f2-241355bb50b6",
       "price": 0.50,
       "productName": "Royal Gala Apples",
     },
@@ -410,7 +410,7 @@ export const poultryList = [
       "imageAuthor": "Eiliv-Sonas Aceron",
       "imageSource": "https://unsplash.com/photos/DNQLBdGdld0",
       "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Poultry%26Fish%2FChicken-Breast-eiliv-sonas-aceron.jpg?alt=media&token=565e875a-575b-4188-9486-ce6080044e36",
-      "price": 1.00,
+      "price": 1.30,
       "productName": "Chicken breasts",
     },
     {

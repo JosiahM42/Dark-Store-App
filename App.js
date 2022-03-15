@@ -14,6 +14,7 @@ import HomeScreen from './screens/HomeScreen';
 import { AddressScreen } from './screens/AddressScreen';
 import {DeclineScreen} from './screens/AddressDeclineScreen';
 import BasketScreen from './screens/BasketScreen';
+import ProductScreen from './screens/productScreen'
 
 LogBox.ignoreAllLogs(true);
 //console.disableYellowBox = true;
@@ -63,6 +64,7 @@ export const AuthNavigate = () => (
     <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
     <Stack.Screen options={{headerShown: false}} name="Home" component={TabNavigate} />
+    <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
   </Stack.Navigator>
 );
 

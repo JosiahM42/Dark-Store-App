@@ -40,7 +40,7 @@ export const SignUpScreen = () => {
         var authProvider = new auth.GoogleAuthProvider()
         
         // This will set the authentication popup to be in english
-        auth.languageCode = 'en';;
+        auth.languageCode = 'en';
 
         auth
             .signInWithPopup(authProvider)
