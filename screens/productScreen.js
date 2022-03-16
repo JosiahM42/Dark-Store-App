@@ -84,7 +84,9 @@ const ProductScreen = () => {
             <Image style={styles.productImage} source={{uri: searchResult.imageUrl}}/>
             {/* <Button onPress={displaySelected} title="test">text</Button> */}
             <Text style={styles.title}>{searchResult.productName}</Text>
-            {/* <Text style={{}} */}
+            <Text style={styles.descTitle}>Description</Text>
+            <Text style={styles.description}>{searchResult.description}</Text>
+            <Text>Source</Text>
         </View>
     )
 }
@@ -117,6 +119,18 @@ const styles = StyleSheet.create({
         top: "3%",
         fontSize: 25,
         marginLeft: 20,
+    },
+    descTitle: {
+        flex: 1,
+        bottom: "10%",
+        fontSize: 20,
+        marginLeft: 20,
+    },
+    description: {
+        flex: 1,
+        bottom: "28%",
+        fontSize: 18,
+        marginLeft: 30,
     },
 
 });
