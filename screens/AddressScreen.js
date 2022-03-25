@@ -116,7 +116,7 @@ export const AddressScreen = () => {
                 >
                     <Text style={styles.textButton}>Continue</Text>
                 </TouchableHighlight>
-            </View>
+                </View>
                 
             </View>
         )

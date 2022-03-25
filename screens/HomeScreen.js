@@ -80,7 +80,7 @@ const HomeScreen = () => {
 
                     )}
                 />
-                <View style={{borderBottomColor: 'black', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
+                <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
             </View>   
         )
     }
@@ -88,15 +88,33 @@ const HomeScreen = () => {
     return (
         
         <View style={styles.screenVerticalLayout}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1,  paddingVertical: 20 }}>
-                {/* <Text>Home Screen</Text>  */}
-                {/* <Button
+
+                <Button
                     title = "log out"
                     onPress={signOut}
                     style = {styles.button}
                 />
 
-                <Button
+            <View style={{}}> 
+                    <FlatList
+                        //style={{height: "1%"}}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={categories}
+                        renderItem={({item}) => (
+                            <TouchableOpacity onPress={() => screenNavigate.navigate("Basket")}>
+                                <Image style={styles.categoryImage} source={{uri: item.imageUrl}}/>
+                                <Text style={styles.categoryTitles}> {item.categoryName}</Text>
+                            </TouchableOpacity>
+                        )}
+                    />
+                    <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
+                </View>
+            <ScrollView contentContainerStyle={{ flexGrow: 1,  paddingVertical: 20 }}>
+
+                {/* <Text>Home Screen</Text>  */}
+
+                {/*<Button
                     title = "upload"
                     onPress={signOut}
                     style = {styles.button}
@@ -111,7 +129,7 @@ const HomeScreen = () => {
 
                 
                 {/* <View style={{height: "20%" }}>  */}
-                <View style={{}}> 
+                {/* <View style={{}}> 
                     <FlatList
                         //style={{height: "1%"}}
                         horizontal
@@ -124,8 +142,8 @@ const HomeScreen = () => {
                             </TouchableOpacity>
                         )}
                     />
-                    <View style={{borderBottomColor: 'black', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
-                </View>
+                    <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
+                </View> */}
 
                 {/* <View style={{borderBottomColor: 'black', borderBottomWidth: 1}}/> */}
                             
@@ -205,7 +223,10 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
     button: {
-        top: "20%",
+        //top: "%",
+        width: "10%",
+        height: "10%",
+
     },
 
     screenVerticalLayout: {

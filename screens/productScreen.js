@@ -1,7 +1,9 @@
-import React, { useState, Component } from'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
+import React, { useState, Component , useEffect} from'react';
+import { StyleSheet, Text, View, Image, Linking, TouchableHighlight, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {selectedItem} from './HomeScreen';
+import {productQuantity} from '../functions/IncrementDecrementButton';
+import {  } from './BasketScreen';
 
 import { 
     categories, 
@@ -16,7 +18,42 @@ import {
 
 
 
+export let searchResult;
+
+export let fullBasket;
+
+// export function useBasket(product) {
+//     const [basket, setBasket] = useState([])
+
+//     setBasket([{product, quantity: 1}])
+
+//     fullBasket = basket;
+// }
+
 const ProductScreen = () => {
+    const [basket, setBasket] = useState([])
+
+
+    function addToBasket(product){
+        //setBasket(previousBasket => ([...previousBasket, {product, quantity: 1}]))
+        setBasket([...basket, {product, quantity: 1}] )
+        // setBasket((basket) => {
+        //     console.log(basket)
+        // })
+        //setBasket([{product, quantity: 1}])
+        //[{product, quantity: 1}]);
+    };
+
+    useEffect(() => {
+        // //setBasket([...basket, {searchResult, quantity: 1}] )
+        // console.log(basket);
+        // // let test = basket
+        // console.log("works")
+        setTimeout(() => {
+            fullBasket = basket
+        }, 8);
+        
+    }, [basket])
 
     // const displaySelected = () => {
     //     console.log(selectedItem)
@@ -75,18 +112,42 @@ const ProductScreen = () => {
 
     // console.log(productSearch.imageUrl)
 
-    let searchResult = productSearch()
+    searchResult = productSearch()
+    //let quantity = new productQuantity();
 
     //console.log(searchResult)
 
     return(
         <View style={styles.screenVerticalLayout}>
             <Image style={styles.productImage} source={{uri: searchResult.imageUrl}}/>
-            {/* <Button onPress={displaySelected} title="test">text</Button> */}
             <Text style={styles.title}>{searchResult.productName}</Text>
+            <Text style={styles.productPrice}>£{searchResult.price}0</Text>
+            <View style={styles.line}></View>
             <Text style={styles.descTitle}>Description</Text>
             <Text style={styles.description}>{searchResult.description}</Text>
-            <Text>Source</Text>
+            <Text style={styles.sourceTitle}>Source</Text>
+            <Text style={styles.imageSource} onPress={() => Linking.openURL(`${searchResult.imageSource}`)}>Photo taken by {searchResult.imageAuthor} on Unsplash</Text>
+
+            <View style={{flexDirection: "row"}}>
+            {/* {quantity.render()} */}
+                <TouchableHighlight
+                    onPress={() => {
+                        addToBasket(searchResult);
+                        //fullBasket = basket;
+                        //console.log(fullBasket)
+                    }}
+                    style={styles.button}
+                    underlayColor="#DDDDDD"
+                    backgroundColor="#99D98C">
+                    <Text style={{color: "white"}}>Add to Basket</Text>
+                </TouchableHighlight>
+            </View>
+            {/* <View style={styles.roundedRect}>
+                <Text style={styles.descTitle}>Description</Text>
+                <Text style={styles.description}>{searchResult.description}</Text>
+                <Text style={styles.sourceTitle}>Source</Text>
+                <Text style={styles.imageSource} onPress={() => Linking.openURL(`${searchResult.imageSource}`)}>Photo taken by {searchResult.imageAuthor} on Unsplash</Text>
+            </View> */}
         </View>
     )
 }
@@ -95,10 +156,6 @@ export default ProductScreen;
 
 
 const styles = StyleSheet.create({
-    button: {
-        top: "20%",
-        //backgroundColor: "grey"
-    },
     screenVerticalLayout: {
         flex: 1,
         //alignItems: 'center',
@@ -116,21 +173,73 @@ const styles = StyleSheet.create({
     },
     title: {
         flex: 1,
-        top: "3%",
+        top: "2%",
         fontSize: 25,
         marginLeft: 20,
     },
-    descTitle: {
+    productPrice: {
         flex: 1,
-        bottom: "10%",
-        fontSize: 20,
+        bottom: "4%",
+        fontSize: 22,
         marginLeft: 20,
     },
-    description: {
+    line: {
         flex: 1,
-        bottom: "28%",
-        fontSize: 18,
-        marginLeft: 30,
+        bottom: "19%",
+        borderBottomColor: 'rgba(0, 0, 0, 0.6)', 
+        borderBottomWidth: 1.2, 
+        borderRadius:1,
+        marginRight: 20, 
+        marginLeft: 20},
+    descTitle: {
+        flex: 1,
+        bottom: "18%",
+        fontSize: 19,
+        marginLeft: 25,
+    },
+    description: {
+        bottom: "25%",
+        fontSize: 16,
+        marginLeft: 35,
+    },
+    sourceTitle: {
+        flex: 1,
+        bottom: "24%",
+        fontSize: 19,
+        marginLeft: 25,
+    },
+    imageSource: {
+        bottom: "31%",
+        fontSize: 16,
+        marginLeft: 35,
+    },
+    button: {
+        flex: 1,
+        alignItems: "center",
+        //backgroundColor: "#d3d3d3",
+        backgroundColor: "#119822",
+        padding: "5%",
+        width: "50%",
+        bottom: "20%",
+        marginLeft: 100,
+        marginRight: 100,
+        borderRadius: 10,
+        //borderColor: 'black',
+        //borderWidth: 1,
     },
 
 });
+
+
+//roundedRect: {
+    //     flex: 1,
+    //     bottom: "20%",
+    //     marginTop:10,
+    //     paddingTop:20,
+    //     paddingBottom:20,
+    //     marginLeft:20,
+    //     marginRight:20,
+    //     borderRadius:10,
+    //     borderWidth: 1,
+    //     borderColor: 'rgba(0, 0, 0, 0.15)',
+    // },
