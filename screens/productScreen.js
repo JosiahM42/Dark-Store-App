@@ -31,6 +31,8 @@ const ProductScreen = () => {
 
     const dispatchHook = useDispatch()
 
+    const screenNavigate = useNavigation();
+
     let objectSearch = (searchArray) => {
         for (let product = 0; product < searchArray.length; product++) 
         {
@@ -80,7 +82,9 @@ const ProductScreen = () => {
     //console.log(searchResult)
 
     return(
+        
         <View style={styles.screenVerticalLayout}>
+            {/* <Button onPress={() => screenNavigate.navigate('Home')} title="home"><Text>Testing</Text></Button> */}
             <Image style={styles.productImage} source={{uri: searchResult.imageUrl}}/>
             <Text style={styles.title}>{searchResult.productName}</Text>
             <Text style={styles.productPrice}>£{searchResult.price}0</Text>
@@ -108,7 +112,7 @@ const ProductScreen = () => {
                             {
                                 setCount(() => count - 1)
                                 //count = count - 1
-                                console.log(count)
+                                //console.log(count)
                             }
                         }}/>
                     </View>
@@ -117,7 +121,7 @@ const ProductScreen = () => {
                         <Ionicons name="add-circle" size={40} color="green" onPress={() => {
                             setCount(() => count + 1)
                             //count = count + 1
-                            console.log(count)
+                            //console.log(count)
                         }}/>
                     </View>
                     
