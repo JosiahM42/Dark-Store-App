@@ -16,8 +16,10 @@ import {DeclineScreen} from './screens/AddressDeclineScreen';
 import BasketScreen from './screens/BasketScreen';
 import ProductScreen from './screens/productScreen'
 
+import { Provider } from 'react-redux';
+import store from './redux/reduxStore/store';
+
 LogBox.ignoreAllLogs(true);
-//console.disableYellowBox = true;
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,9 +87,13 @@ export const AuthNavigate = () => (
 export default function App() {
 
   return (
-    <NavigationContainer>
-      <AuthNavigate/>
-    </NavigationContainer>
+    // Provider is for redux - it will allow redux states to operate in the application
+    <Provider store={store}>
+      <NavigationContainer>
+        <AuthNavigate/>
+      </NavigationContainer>
+    </Provider>
+
   );
 }
 

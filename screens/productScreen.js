@@ -2,8 +2,13 @@ import React, { useState, Component , useEffect} from'react';
 import { StyleSheet, Text, View, Image, Linking, TouchableHighlight, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {selectedItem} from './HomeScreen';
-import {productQuantity} from '../functions/IncrementDecrementButton';
-import {  } from './BasketScreen';
+
+
+import { Ionicons} from '@expo/vector-icons';
+
+
+import { useDispatch } from 'react-redux';
+import { addToBasket } from '../redux/reducers/basket';
 
 import { 
     categories, 
@@ -20,45 +25,11 @@ import {
 
 export let searchResult;
 
-export let fullBasket;
-
-// export function useBasket(product) {
-//     const [basket, setBasket] = useState([])
-
-//     setBasket([{product, quantity: 1}])
-
-//     fullBasket = basket;
-// }
-
 const ProductScreen = () => {
-    const [basket, setBasket] = useState([])
 
+    const [count, setCount] = useState(1)
 
-    function addToBasket(product){
-        //setBasket(previousBasket => ([...previousBasket, {product, quantity: 1}]))
-        setBasket([...basket, {product, quantity: 1}] )
-        // setBasket((basket) => {
-        //     console.log(basket)
-        // })
-        //setBasket([{product, quantity: 1}])
-        //[{product, quantity: 1}]);
-    };
-
-    useEffect(() => {
-        // //setBasket([...basket, {searchResult, quantity: 1}] )
-        // console.log(basket);
-        // // let test = basket
-        // console.log("works")
-        setTimeout(() => {
-            fullBasket = basket
-        }, 8);
-        
-    }, [basket])
-
-    // const displaySelected = () => {
-    //     console.log(selectedItem)
-    //     //console.log(testing)
-    // }
+    const dispatchHook = useDispatch()
 
     let objectSearch = (searchArray) => {
         for (let product = 0; product < searchArray.length; product++) 
@@ -77,16 +48,10 @@ const ProductScreen = () => {
         }
     }
 
-    // const displaySelected = () => {
-    //     console.log(objectSearch(dairyList))
-    //     //console.log(testing)
-    // }
-
     function productSearch(){
         if (objectSearch(bakeryList) !== false){
             const result = objectSearch(bakeryList)
             return result
-            //console.log(result.imageUrl)
         }
         else if (objectSearch(fruitList) !== false){
             const result = objectSearch(fruitList)
@@ -110,10 +75,7 @@ const ProductScreen = () => {
         }
     }
 
-    // console.log(productSearch.imageUrl)
-
     searchResult = productSearch()
-    //let quantity = new productQuantity();
 
     //console.log(searchResult)
 
@@ -127,14 +89,11 @@ const ProductScreen = () => {
             <Text style={styles.description}>{searchResult.description}</Text>
             <Text style={styles.sourceTitle}>Source</Text>
             <Text style={styles.imageSource} onPress={() => Linking.openURL(`${searchResult.imageSource}`)}>Photo taken by {searchResult.imageAuthor} on Unsplash</Text>
-
+            
             <View style={{flexDirection: "row"}}>
-            {/* {quantity.render()} */}
                 <TouchableHighlight
                     onPress={() => {
-                        addToBasket(searchResult);
-                        //fullBasket = basket;
-                        //console.log(fullBasket)
+                        dispatchHook(addToBasket({searchResult, quantity: count}))
                     }}
                     style={styles.button}
                     underlayColor="#DDDDDD"
@@ -142,12 +101,28 @@ const ProductScreen = () => {
                     <Text style={{color: "white"}}>Add to Basket</Text>
                 </TouchableHighlight>
             </View>
-            {/* <View style={styles.roundedRect}>
-                <Text style={styles.descTitle}>Description</Text>
-                <Text style={styles.description}>{searchResult.description}</Text>
-                <Text style={styles.sourceTitle}>Source</Text>
-                <Text style={styles.imageSource} onPress={() => Linking.openURL(`${searchResult.imageSource}`)}>Photo taken by {searchResult.imageAuthor} on Unsplash</Text>
-            </View> */}
+            <View style={styles.quantity}>
+                    <View style={styles.subtract}> 
+                        <Ionicons name="remove-circle" size={40} color="green" onPress={() => {
+                            if (count !== 1)
+                            {
+                                setCount(() => count - 1)
+                                //count = count - 1
+                                console.log(count)
+                            }
+                        }}/>
+                    </View>
+                    <Text style={styles.quant}>{count}</Text>
+                    <View style={styles.add}> 
+                        <Ionicons name="add-circle" size={40} color="green" onPress={() => {
+                            setCount(() => count + 1)
+                            //count = count + 1
+                            console.log(count)
+                        }}/>
+                    </View>
+                    
+                    
+            </View>
         </View>
     )
 }

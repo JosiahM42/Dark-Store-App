@@ -189,7 +189,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
 
-                {productDisplay(plantBasedList, "Basket")}
+                {productDisplay(plantBasedList, "Product")}
 
                 <View style={{paddingTop: 10 }}>
 
@@ -199,7 +199,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
 
-                {productDisplay(poultryList, "Basket")}
+                {productDisplay(poultryList, "Product")}
 
                 <View style={{paddingTop: 10 }}>
 
@@ -209,7 +209,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
 
-                {productDisplay(vegetableList, "Basket")}
+                {productDisplay(vegetableList, "Product")}
 
 
             </ScrollView>
