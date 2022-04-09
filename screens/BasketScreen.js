@@ -1,10 +1,13 @@
-import React, {useState,} from'react';
-import { StyleSheet, Text, View, FlatList, Image,  TouchableHighlight, TextInput, Button} from 'react-native';
+import React, {useState, useEffect} from'react';
+import { StyleSheet, Text, View, FlatList, Image, TouchableHighlight, TextInput, Button} from 'react-native';
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { auth} from '../firebase/firebaseConfig';
 
 import { useSelector } from 'react-redux';
 import { getGroceryBasket } from '../redux/reducers/basket';
+
+import { useDispatch } from 'react-redux';
+import { removeFromBasket, clearBasket, updateProductQuantityAdd, updateProductQuantitySubtract } from '../redux/reducers/basket';
 
 import { Ionicons} from '@expo/vector-icons';
 
@@ -16,20 +19,41 @@ import { Ionicons} from '@expo/vector-icons';
 const BasketScreen = () => {
     const screenNavigate = useNavigation();
     const basket = useSelector(getGroceryBasket)
-    const [count, setCount] = useState()
+    const [price, setPrice] = useState(0.00)
+    const [deliveryPrice, setDeliveryPrice] = useState(0.80)
+    const [orderTotal, setOrderTotal] = useState(0.00)
 
-    const updateQuantity = (item) => {
+    const dispatchHook = useDispatch()
 
-        //setCount(basket.quantity)
-        setCount(item.quantity)
-        //console.log(basket.quantity)
+    function calculateProductTotal(){
+        let totalPrice = 0.00
+        for (let total = 0; total < basket.length; total++)
+        {
+            totalPrice += basket[total].price
+        }
+
+        return totalPrice
     }
+
+    function calculateOrderTotal(){
+        let orderPrice = price + deliveryPrice
+        return orderPrice
+    }
+
+    useEffect (() => {
+        setPrice(calculateProductTotal())
+        setOrderTotal(calculateOrderTotal())
+    });
 
     return (
         <View style={{flex:1}}>
             {/* <Button onPress={() => console.log(basket)} title="Testing"><Text>Testing</Text></Button> */}
             <View style={{paddingLeft: "85%", paddingTop: "14%",}}>
-              <Ionicons name="trash-outline" size={40}/>  
+              <Ionicons name="trash-outline" size={40} 
+                onPress={() => {
+                    dispatchHook(clearBasket())
+                }}
+              />  
             </View>
             <Text style={styles.title}>Your Basket</Text>
             
@@ -40,14 +64,31 @@ const BasketScreen = () => {
                         data={basket}
                         renderItem={({item}) => (
                             // <View style={{flexDirection:"row", justifyContent: 'space-around'}}>
-                            <View style={{flex: 1, height: 100}}>
+                            <View style={{flex: 1, height: 90}}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
-                                <Text style={styles.productPrice}>£{item.price}0</Text>
+                                <Text style={styles.productPrice}>£{parseFloat(item.price).toFixed(2)}</Text>
                                 
-                                <Text style={styles.productQuantity}>Quantity: {item.quantity}</Text>
+                                {/* <Text style={styles.productQuantity}>Quantity: {item.quantity}</Text> */}
                                 <View style={styles.removeItem}>
-                                    <Ionicons name="trash-outline" size={25}/>  
+                                    <Ionicons name="trash-outline" size={25}
+                                    onPress={() => {
+                                        dispatchHook(removeFromBasket({selectedID: item.basketID}))
+                                    }} />  
+                                </View>
+
+                                <View style={styles.productQuantity}>
+                                    <Ionicons name="remove-outline" size={25} color="white" 
+                                    onPress={() => {
+                                        dispatchHook(updateProductQuantitySubtract({name: item.productName}))}
+                                    }
+                                    />
+                                    <Text style={styles.quantityText}> {item.quantity} </Text>
+                                    <Ionicons name="add-outline" size={25} color="white" 
+                                    onPress={() => {
+                                        dispatchHook(updateProductQuantityAdd({name: item.productName}))}
+                                    }
+                                    />
                                 </View>
                     
                             </View> 
@@ -55,9 +96,38 @@ const BasketScreen = () => {
                 /> 
             </View>
             
-            <Text style={{fontSize: 20, bottom: "10%"}}>
+            <Text style={{fontSize: 20, bottom: "9%", marginLeft: 30}}>
                     Summary
             </Text>
+
+            <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
+                <Text style={{fontSize: 18, bottom: "17%", marginLeft: 15}}>Total Price:</Text>
+                <Text style={{fontSize: 18, bottom: "17%", marginLeft: 169}}>£{parseFloat(price).toFixed(2)}</Text>
+            </View>
+            {/* <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>Total Price:</Text>
+            <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>£{parseFloat(price).toFixed(2)}</Text> */}
+
+            <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
+                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 15}}>Delivery Price:</Text>
+                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 146}}>£{parseFloat(deliveryPrice).toFixed(2)}</Text>
+            </View>
+
+            <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
+                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 16}}>Order Total:</Text>
+                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 165}}>£{parseFloat(orderTotal).toFixed(2)}</Text>
+            </View>
+            
+            <View style={{flexDirection: "row"}}>
+                <TouchableHighlight
+                    onPress={() => {
+                        screenNavigate.navigate('Home')
+                    }}
+                    style={styles.button}
+                    underlayColor="#DDDDDD"
+                    backgroundColor="#99D98C">
+                    <Text style={{color: "white"}}>Order</Text>
+                </TouchableHighlight>
+            </View>
 
             {/* <View style={{flex: 1, paddingTop: "10%"}}>
                 <Text style={{fontSize: 20}}>
@@ -80,9 +150,9 @@ const styles = StyleSheet.create({
     screenVerticalLayout: {
         flex: 1,
         //alignItems: 'center',
-        //marginBottom: 20,
-        paddingTop: "10%",
-        paddingBottom: "20%",
+        marginBottom: "1%",
+        paddingTop: "8%",
+        paddingBottom: "15%",
     },
 
     title: {
@@ -128,16 +198,45 @@ const styles = StyleSheet.create({
         // left: '80%', 
         // height: 304
 
-        bottom: 118, 
-        left: 240, 
+        bottom: "106%", 
+        left: "54%", 
         height: 30
     },
 
     productQuantity: {
-        bottom: 90, 
-        left: '31%', 
-        height: 22,
-        fontSize: 15,
-    }
+        // bottom: 118, 
+        // left: 240, 
+        // height: 30,
+        bottom: "35%", 
+        left: '140%', 
+        flexDirection:"row",
+
+        backgroundColor: "#119822",
+        width: "19%",
+        height: "30%",
+        borderRadius: 15,
+        justifyContent: 'center',
+        marginTop: 20
+    },
+
+    quantityText: {
+        fontSize: 18,
+        color: "white",
+    },
+
+    button: {
+        flex: 1,
+        alignItems: "center",
+        //backgroundColor: "#d3d3d3",
+        backgroundColor: "#119822",
+        padding: "5%",
+        width: "50%",
+        bottom: "10%",
+        marginLeft: 100,
+        marginRight: 100,
+        borderRadius: 10,
+        //borderColor: 'black',
+        //borderWidth: 1,
+    },
     
 })
