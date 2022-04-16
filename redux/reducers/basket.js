@@ -8,9 +8,8 @@ export const basketSlice = createSlice({
     },
     reducers: {
         addToBasket: (state, action) => {
-
+            // Check if the the passed product is already in the basket
             const product = state.groceryBasket.find(product => product.productName == action.payload.searchResult.productName)
-
             // if product is already in the basket just increase quantity
             if (product) {
                 product.quantity += action.payload.quantity
@@ -30,11 +29,12 @@ export const basketSlice = createSlice({
                 });
             }
 
-
-            console.log(state.groceryBasket)
-
+            console.log(state.groceryBasket);
+            // Displays an alert at the bottom of the screen
+            // THIS IS ONLY VIEWABLE ON ANDROID DEVICES
             ToastAndroid.show('Added to basket', ToastAndroid.SHORT);
         },
+
         removeFromBasket: (state, action) => {
             state.groceryBasket = state.groceryBasket.filter(
                 // Create a new array without the selected item
@@ -47,46 +47,38 @@ export const basketSlice = createSlice({
 
         },
         clearBasket: (state, action) => {
-            if (state.groceryBasket.length == 0)
-            {
+            if (state.groceryBasket.length == 0){
                 ToastAndroid.show('Basket is empty', ToastAndroid.SHORT);
             }
-            else
-            {
+            else{
                 state.groceryBasket = []
             }
-            
-            console.log(state.groceryBasket);
-
             ToastAndroid.show('Basket Emptied', ToastAndroid.SHORT);
         },
 
         updateProductQuantityAdd: (state, action) => {
+            // Locates the selected product 
             const product = state.groceryBasket.find(product => product.productName == action.payload.name)
-
             if (product)
             {
+                // Increase both quantity and price
                 product.quantity += 1
                 product.price = parseFloat((product.quantity * product.originalPrice).toFixed(1))
             }
-
-            console.log(product)
         },
         updateProductQuantitySubtract: (state, action) => {
+            // Locates the selected product 
             const product = state.groceryBasket.find(product => product.productName == action.payload.name)
-
             if (product)
             {
                 if (product.quantity !== 1)
                 {
+                    // Reduces both quantity and price
                     product.quantity -= 1
                     product.price = parseFloat((product.quantity * product.originalPrice).toFixed(1))
                     
-                }
-                
+                } 
             }
-
-            console.log(product)
         },
     }
 });

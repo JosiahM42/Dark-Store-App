@@ -15,6 +15,8 @@ import { AddressScreen } from './screens/AddressScreen';
 import {DeclineScreen} from './screens/AddressDeclineScreen';
 import BasketScreen from './screens/BasketScreen';
 import ProductScreen from './screens/productScreen'
+import CategoryScreen from './screens/CategoryScreen';
+import AccountScreen from './screens/AccountScreen';
 
 import { Provider } from 'react-redux';
 import store from './redux/reduxStore/store';
@@ -53,7 +55,7 @@ const TabNavigate = () => (
       tabBarInactiveTintColor: '#808080',
     })}
   >
-    <Tab.Screen options={{headerShown: false}} name = "Home" component={HomeScreen} />
+    <Tab.Screen options={{headerShown: false}} name = "Home" component={homeNavigate} />
     <Tab.Screen options={{headerShown: false}} name = "Basket" component={BasketScreen} />
   </Tab.Navigator>
 );
@@ -67,11 +69,19 @@ export const AuthNavigate = () => (
     <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
     <Stack.Screen options={{headerShown: false}} name="Home" component={TabNavigate} />
     <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
+    <Stack.Screen options={{headerShown: false}} name="Account" component={AccountScreen} />
+    {/* <Stack.Screen options={{headerShown: false}} name="Category" component={CategoryScreen} /> */}
   </Stack.Navigator>
 );
 
-
-
+export const homeNavigate = () => (
+  <Stack.Navigator
+  initialRouteName="Home">
+    <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+    <Stack.Screen options={{headerShown: false}} name="Category" component={CategoryScreen} />
+  </Stack.Navigator>
+  
+)
 
 
 // export const AuthNavigate = () => (

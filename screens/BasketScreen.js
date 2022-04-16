@@ -60,16 +60,14 @@ const BasketScreen = () => {
             <View style={styles.screenVerticalLayout}>
                 <FlatList
                         showsVerticalScrollIndicator={false}
-                        //style={{paddingBottom: 10}}
                         data={basket}
                         renderItem={({item}) => (
-                            // <View style={{flexDirection:"row", justifyContent: 'space-around'}}>
+
                             <View style={{flex: 1, height: 90}}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
                                 <Text style={styles.productPrice}>£{parseFloat(item.price).toFixed(2)}</Text>
                                 
-                                {/* <Text style={styles.productQuantity}>Quantity: {item.quantity}</Text> */}
                                 <View style={styles.removeItem}>
                                     <Ionicons name="trash-outline" size={25}
                                     onPress={() => {

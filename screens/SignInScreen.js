@@ -8,9 +8,13 @@ import { StyleSheet, Text, View, TouchableHighlight, TextInput, Pressable} from 
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase/firebaseConfig';
 
+import { useDispatch } from 'react-redux';
+import { clearUserData } from '../redux/reducers/users';
+
 export const SignInScreen = () => {
 
     const screenNavigate = useNavigation();
+    const dispatchHook = useDispatch();
 
     const [getName, setName] = useState('');
     const [getEmail, setEmail] = useState('');
@@ -18,28 +22,35 @@ export const SignInScreen = () => {
     const [getPhone, setPhone] = useState('');
 
     const userSignIn = () => {
+        // Clears the user data redux state if it contains any data
+        dispatchHook(clearUserData())
         auth
+            // This uses the email and password provided by the user to login into the app
             .signInWithEmailAndPassword(getEmail, getPassword)
             .then((userCredential) => {
+                // Stores the new user's details
                 const user = userCredential.user;
                 console.log("logged in with", user.email);
-                
-            } )
+            })
             .catch(error => alert(error.message))
     } 
 
     const resetPassword = () => {
         auth
+            // This uses the entered email to send a password reset email to the user
             .sendPasswordResetEmail(getEmail)
             .then(() => {
                 alert("Password reset email has been sent")
             })
+            .catch((error) => alert(error.message))
     }
 
     // This will allow the user to move to the next screen if they are logged in
     useEffect(() => {
+        // Checks if the user has been authenticated
         const moveOn = auth.onAuthStateChanged(user => {
             if (user) {
+                // Redirects user to the home screen
                 screenNavigate.navigate("Home")
             }
         })

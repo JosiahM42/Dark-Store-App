@@ -24,6 +24,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-geocoder": "^0.5.0",
     "react-native-geocoding": "^0.5.0",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-maps": "0.29.4",
@@ -31,7 +32,8 @@
     "react-native-screens": "~3.10.1",
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.8",
-    "undefined": "@expo/vector-icons/Ionicons"
+    "undefined": "@expo/vector-icons/Ionicons",
+    "expo-location": "~14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

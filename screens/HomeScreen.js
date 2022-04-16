@@ -3,7 +3,14 @@ import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, TextInput, B
 import { useNavigation } from '@react-navigation/native';
 import { auth,firestore } from '../firebase/firebaseConfig';
 import { ScrollView } from 'react-native-gesture-handler';
-import {productQuantity} from '../functions/IncrementDecrementButton';
+
+import {Ionicons} from '@expo/vector-icons';
+
+import { userData } from '../firebase/userData';
+import { useSelector } from 'react-redux';
+import { getUser, getUsersData, clearUserData } from '../redux/reducers/users';
+import { useDispatch } from 'react-redux';
+
 
 import { 
     categories, 
@@ -23,11 +30,14 @@ import {
 
 //LogBox.ignoreAllLogs();
 
-export let selectedItem = ''
+export let selectedItem = '';
+export let selectedCategory = '';
 
 const HomeScreen = () => {
 
     const screenNavigate = useNavigation();
+    const userDetails = useSelector(getUser);
+    const dispatchHook = useDispatch()
 
     const bakeryProducts = []
 
@@ -43,176 +53,232 @@ const HomeScreen = () => {
             .catch(error => alert(error.message))
     }
 
-    // const saveGroceries = () => {
-    //     //bakeryProducts.push(pullGroceries)
-    //     // console.log(pullGroceries)
-    //     console.log(bakeryList[0].description)
+
+    const userData = async () => {
+        // Make a request to Firebase Auth to obtain the user's account ID
+        const userID = auth.currentUser.uid;
+        const details = []
+        // An asynchronous request for pulling customer account data
+        await firestore.collection('users').doc(userID).onSnapshot(
+            (userSnapshot) => {
+                details.push({
+                    id: userID,
+                    name: userSnapshot.data().name.toString(),
+                    phone: userSnapshot.data().phone.toString(),
+                    email: userSnapshot.data().email.toString(),
+                })
+                // Stores the pulled data in the user state array
+                dispatchHook(getUsersData({details: details[details.length - 1]}))
+            })
+    }
+
+    // const userData = async () => {
+    //     const userID = auth.currentUser.uid;
+
+    //     const details = []
+    //     //console.log(user)
+        
+    //     await firestore.collection('users').doc(userID).onSnapshot(
+    //         (userSnapshot) => {
+    //             details.push({
+    //                 id: userID,
+    //                 name: userSnapshot.data().name.toString(),
+    //                 phone: userSnapshot.data().phone.toString(),
+    //                 email: userSnapshot.data().email.toString(),
+    //             })
+                
+    //             // dispatchHook(getUsersData({
+    //             //     id: details[0].id,
+    //             //     name: details[0].name,
+    //             //     phone: details[0].phone, 
+    //             //     email: details[0].email,
+    //             // }))
+    //             dispatchHook(getUsersData({details: details[details.length - 1]}))
+                
+    //             //console.log(userDetails)
+    //         })
+        
     // }
 
-    const productDisplay = (categoryList, nextScreen) => {
-        let quantity = new productQuantity();
-        //let [quantity, setQuantity] = useState(0);
-
+    const productDisplay = (categoryList) => {
         return (
-            <View style={{paddingTop: 10}}>
+            <View style={{paddingTop: "4%"}}>
+                {/* Displays each item in an array and applies the same attributes to each */}
                 <FlatList
-                    horizontal
+                    // Forces the flatlist to be displayed horizontally rather than the vertical default
+                    horizontal 
+                    // Removes the scroll bar from the bottom of each view
                     showsHorizontalScrollIndicator={false}
                     data={categoryList.slice(0,4)}
+                    // For each item do the following
                     renderItem={({item}) => (
-                        <View> 
+                        <View>
                             <TouchableOpacity onPress={() => {
-                                screenNavigate.navigate(nextScreen)
+                                screenNavigate.navigate('Product')
                                 selectedItem = item.productName
-                            }
-                                }>
+                            }}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
-                                <Text style={{marginLeft: 80}}>£{item.price}0</Text>
+                                <Text style={{paddingLeft: "40%"}}>£{item.price}0</Text>
                             </TouchableOpacity>
-                            {/* <Text style={{marginLeft: 20}}>£{item.price}0</Text> */}
-                            {/* <View style={{flexDirection:"row", justifyContent: 'space-around'}}>
-                                <Text style={{marginLeft: 20}}>£{item.price}0</Text>
-                                {/* {quantity.render()} */}
-                                {/* {incrementDecrementCounter(10, 0, quantity, setQuantity)} */}
-                            {/* </View> */}
                         </View> 
-
                     )}
                 />
-                <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
+                {/* Displays a line on the screen */}
+                <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: "5%", marginLeft: "5%"}}/>
             </View>   
         )
     }
 
     return (
-        
-        <View style={styles.screenVerticalLayout}>
+        <View style={{flex:1}}>
+            <View style={{paddingLeft: "85%", paddingTop: "14%",}}>
+                <Ionicons name="person-circle-outline" size={40} 
+                    onPress={() => {
+                        userData()
+                        setTimeout(() => screenNavigate.navigate('Account'), 500)
+                    }}
+                />  
+            </View>
+            <View style={styles.screenVerticalLayout}>
 
-                <Button
-                    title = "log out"
-                    onPress={signOut}
-                    style = {styles.button}
-                />
+                <View style={{}}> 
+                        <FlatList
+                            //style={{height: "1%"}}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            data={categories}
+                            renderItem={({item}) => (
+                                <TouchableOpacity 
+                                onPress={() => 
+                                    {
+                                        screenNavigate.navigate("Category")
+                                        selectedCategory = item.categoryName
+                                    }
+                                }>
+                                    <Image style={styles.categoryImage} source={{uri: item.imageUrl}}/>
+                                    <Text style={styles.categoryTitles}> {item.categoryName}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                        <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: "5%", marginLeft: "5%"}}/>
+                    </View>
+                <ScrollView contentContainerStyle={{ flexGrow: 1,  paddingVertical: "3%" }}>
 
-            <View style={{}}> 
-                    <FlatList
-                        //style={{height: "1%"}}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        data={categories}
-                        renderItem={({item}) => (
-                            <TouchableOpacity onPress={() => screenNavigate.navigate("Basket")}>
-                                <Image style={styles.categoryImage} source={{uri: item.imageUrl}}/>
-                                <Text style={styles.categoryTitles}> {item.categoryName}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-                    <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
-                </View>
-            <ScrollView contentContainerStyle={{ flexGrow: 1,  paddingVertical: 20 }}>
+                    <View style={{paddingTop: "5%"}}>
 
-                {/* <Text>Home Screen</Text>  */}
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Bakery</Text>
+                            <Text 
+                                style={{marginLeft: "45%", fontSize: 15}} 
+                                onPress={() => {
+                                    screenNavigate.navigate("Category") 
+                                    selectedCategory = 'Bakery'
+                                }}
+                            >
+                            View Category {'>'}</Text>
+                        </View>
+                    </View>
 
-                {/*<Button
-                    title = "upload"
-                    onPress={signOut}
-                    style = {styles.button}
-                /> */}
-
-                {/* <ScrollView horizontal={true} style={styles.scrollHorizontalView}>  */}
-                    {/* <View>
-                        <Text>{categories.categoryName}</Text>
-                    </View> */}
+                    {productDisplay(bakeryList)}
                     
-                {/* </ScrollView> */}
 
-                
-                {/* <View style={{height: "20%" }}>  */}
-                {/* <View style={{}}> 
-                    <FlatList
-                        //style={{height: "1%"}}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        data={categories}
-                        renderItem={({item}) => (
-                            <TouchableOpacity onPress={() => screenNavigate.navigate("Basket")}>
-                                <Image style={styles.categoryImage} source={{uri: item.imageUrl}}/>
-                                <Text style={styles.categoryTitles}> {item.categoryName}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-                    <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: 20, marginLeft: 20}}/>
-                </View> */}
+                    <View style={{paddingTop: "5%"}}>
 
-                {/* <View style={{borderBottomColor: 'black', borderBottomWidth: 1}}/> */}
-                            
-                <View style={{paddingTop: 10}}>
-
-                    <View style={{flexDirection:"row"}}>
-                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Bakery</Text>
-                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Fruit</Text>
+                            <Text 
+                                style={{marginLeft: "50%", fontSize: 15}}
+                                onPress={() => {
+                                    screenNavigate.navigate("Category") 
+                                    selectedCategory = 'Fruit'
+                                }}
+                            >
+                                View Category {'>'}
+                            </Text>
+                        </View>
                     </View>
-                </View>
 
-                {productDisplay(bakeryList, "Product")}
-                
+                    {productDisplay(fruitList)}
+                    
+                    {/* https://www.npmjs.com/package/react-native-increment-decrement-button */}
 
-                <View style={{paddingTop: 10}}>
+                    <View style={{paddingTop: "5%" }}>
 
-                    <View style={{flexDirection:"row"}}>
-                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Fruit</Text>
-                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Dairy</Text>
+                            <Text 
+                                style={{marginLeft: "49%", fontSize: 15}}
+                                onPress={() => {
+                                    screenNavigate.navigate("Category") 
+                                    selectedCategory = 'Dairy'
+                                }}
+                            >
+                                View Category {'>'}
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                    
+                    {productDisplay(dairyList)}
 
-                {productDisplay(fruitList, "Product")}
-                
-                {/* https://www.npmjs.com/package/react-native-increment-decrement-button */}
 
-                <View style={{paddingTop: 10 }}>
+                    <View style={{paddingTop: "5%" }}>
 
-                    <View style={{flexDirection:"row"}}>
-                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Dairy</Text>
-                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Plant Based</Text>
+                            <Text 
+                                style={{marginLeft: "35%", fontSize: 15}}
+                                onPress={() => {
+                                    screenNavigate.navigate("Category") 
+                                    selectedCategory = 'Plant Based'
+                                }}
+                            >
+                                View Category {'>'}
+                            </Text>
+                        </View>
                     </View>
-                </View>
-                
-                {productDisplay(dairyList, "Product")}
 
+                    {productDisplay(plantBasedList)}
 
-                <View style={{paddingTop: 10 }}>
+                    <View style={{paddingTop: "5%" }}>
 
-                    <View style={{flexDirection:"row"}}>
-                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Plant Based</Text>
-                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Poultry</Text>
+                            <Text 
+                                style={{marginLeft: "45%", fontSize: 15}}
+                                onPress={() => {
+                                    screenNavigate.navigate("Category") 
+                                    selectedCategory = 'Poultry'
+                                }}
+                            >
+                                View Category {'>'}
+                            </Text>
+                        </View>
                     </View>
-                </View>
 
-                {productDisplay(plantBasedList, "Product")}
+                    {productDisplay(poultryList)}
 
-                <View style={{paddingTop: 10 }}>
+                    <View style={{paddingTop: "5%" }}>
 
-                    <View style={{flexDirection:"row"}}>
-                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Poultry</Text>
-                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Vegetables</Text>
+                            <Text 
+                                style={{marginLeft: "35%", fontSize: 15}}
+                                onPress={() => {
+                                    screenNavigate.navigate("Category") 
+                                    selectedCategory = 'Vegetables'
+                                }}
+                            >
+                                View Category {'>'}
+                            </Text>
+                        </View>
                     </View>
-                </View>
 
-                {productDisplay(poultryList, "Product")}
-
-                <View style={{paddingTop: 10 }}>
-
-                    <View style={{flexDirection:"row"}}>
-                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: "bold",}}>Vegetables</Text>
-                        <Text style={{marginLeft: 200, fontSize: 15}}>View Category {'>'}</Text>
-                    </View>
-                </View>
-
-                {productDisplay(vegetableList, "Product")}
+                    {productDisplay(vegetableList)}
 
 
-            </ScrollView>
+                </ScrollView>
+            </View>
         </View>
         
         

@@ -2,7 +2,7 @@ import React, { useState, Component , useEffect} from'react';
 import { StyleSheet, Text, View, Image, Linking, TouchableHighlight, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {selectedItem} from './HomeScreen';
-
+import {selectedProduct} from './CategoryScreen';
 
 import { Ionicons} from '@expo/vector-icons';
 
@@ -21,8 +21,6 @@ import {
 } from '../firebase/groceryData';
 
 
-
-
 export let searchResult;
 
 const ProductScreen = () => {
@@ -37,6 +35,11 @@ const ProductScreen = () => {
         for (let product = 0; product < searchArray.length; product++) 
         {
             if (searchArray[product].productName === selectedItem) 
+            {
+                //console.log(searchArray[product])
+                return searchArray[product]
+            }
+            else if (searchArray[product].productName === selectedProduct) 
             {
                 //console.log(searchArray[product])
                 return searchArray[product]
@@ -79,55 +82,55 @@ const ProductScreen = () => {
 
     searchResult = productSearch()
 
-    //console.log(searchResult)
-
     return(
-        
-        <View style={styles.screenVerticalLayout}>
-            {/* <Button onPress={() => screenNavigate.navigate('Home')} title="home"><Text>Testing</Text></Button> */}
-            <Image style={styles.productImage} source={{uri: searchResult.imageUrl}}/>
-            <Text style={styles.title}>{searchResult.productName}</Text>
-            <Text style={styles.productPrice}>£{searchResult.price}0</Text>
-            <View style={styles.line}></View>
-            <Text style={styles.descTitle}>Description</Text>
-            <Text style={styles.description}>{searchResult.description}</Text>
-            <Text style={styles.sourceTitle}>Source</Text>
-            <Text style={styles.imageSource} onPress={() => Linking.openURL(`${searchResult.imageSource}`)}>Photo taken by {searchResult.imageAuthor} on Unsplash</Text>
-            
-            <View style={{flexDirection: "row"}}>
-                <TouchableHighlight
-                    onPress={() => {
-                        dispatchHook(addToBasket({searchResult, quantity: count}))
-                    }}
-                    style={styles.button}
-                    underlayColor="#DDDDDD"
-                    backgroundColor="#99D98C">
-                    <Text style={{color: "white"}}>Add to Basket</Text>
-                </TouchableHighlight>
-            </View>
-            <View style={styles.quantity}>
-                    <View style={styles.subtract}> 
-                        <Ionicons name="remove-circle" size={40} color="green" onPress={() => {
-                            if (count !== 1)
-                            {
-                                setCount(() => count - 1)
-                                //count = count - 1
-                                //console.log(count)
-                            }
-                        }}/>
-                    </View>
-                    <Text style={styles.quant}>{count}</Text>
-                    <View style={styles.add}> 
-                        <Ionicons name="add-circle" size={40} color="green" onPress={() => {
-                            setCount(() => count + 1)
-                            //count = count + 1
-                            //console.log(count)
-                        }}/>
-                    </View>
-                    
-                    
+        <View style={{flex:1}}>
+            <Text style={styles.backArrow} onPress={() => screenNavigate.goBack()}>&gt;</Text>
+            <View style={styles.screenVerticalLayout}>
+                <Image style={styles.productImage} source={{uri: searchResult.imageUrl}}/>
+                <Text style={styles.title}>{searchResult.productName}</Text>
+                <Text style={styles.productPrice}>£{searchResult.price}0</Text>
+                <View style={styles.line}></View>
+                <Text style={styles.descTitle}>Description</Text>
+                <Text style={styles.description}>{searchResult.description}</Text>
+                <Text style={styles.sourceTitle}>Source</Text>
+                <Text style={styles.imageSource} onPress={() => Linking.openURL(`${searchResult.imageSource}`)}>Photo taken by {searchResult.imageAuthor} on Unsplash</Text>
+                
+                <View style={{flexDirection: "row"}}>
+                    {/* Add to basket button */}
+                    <TouchableHighlight
+                        onPress={() => {
+                            // Tells the store that a button has occurred
+                            dispatchHook(addToBasket({searchResult, quantity: count})) 
+                        }}
+                        style={styles.button}
+                        underlayColor="#DDDDDD"
+                        backgroundColor="#99D98C">
+                        <Text style={styles.buttonText}>Add to Basket</Text>
+                    </TouchableHighlight>
+                </View>
+
+                
+                <View style={styles.productQuantity}>
+                        <View style={styles.subtract}> 
+                            <Ionicons name="remove-outline" size={40} color="white" onPress={() => {
+                                if (count !== 1)
+                                {
+                                    setCount(() => count - 1)
+                                }
+                            }}/>
+                        </View>
+                        <Text style={styles.quantity}>{count}</Text>
+                        <View style={styles.add}> 
+                            <Ionicons name="add-outline" size={40} color="white" onPress={() => {
+                                setCount(() => count + 1)
+                            }}/>
+                        </View>
+                        
+                        
+                </View>
             </View>
         </View>
+
     )
 }
 
@@ -135,76 +138,101 @@ export default ProductScreen;
 
 
 const styles = StyleSheet.create({
+    backArrow: {
+        fontSize: 40,
+        marginTop: "10%",
+        marginLeft: "7%",
+    },
     screenVerticalLayout: {
         flex: 1,
-        //alignItems: 'center',
-        //paddingTop: "25%",
-        // height: "130%",
-        marginTop: "20%",
+        marginTop: "2%",
     },
     productImage: {
         //alignItems: 'center',
-        width: 350,
-        height: 250,
+        width: "86%",
+        height: "36%",
         borderRadius:10,
-        marginLeft:30,
-        marginRight: 25
+        marginLeft: "7%",
+        marginRight: "7%",
     },
     title: {
-        flex: 1,
-        top: "2%",
+        //flex: 1,
+        top: "1%",
         fontSize: 25,
-        marginLeft: 20,
+        marginLeft: "7%",
     },
     productPrice: {
-        flex: 1,
-        bottom: "4%",
+        //flex: 1,
+        top: "2%",
         fontSize: 22,
-        marginLeft: 20,
+        marginLeft: "7%",
     },
     line: {
-        flex: 1,
-        bottom: "19%",
+        //flex: 1,
+        top: "4%",
         borderBottomColor: 'rgba(0, 0, 0, 0.6)', 
         borderBottomWidth: 1.2, 
         borderRadius:1,
-        marginRight: 20, 
-        marginLeft: 20},
+        marginRight: "7%", 
+        marginLeft: "7%"},
     descTitle: {
-        flex: 1,
-        bottom: "18%",
+        //flex: 1,
+        top: "6%",
         fontSize: 19,
-        marginLeft: 25,
+        marginLeft: "7%",
     },
     description: {
-        bottom: "25%",
+        top: "7.5%",
         fontSize: 16,
-        marginLeft: 35,
+        marginLeft: "10%",
     },
     sourceTitle: {
-        flex: 1,
-        bottom: "24%",
+        //flex: 1,
+        top: "9%",
         fontSize: 19,
-        marginLeft: 25,
+        marginLeft: "7%",
     },
     imageSource: {
-        bottom: "31%",
+        top: "10.5%",
         fontSize: 16,
-        marginLeft: 35,
+        marginLeft: "10%",
     },
     button: {
-        flex: 1,
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
-        padding: "5%",
-        width: "50%",
-        bottom: "20%",
-        marginLeft: 100,
-        marginRight: 100,
-        borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
+        padding: "4.5%",
+        width: "40%",
+        top: "45%",
+        marginLeft: "55%",
+        borderRadius: 20,
+    },
+    buttonText: {
+        color: "white",
+        fontSize: 18,
+    },
+    productQuantity: {
+        top: "30%", 
+        left: '3%', 
+        flexDirection:"row",
+
+        backgroundColor: "#119822",
+        width: "45%",
+        height: "8.6%",
+        borderRadius: 20,
+        justifyContent: 'space-around',
+        // justifyContent: 'center',
+
+    },
+    quantity: {
+        color: '#ffffff',
+        fontSize: 30,
+        marginTop: "4%",
+    },
+    add: {
+        marginTop: "4%",
+    },
+    subtract: {
+        marginTop: "4%",
     },
 
 });

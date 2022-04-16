@@ -7,6 +7,9 @@ import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput
 import { useNavigation } from '@react-navigation/native';
 import { auth, firestore } from '../firebase/firebaseConfig';
 
+import { useDispatch } from 'react-redux';
+import { clearUserData } from '../redux/reducers/users';
+
 //import auth from 'firebase';
 
 export const SignUpScreen = () => {
@@ -16,21 +19,26 @@ export const SignUpScreen = () => {
     const [getPhone, setPhone] = useState('');
 
     const screenNavigate = useNavigation()
+    const dispatchHook = useDispatch();
 
     const userSignUp = () => {
+        // Clears the user data redux state if it contains any data
+        dispatchHook(clearUserData())
         auth
             // This uses the email and password provided by the user to create a new account 
             .createUserWithEmailAndPassword(getEmail, getPassword)
             .then((userCredential) => {
+                // Stores the new user's details
                 const user = userCredential.user;
                 console.log("Signed up with", user.email);
+                // Navigates to the home screen
                 screenNavigate.navigate("Home")
-
+                // Creates a new document in the users collection on Firebase using the new user's details
                 return firestore.collection('users').doc(user.uid).set({
                     name: getName,
-                    phone: getPhone
+                    phone: getPhone,
+                    email: user.email
                 })
-
             } )
             .catch(error => alert(error.message))
     }
@@ -179,7 +187,7 @@ export const styles = StyleSheet.create({
         //paddingBottom: "1%",
         fontSize: 18,
         textAlign: 'left',
-        marginRight: "55%",
+        marginRight: "40%",
         width: "30%",
         height: "9%",
         
