@@ -11,9 +11,8 @@ import { useSelector } from 'react-redux';
 import { getUser, getUsersData, clearUserData } from '../redux/reducers/users';
 import { useDispatch } from 'react-redux';
 import { getLatitude, getlongitude, getAddress } from '../redux/reducers/address';
-import Geocoder from 'react-native-geocoding';
 
-import * as Location from 'expo-location';
+import { setSelectedProduct, setSelectedCategory } from '../redux/reducers/selected';
 
 import { 
     categories, 
@@ -103,8 +102,9 @@ const HomeScreen = () => {
                     renderItem={({item}) => (
                         <View>
                             <TouchableOpacity onPress={() => {
+                                dispatchHook(setSelectedProduct({selectedProduct: item.productName}))
                                 screenNavigate.navigate('Product')
-                                selectedItem = item.productName
+                                //selectedItem = item.productName
                             }}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
@@ -146,8 +146,10 @@ const HomeScreen = () => {
                                 <TouchableOpacity 
                                 onPress={() => 
                                     {
+                                        dispatchHook(setSelectedCategory({selectedCategory: item.categoryName}))
                                         screenNavigate.navigate("Category")
-                                        selectedCategory = item.categoryName
+                                        //selectedCategory = item.categoryName
+                                        // dispatchHook(setSelectedCategory({selectedCategory: item.categoryName}))
                                     }
                                 }>
                                     <Image style={styles.categoryImage} source={{uri: item.imageUrl}}/>
@@ -166,8 +168,9 @@ const HomeScreen = () => {
                             <Text 
                                 style={{marginLeft: "45%", fontSize: 15}} 
                                 onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Bakery'}))
                                     screenNavigate.navigate("Category") 
-                                    selectedCategory = 'Bakery'
+                                    //selectedCategory = 'Bakery'
                                 }}
                             >
                             View Category {'>'}</Text>
@@ -184,8 +187,9 @@ const HomeScreen = () => {
                             <Text 
                                 style={{marginLeft: "50%", fontSize: 15}}
                                 onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Fruit'}))
                                     screenNavigate.navigate("Category") 
-                                    selectedCategory = 'Fruit'
+                                    //selectedCategory = 'Fruit'
                                 }}
                             >
                                 View Category {'>'}
@@ -204,8 +208,9 @@ const HomeScreen = () => {
                             <Text 
                                 style={{marginLeft: "49%", fontSize: 15}}
                                 onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Dairy'}))
                                     screenNavigate.navigate("Category") 
-                                    selectedCategory = 'Dairy'
+                                    //selectedCategory = 'Dairy'
                                 }}
                             >
                                 View Category {'>'}
@@ -223,8 +228,9 @@ const HomeScreen = () => {
                             <Text 
                                 style={{marginLeft: "35%", fontSize: 15}}
                                 onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Plant Based'}))
                                     screenNavigate.navigate("Category") 
-                                    selectedCategory = 'Plant Based'
+                                    // selectedCategory = 'Plant Based'
                                 }}
                             >
                                 View Category {'>'}
@@ -241,8 +247,9 @@ const HomeScreen = () => {
                             <Text 
                                 style={{marginLeft: "45%", fontSize: 15}}
                                 onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Poultry'}))
                                     screenNavigate.navigate("Category") 
-                                    selectedCategory = 'Poultry'
+                                    //selectedCategory = 'Poultry'
                                 }}
                             >
                                 View Category {'>'}
@@ -259,8 +266,9 @@ const HomeScreen = () => {
                             <Text 
                                 style={{marginLeft: "35%", fontSize: 15}}
                                 onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Vegetables'}))
                                     screenNavigate.navigate("Category") 
-                                    selectedCategory = 'Vegetables'
+                                    //selectedCategory = 'Vegetables'
                                 }}
                             >
                                 View Category {'>'}

@@ -4,6 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {selectedCategory} from './HomeScreen';
 
+import { setSelectedProduct, getCategory} from '../redux/reducers/selected';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import { 
     categories, 
     bakeryList, 
@@ -20,9 +24,12 @@ const CategoryScreen = () => {
 
     const screenNavigate = useNavigation();
 
-    function selected() {
+    const category = useSelector(getCategory);
+    const dispatchHook = useDispatch()
 
-        switch(selectedCategory)
+    function selected() {
+        switch(category)
+        // switch(selectedCategory)
         {
             case "Bakery":
                 return bakeryList;
@@ -51,7 +58,7 @@ const CategoryScreen = () => {
     return (
         <View style={styles.screenVerticalLayout}>
             <Text style={styles.backArrow} onPress={() => screenNavigate.goBack()}>&gt;</Text>
-            <Text style={styles.categoryTitles}>{selectedCategory}</Text>
+            <Text style={styles.categoryTitles}>{category}</Text>
             <ScrollView contentContainerStyle={{ flexGrow: 1,  paddingVertical: 20 }}>
             <View style={{marginLeft: 10, }}>
                     <FlatList
@@ -61,8 +68,9 @@ const CategoryScreen = () => {
                         renderItem={({item}) => (
                             <View> 
                                 <TouchableOpacity onPress={() => {
+                                    dispatchHook(setSelectedProduct({selectedProduct: item.productName}))
                                     screenNavigate.navigate("Product")
-                                    selectedProduct = item.productName
+                                    //selectedProduct = item.productName
                                 }
                                     }>
                                     <Image style={styles.productImage} source={{uri: item.imageUrl}}/>

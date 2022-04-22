@@ -7,8 +7,9 @@ import {selectedProduct} from './CategoryScreen';
 import { Ionicons} from '@expo/vector-icons';
 
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket } from '../redux/reducers/basket';
+import { getProduct } from '../redux/reducers/selected';
 
 import { 
     categories, 
@@ -28,24 +29,31 @@ const ProductScreen = () => {
     const [count, setCount] = useState(1)
 
     const dispatchHook = useDispatch()
+    const chosenProduct = useSelector(getProduct)
 
     const screenNavigate = useNavigation();
 
     let objectSearch = (searchArray) => {
         for (let product = 0; product < searchArray.length; product++) 
         {
-            if (searchArray[product].productName === selectedItem) 
+            if (searchArray[product].productName === chosenProduct) 
             {
                 //console.log(searchArray[product])
                 //selectedItem = ""
                 return searchArray[product]
             }
-            else if (searchArray[product].productName === selectedProduct) 
-            {
-                //selectedProduct = ""
-                //console.log(searchArray[product])
-                return searchArray[product]
-            }
+            // if (searchArray[product].productName === selectedItem) 
+            // {
+            //     //console.log(searchArray[product])
+            //     //selectedItem = ""
+            //     return searchArray[product]
+            // }
+            // else if (searchArray[product].productName === selectedProduct) 
+            // {
+            //     //selectedProduct = ""
+            //     //console.log(searchArray[product])
+            //     return searchArray[product]
+            // }
             // Checks if iterator is at the end of list
             if ((product + 1) == searchArray.length)
             {
