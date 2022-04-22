@@ -72,12 +72,13 @@ const AccountScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         enabled={false}>
 
+        <Text style={styles.backArrow} onPress={() => screenNavigate.goBack()}>&gt;</Text>
         
-        <View style={{flex: 1, paddingTop: "20%"}}>
-            <Text style={{marginLeft: "20%", fontSize: 30,}}>
+        <View style={{flex: 1, paddingTop: "2%"}}>
+            <Text style={{marginLeft: "24%", fontSize: 30,}}>
                 Account Details
             </Text>
-            {/* <Text>{userDetails[0].name}</Text> */}
+            
             <View style={styles.screenVerticalLayout}>
                 <Text style={styles.headingName}>Name</Text>
                 <TextInput
@@ -145,6 +146,11 @@ const AccountScreen = () => {
 export default AccountScreen;
 
 const styles = StyleSheet.create({
+    backArrow: {
+        fontSize: 40,
+        marginTop: "10%",
+        marginLeft: "7%",
+    },
     button: {
         //flex: 1,
         alignItems: "center",

@@ -1,14 +1,25 @@
 import React, {useState, useEffect} from'react';
-import { StyleSheet, Text, View, FlatList, Image, TouchableHighlight, TextInput, Button} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableHighlight, TextInput, Button, ToastAndroid} from 'react-native';
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
-import { auth} from '../firebase/firebaseConfig';
+import { auth, firestore} from '../firebase/firebaseConfig';
+import firebase from 'firebase';
+import { Platform } from 'expo-modules-core';
 
 import { useSelector } from 'react-redux';
 import { getGroceryBasket } from '../redux/reducers/basket';
 
 import { useDispatch } from 'react-redux';
-import { removeFromBasket, clearBasket, updateProductQuantityAdd, updateProductQuantitySubtract } from '../redux/reducers/basket';
-
+import { 
+    removeFromBasket, 
+    clearBasket, 
+    updateProductQuantityAdd, 
+    updateProductQuantitySubtract,
+    setFinalPrice,
+    setTotalPrice,
+    setDeliveryTotal
+} from '../redux/reducers/basket';
+import { setEstimatedDeliveryTime } from '../redux/reducers/order';
+import { getUser } from '../redux/reducers/users';
 import { Ionicons} from '@expo/vector-icons';
 
 // https://www.youtube.com/watch?v=Xfgjh2QbM-U
@@ -23,7 +34,97 @@ const BasketScreen = () => {
     const [deliveryPrice, setDeliveryPrice] = useState(0.80)
     const [orderTotal, setOrderTotal] = useState(0.00)
 
+    var dateTimeToday =  new Date();
+    // var date = dateTimeToday.slice(0,9)
+    // var time = dateTimeToday.slice(11,20)
+    var date = dateTimeToday.getDate() + "/" + (dateTimeToday.getMonth() + 1) + "/" + dateTimeToday.getFullYear();
+    var time = dateTimeToday.getHours() + ":" + dateTimeToday.getMinutes() + ":" + dateTimeToday.getSeconds();
+
+
     const dispatchHook = useDispatch()
+    const accountDetails = useSelector(getUser)
+
+    function submitOrder(){
+        const userID = auth.currentUser.uid;
+
+        if (basket.length !== 0)
+        {
+            firestore.collection('orders').add({
+                userID: userID,
+                basket: basket,
+                orderTotal: parseFloat(orderTotal).toFixed(2), 
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                // timePlaced: dateTimeToday.getHours() + ":" + dateTimeToday.getMinutes() + ":" + dateTimeToday.getSeconds(),
+                // datePlaced: dateTimeToday.getDate() + "/" + (dateTimeToday.getMonth() + 1) + "/" + dateTimeToday.getFullYear()
+            })
+
+            dispatchHook(setTotalPrice({totalPrice: price}))
+            dispatchHook(setDeliveryTotal({deliveryTotal: deliveryPrice}))
+            dispatchHook(setFinalPrice({finalPrice: orderTotal}))
+
+            //screenNavigate.navigate('Order')
+            screenNavigate.reset({
+                index: 0,
+                routes: [{name: 'Order'}]
+            })
+
+        }
+        else
+        {
+            if (Platform.OS === 'android')
+            {
+                ToastAndroid.show('Basket is empty', ToastAndroid.SHORT)
+            }
+            else
+            {
+                alert("Basket is empty")
+            }
+            
+        }
+    }
+
+    // const userData = async () => {
+    //     // Make a request to Firebase Auth to obtain the user's account ID
+    //     const userID = auth.currentUser.uid;
+    //     console.log(userID)
+    //     var currentTimeStamp = firebase.firestore.Timestamp.fromDate(new Date());
+        
+    //     console.log(currentTimeStamp)
+        
+    //     //var ordersCollection = firestore.collection('orders')
+    //     //firestore.collection('orders').where("userID", "==", userID).where("timestamp", "<=", currentTimeStamp).orderBy("timestamp", ).get()
+    //     //firestore.collection('orders').where("userID", "==", userID).get()
+    //     await firestore.collection('orders')
+    //     .where("userID", "==", userID)
+    //     .where("timestamp", "<=", currentTimeStamp).orderBy("timestamp", "desc").limit(1).get()
+    //     .then((querySnapshot) => {
+    //         querySnapshot.forEach((doc) => {
+    //           console.log(doc.data());
+    //         });
+    //       })
+    //     // .then((doc) => {
+    //     //     if(doc.exists)
+    //     //     {
+    //     //         console.log("works")
+    //     //     }
+    //     //     else{
+    //     //         console.log("does not work")
+    //     //     }
+    //     // })
+    //     // .then((doc) => doc.data())
+    //     // .then((docData) => {
+    //     //     console.log(docData)
+    //     // })
+    //     .catch((error) => console.log(error.message))
+        
+    // }
+
+
+
+    // function pullUserOrderData() {
+
+    // }
+
 
     function calculateProductTotal(){
         let totalPrice = 0.00
@@ -40,10 +141,36 @@ const BasketScreen = () => {
         return orderPrice
     }
 
+    async function getEstimatedDeliveryTime(){
+        const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
+        
+        // Fulfilment centre address
+        const fulfilmentCentreAddress = "Coldharbour Ln, Stoke Gifford, Bristol BS16 1QY"
+
+        // Customer Delivery Address
+        const customerAddress = accountDetails[0].address
+
+        // Google Maps Distance Matrix API Call
+        // This identifies the distance between 
+        // the fulfilment centre and the customers address via Bike
+        await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + fulfilmentCentreAddress + '&mode=bicycling&destinations=side_of_road%' + customerAddress + '&key=' + googleMapsKey)
+        // await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + fulfilmentCentreAddress + '&mode=driving&destinations=side_of_road%' + customerAddress + '&key=' + googleMapsKey)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            dispatchHook(setEstimatedDeliveryTime({estimatedTime: JSON.parse(JSON.stringify(responseJson.rows[0].elements[0].duration.text))}))
+            console.log(responseJson.rows[0].elements[0].duration.text)
+        })
+        .catch(error => alert(error.message))
+    }
+
     useEffect (() => {
         setPrice(calculateProductTotal())
         setOrderTotal(calculateOrderTotal())
     });
+
+    useEffect (() => {
+        getEstimatedDeliveryTime()
+    }, [])
 
     return (
         <View style={{flex:1}}>
@@ -118,7 +245,9 @@ const BasketScreen = () => {
             <View style={{flexDirection: "row"}}>
                 <TouchableHighlight
                     onPress={() => {
-                        screenNavigate.navigate('Home')
+                        submitOrder()
+                        //setTimeout(() => userData(), 1000)
+                        //userData()
                     }}
                     style={styles.button}
                     underlayColor="#DDDDDD"

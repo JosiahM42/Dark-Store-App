@@ -2,13 +2,15 @@
     Author:  Josiah Murray
     Date Started: 06/08/2021
 */
-import React, { useState } from'react';
+import React, { useState, useEffect } from'react';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, Pressable, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, firestore } from '../firebase/firebaseConfig';
 
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { clearUserData } from '../redux/reducers/users';
+import {setPostcode, getPostcode, setStreetAddress, setCity, getLatitude, getlongitude} from '../redux/reducers/address';
 
 //import auth from 'firebase';
 
@@ -21,6 +23,9 @@ export const SignUpScreen = () => {
     const screenNavigate = useNavigation()
     const dispatchHook = useDispatch();
 
+    const lat = useSelector(getLatitude)
+    const lng = useSelector(getlongitude)
+
     const userSignUp = () => {
         // Clears the user data redux state if it contains any data
         dispatchHook(clearUserData())
@@ -32,7 +37,7 @@ export const SignUpScreen = () => {
                 const user = userCredential.user;
                 console.log("Signed up with", user.email);
                 // Navigates to the home screen
-                screenNavigate.navigate("Home")
+                //screenNavigate.navigate("Home")
                 // Creates a new document in the users collection on Firebase using the new user's details
                 return firestore.collection('users').doc(user.uid).set({
                     name: getName,
@@ -41,6 +46,30 @@ export const SignUpScreen = () => {
                 })
             } )
             .catch(error => alert(error.message))
+    }
+
+    // useEffect(() => {
+    //     const moveOn = auth.onAuthStateChanged(user => {
+    //         if (user) {
+    //             gMaps()
+    //             setTimeout(() => screenNavigate.navigate("AddressEntry"), 500)
+    //         }
+    //     })
+    //     return moveOn
+    // })
+
+    function gMaps() {
+        const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
+        
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lng + '&key=' + googleMapsKey)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            dispatchHook(setStreetAddress({streetAddress: JSON.parse(JSON.stringify(responseJson.results[0].address_components[1].long_name))}))
+            dispatchHook(setPostcode({postcode: JSON.parse(JSON.stringify(responseJson.results[0].address_components[6].long_name))}))
+            dispatchHook(setCity({city: JSON.parse(JSON.stringify(responseJson.results[0].address_components[2].long_name))}))
+            //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].address_components[1].long_name));
+        })
+        .catch(error => alert(error.message))
     }
 
     const signUpWithGoogle = () => {
@@ -107,7 +136,9 @@ export const SignUpScreen = () => {
             <Text style={styles.headings} >Phone</Text>
             <TextInput
                 style={styles.textInput}
-                onChangeText={phone => setPhone(phone)}
+                onChangeText={phone => {setPhone(phone)
+                    gMaps()
+                }}
                 placeholder="Enter your phone number"
                 // underlineColorAndroid= 'black'
             />
@@ -115,7 +146,16 @@ export const SignUpScreen = () => {
 
             <View style = {styles.buttonLayout}>
                 <TouchableHighlight
-                    onPress={() => userSignUp()}
+                    onPress={() => {
+                        userSignUp()
+                        auth.onAuthStateChanged(user => {
+                            if (user) {
+                                //gMaps()
+                                // setTimeout(() => screenNavigate.navigate("AddressEntry"), 200)
+                                screenNavigate.navigate("AddressEntry")
+                            }
+                        })
+                        }}
                     //onPress={() => screenNavigate.navigate('SignUp')}
                     style={styles.button}
                     underlayColor="#DDDDDD"

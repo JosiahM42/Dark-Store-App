@@ -10,6 +10,7 @@ import { Ionicons} from '@expo/vector-icons';
 import { SelectorScreen } from './screens/SelectorScreen';
 import { SignUpScreen } from './screens/SignUpScreen';
 import { SignInScreen } from './screens/SignInScreen';
+import { AddressEntryScreen } from './screens/AddressEntryScreen';
 import HomeScreen from './screens/HomeScreen';
 import { AddressScreen } from './screens/AddressScreen';
 import {DeclineScreen} from './screens/AddressDeclineScreen';
@@ -17,6 +18,9 @@ import BasketScreen from './screens/BasketScreen';
 import ProductScreen from './screens/productScreen'
 import CategoryScreen from './screens/CategoryScreen';
 import AccountScreen from './screens/AccountScreen';
+import OrderScreen from './screens/OrderScreen';
+import OrderSummary from './screens/OrderSummary';
+
 
 import { Provider } from 'react-redux';
 import store from './redux/reduxStore/store';
@@ -34,7 +38,7 @@ const TabNavigate = () => (
       tabBarIcon: ({ focused, color, size }) => {
         let selectedIcon;
 
-        if (route.name === 'Home') {
+        if (route.name === 'Homepage') {
           
           // This will change the colour of the home button
           selectedIcon = focused
@@ -55,7 +59,7 @@ const TabNavigate = () => (
       tabBarInactiveTintColor: '#808080',
     })}
   >
-    <Tab.Screen options={{headerShown: false}} name = "Home" component={homeNavigate} />
+    <Tab.Screen options={{headerShown: false}} name = "Homepage" component={HomeScreen} />
     <Tab.Screen options={{headerShown: false}} name = "Basket" component={BasketScreen} />
   </Tab.Navigator>
 );
@@ -67,22 +71,60 @@ export const AuthNavigate = () => (
     <Stack.Screen options={{headerShown: false}} name="Decline" component={DeclineScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
     <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
+    <Stack.Screen options={{headerShown: false}} name="AddressEntry" component={AddressEntryScreen} />
     <Stack.Screen options={{headerShown: false}} name="Home" component={TabNavigate} />
-    <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
     <Stack.Screen options={{headerShown: false}} name="Account" component={AccountScreen} />
-    {/* <Stack.Screen options={{headerShown: false}} name="Category" component={CategoryScreen} /> */}
+    <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
+    <Stack.Screen options={{headerShown: false}} name="Category" component={CategoryScreen} />
+    <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
+    <Stack.Screen options={{headerShown: false}} name="OrderSummary" component={OrderSummary} />
   </Stack.Navigator>
 );
 
-export const homeNavigate = () => (
-  <Stack.Navigator
-  initialRouteName="Home">
-    <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
-    <Stack.Screen options={{headerShown: false}} name="Category" component={CategoryScreen} />
-  </Stack.Navigator>
-  
-)
 
+// export const AuthNavigate = () => (
+//   <Stack.Navigator>
+//     <Stack.Screen options={{headerShown: false}} name="Address" component={AddressScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="Selector" component={SelectorScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="Decline" component={DeclineScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="AddressEntry" component={AddressEntryScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="Home" component={TabNavigate} />
+//   </Stack.Navigator>
+// );
+
+
+
+
+// export const homeNavigate = () => (
+//   <Stack.Navigator
+//   initialRouteName="Home">
+//     <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="Category" component={CategoryScreen} />
+//   </Stack.Navigator>
+  
+// )
+
+// export const homeNavigate = () => (
+//   <Stack.Navigator
+//   initialRouteName="Home">
+//     <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="Product" component={ProductScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="Account" component={AccountScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="Category" component={CategoryScreen} />
+//   </Stack.Navigator>
+  
+// )
+
+// export const basketNavigate = () => (
+//   <Stack.Navigator
+//   initialRouteName="Home">
+//     <Stack.Screen options={{headerShown: false}} name = "Basket" component={BasketScreen}/>
+//     <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
+//     <Stack.Screen options={{headerShown: false}} name="OrderSummary" component={OrderSummary} />
+//   </Stack.Navigator>
+// )
 
 // export const AuthNavigate = () => (
 //   <Stack.Navigator>

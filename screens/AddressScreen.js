@@ -10,8 +10,9 @@ import { auth } from '../firebase/firebaseConfig';
 import * as Location from 'expo-location';
 
 import { useSelector } from 'react-redux';
-import { setUserAddress, setLocation, getlongitude, getLatitude, getLocation, setError, getError} from '../redux/reducers/address';
+import { setPostcode, setCoordinates } from '../redux/reducers/address';
 import { useDispatch } from 'react-redux';
+
 
 
 import * as geolib from 'geolib';
@@ -25,11 +26,10 @@ export const AddressScreen = () => {
     const screenNavigate = useNavigation();
 
     const dispatchHook = useDispatch()
-
-    const location = useSelector(getLocation);
-    const error = useSelector(getError);
     
     const [getLocate, setLocate] = useState('');
+
+    const [hasRun, setHasRun] = useState(false)
 
     
 
@@ -37,11 +37,40 @@ export const AddressScreen = () => {
     useEffect(() => {
         const moveOn = auth.onAuthStateChanged(user => {
             if (user) {
-                screenNavigate.navigate("Home")
+                screenNavigate.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}]
+                })
             }
         })
         return moveOn
-    })
+
+        // var user = auth.currentUser;
+
+        // if (user) {
+        //     screenNavigate.navigate("Home")
+        // } 
+        // // else {
+        // // No user is signed in.
+        // //}
+    }, [])
+
+    // const alreadyAuthenticated = () => {
+    //     const moveOn = auth.onAuthStateChanged(user => {
+    //         if (user) {
+    //             // if (hasRun == false)
+    //             // {
+    //             //     setHasRun(true)
+    //             //     screenNavigate.navigate("Home")
+    //             // }
+    //             // else{
+    //             //     return;
+    //             // }
+    //             screenNavigate.navigate("Home")
+    //         }
+    //     })
+    //     return moveOn
+    // }
 
 
 
@@ -80,18 +109,18 @@ export const AddressScreen = () => {
     }
 
     // When the application runs, the user will be prompted to accept location permissions
-    // useEffect(() => {
-    //     (async () => {
-    //         // Requests customer to allow location permissions
-    //         let {status} = await Location.requestForegroundPermissionsAsync();
-    //         // Denial critera
-    //         if (status !== 'granted') {
-    //             alert('Location Permissions Denied')
-    //             return;
-    //         }
-    //         alert('Location Permissions Granted')
-    //     }) ();
-    // }, []);
+    useEffect(() => {
+        (async () => {
+            // Requests customer to allow location permissions
+            let {status} = await Location.requestForegroundPermissionsAsync();
+            // Denial critera
+            if (status !== 'granted') {
+                alert('Location Permissions Denied')
+                return;
+            }
+            alert('Location Permissions Granted')
+        }) ();
+    }, []);
 
     // if (error === false){
     //     alert('Location Permissions Denied')
@@ -104,51 +133,30 @@ export const AddressScreen = () => {
 
     // https://instamobile.io/react-native-tutorials/react-native-location/
     // https://docs.expo.dev/versions/latest/sdk/location/#locationgeocodedlocation
-    //Uses Location based services
-    async function getLocationPermissions() {
-        const locationPermission =  await Location.requestForegroundPermissionsAsync()
-        if (!locationPermission === 'granted')
-        {
-            alert('Location Permissions Denied')
-            return;
-        }
-        else
-        {
-            let location = await Location.getCurrentPositionAsync({});
-            dispatchHook(setLocation({location: location}))
-            //checkAddressFromLocation()
-        }
-    };
+    
 
 
     function getUserAddress(){
         return (
             <View style={styles.topScreenLayout}>
-                <Text style={styles.headings}>What's your address?</Text>
+                <Text style={styles.headings}>What's your postcode?</Text>
                 <TextInput
                     style={styles.textInput}
                     //value={location.toString()}
                     value={getLocate}
-                    onChangeText={(locate) => {setLocate(locate)}}
-                    placeholder="Enter your address e.g. 000 avenue, BS16 1QY"
+                    onChangeText={(locate) => {
+                        setLocate(locate)
+                    }}
+                    placeholder="Enter your postcode e.g. BS16 1QY"
                     //underlineColorAndroid= 'black'
                 />
-
-                <View style = {styles.locationButtonLayout}>
-                    <TouchableHighlight
-                        onPress={() => getLocationPermissions()}
-                        style={styles.locationButton}
-                        underlayColor="#DDDDDD"
-                        backgroundColor="#99D98C"
-                    >
-                    <Text style={styles.locationText}>Use My Location</Text>
-                    </TouchableHighlight>
-                </View>
 
 
                 <View style = {styles.buttonlayout}>
                     <TouchableHighlight
-                        onPress={() => checkAddressFromLocation()}
+                        onPress={() => {
+                            checkAddressFromLocation()
+                        }}
                         style={styles.button}
                         underlayColor="#DDDDDD"
                         backgroundColor="#99D98C"
@@ -175,6 +183,9 @@ export const AddressScreen = () => {
                 {latitude: darkStoreRegion.latitude, longitude: darkStoreRegion.longitude},
                 {latitude: location.lat, longitude: location.lng}
             );
+
+            dispatchHook(setCoordinates({longitude: location.lng, latitude: location.lat}))
+
             // Converts the distance to miles
             var miles = geolib.convertDistance(distance, 'mi');
             // Checks if the address is within 5 miles of the fulfilment centre
@@ -192,37 +203,31 @@ export const AddressScreen = () => {
 		.catch(error => alert(error.message));
     }
 
-    // function checkAddressFromLocation()
-    // {
-    //     var distance = geolib.getPreciseDistance(
-    //         {latitude: darkStoreRegion.latitude, longitude: darkStoreRegion.longitude},
-    //         {latitude: location.latitude, longitude: location.longitude}
-    //     );
+    // function gMaps() {
+        
+    //     const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
+        
+    //     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lng + '&key=' + googleMapsKey)
+    //     .then((response) => response.json())
+    //     .then((responseJson) => {
+    //         //var add = responseJson.results
+    //         //dispatchHook(setMapsAddresses({label:responseJson.results[1].formatted_address, value: responseJson.results[1].formatted_address}))
+    //         for(let i = 0; i <= 4; i+=1) {
+    //             //dispatchHook(setMapsAddresses({label:responseJson.results[i].formatted_address, value: responseJson.results[i].formatted_address}))
 
-    //     var miles = geolib.convertDistance(distance, 'mi');
-    //     console.log(miles)
+    //             console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[i].formatted_address));
+    //         }
+    //     })
 
-    //     if (Math.round(miles* 100)/100 <= 5.00)
-    //     {
-
-    //         console.log("Customer is in range");
-    //         screenNavigate.navigate("Selector");
-
-    //     }
-    //     else {
-    //         console.log("Customer is out of range");
-    //         screenNavigate.navigate("Decline");
-    //     }
     // }
 
 
-    
     return (
 
         <View style={{flex: 1}}>
+            {/* {alreadyAuthenticated()} */}
             {displayMap()}
             {getUserAddress()}
-            {/* {userButton()} */}
         </View>
         
     );
@@ -246,24 +251,13 @@ export const styles = StyleSheet.create({
         
         // paddingTop: "50%",
     },
-
-    // bLayout:{
-    //     position: 'absolute',
-    //     flex: 1,
-    //     bottom: "40%",
-    //     height: "80%",
-    //     width: "100%",
-    //     //paddingTop: "60%",
-    //     justifyContent: 'center',
-    // },
-
     headings: {
         //paddingTop: "1%",
         fontSize: 22,
         textAlign: 'left',
         marginLeft: "15%",
         width: "100%",
-        top: "15%",
+        top: "6%",
         //height: "10%",
         
     },
@@ -272,45 +266,11 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         width: "85%",
         height: "8%",
-        top: "16%",
+        top: "7%",
         borderBottomColor: '#000', // Add this to specify bottom border color
         borderBottomWidth: 1,     // Add this to specify bottom border thickness
 
     },
-
-    locationButtonLayout: {
-        //position: 'absolute',
-        alignItems: "center",
-        padding: "5%",
-        //paddingLeft: "10%",
-        width: "100%",
-        top: "15%",
-    },
-
-    locationButton: {
-        //alignItems: "center",
-        //backgroundColor: "#d3d3d3",
-        //marginBottom: "20%",
-        //width: "200%",
-        //marginLeft: "%",
-        height: "25%",
-        //top: "50%",
-        borderRadius: 10,
-        
-        borderColor: 'black',
-        borderWidth: 1,
-    },
-
-    locationText: {
-        fontSize: 20,
-        //textAlign: 'center',
-        //color: "black",
-        //top: '25%',
-        //height: '130%'
-        paddingLeft: "25%",
-        paddingRight: "25%",
-    },
-
     buttonlayout: {
         position: 'absolute',
         alignItems: "center",
@@ -338,26 +298,6 @@ export const styles = StyleSheet.create({
         color: "#ffffff",
         
     },
-
-    // topHalf: {
-    //     alignItems:'center',
-    //     justifyContent:'center',
-    //     height:'5%',
-    // },
-
-    // bottomHalf: {
-    //     width:'100%',
-    //     height:'90%',
-    //     top: "10%",
-    //     backgroundColor:'#E0DEDE',
-    //     borderTopLeftRadius:30,
-    //     borderTopRightRadius:30,
-    // },
-
-    // map: {
-    //     StyleSheet.absoluteFill,
-    // },
-
     marker: {
         height: 35, 
         width:35,

@@ -14,7 +14,7 @@ import {
     vegetableList,
 } from '../firebase/groceryData';
 
-export let selectedProduct = '';
+export let selectedProduct = ''; 
 
 const CategoryScreen = () => {
 

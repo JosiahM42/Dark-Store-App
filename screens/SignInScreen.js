@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase/firebaseConfig';
 
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { clearUserData } from '../redux/reducers/users';
 
 export const SignInScreen = () => {
@@ -31,6 +32,13 @@ export const SignInScreen = () => {
                 // Stores the new user's details
                 const user = userCredential.user;
                 console.log("logged in with", user.email);
+                //screenNavigate.navigate("Home")
+                //screenNavigate.replace("Home")
+                screenNavigate.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}]
+                })
+
             })
             .catch(error => alert(error.message))
     } 
@@ -46,16 +54,16 @@ export const SignInScreen = () => {
     }
 
     // This will allow the user to move to the next screen if they are logged in
-    useEffect(() => {
-        // Checks if the user has been authenticated
-        const moveOn = auth.onAuthStateChanged(user => {
-            if (user) {
-                // Redirects user to the home screen
-                screenNavigate.navigate("Home")
-            }
-        })
-        return moveOn
-    })
+    // useEffect(() => {
+    //     // Checks if the user has been authenticated
+    //     const moveOn = auth.onAuthStateChanged(user => {
+    //         if (user) {
+    //             // Redirects user to the home screen
+    //             screenNavigate.navigate("Home")
+    //         }
+    //     })
+    //     return moveOn
+    // })
 
     return (
 
@@ -88,7 +96,7 @@ export const SignInScreen = () => {
 
             <View style = {styles.buttonLayout}>
                 <TouchableHighlight
-                    onPress={() => userSignIn()}
+                    onPress={() => {userSignIn()}}
                     //onPress={() => screenNavigate.navigate('SignUp')}
                     style={styles.button}
                     underlayColor="#DDDDDD"

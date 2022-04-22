@@ -37,10 +37,12 @@ const ProductScreen = () => {
             if (searchArray[product].productName === selectedItem) 
             {
                 //console.log(searchArray[product])
+                //selectedItem = ""
                 return searchArray[product]
             }
             else if (searchArray[product].productName === selectedProduct) 
             {
+                //selectedProduct = ""
                 //console.log(searchArray[product])
                 return searchArray[product]
             }
@@ -51,6 +53,8 @@ const ProductScreen = () => {
                 return false
             }
         }
+        selectedItem = ""
+        selectedProduct = ""
     }
 
     function productSearch(){
@@ -100,7 +104,8 @@ const ProductScreen = () => {
                     <TouchableHighlight
                         onPress={() => {
                             // Tells the store that a button has occurred
-                            dispatchHook(addToBasket({searchResult, quantity: count})) 
+                            dispatchHook(addToBasket({searchResult, quantity: count}))
+                            screenNavigate.goBack()
                         }}
                         style={styles.button}
                         underlayColor="#DDDDDD"

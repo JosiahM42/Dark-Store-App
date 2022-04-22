@@ -4,7 +4,10 @@ import { Alert, ToastAndroid } from "react-native";
 export const basketSlice = createSlice({
     name: 'basket',
     initialState: {
-        groceryBasket: []
+        groceryBasket: [],
+        finalPrice: 0,
+        totalPrice: 0,
+        deliveryTotal: 0,
     },
     reducers: {
         addToBasket: (state, action) => {
@@ -80,11 +83,32 @@ export const basketSlice = createSlice({
                 } 
             }
         },
+        setFinalPrice: (state, action) => {
+            state.finalPrice = action.payload.finalPrice
+        },
+        setTotalPrice: (state, action) => {
+            state.totalPrice = action.payload.totalPrice
+        },
+        setDeliveryTotal: (state, action) => {
+            state.deliveryTotal = action.payload.deliveryTotal
+        },
     }
 });
 
 export const getGroceryBasket = state => state.basket.groceryBasket
+export const getFinalPrice = state => state.basket.finalPrice
+export const getTotalPrice = state => state.basket.totalPrice
+export const getDeliveryTotal = state => state.basket.deliveryTotal
 
-export const {addToBasket, removeFromBasket, clearBasket, updateProductQuantityAdd, updateProductQuantitySubtract} = basketSlice.actions;
+export const {
+    addToBasket,
+    removeFromBasket,
+    clearBasket, 
+    updateProductQuantityAdd, 
+    updateProductQuantitySubtract,
+    setFinalPrice,
+    setTotalPrice,
+    setDeliveryTotal
+} = basketSlice.actions;
 
 export default basketSlice.reducer

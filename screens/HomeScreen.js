@@ -1,4 +1,4 @@
-import React, { useState, Component } from'react';
+import React, { useState, Component, useEffect } from'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth,firestore } from '../firebase/firebaseConfig';
@@ -10,7 +10,10 @@ import { userData } from '../firebase/userData';
 import { useSelector } from 'react-redux';
 import { getUser, getUsersData, clearUserData } from '../redux/reducers/users';
 import { useDispatch } from 'react-redux';
+import { getLatitude, getlongitude, getAddress } from '../redux/reducers/address';
+import Geocoder from 'react-native-geocoding';
 
+import * as Location from 'expo-location';
 
 import { 
     categories, 
@@ -37,6 +40,7 @@ const HomeScreen = () => {
 
     const screenNavigate = useNavigation();
     const userDetails = useSelector(getUser);
+
     const dispatchHook = useDispatch()
 
     const bakeryProducts = []
@@ -57,48 +61,33 @@ const HomeScreen = () => {
     const userData = async () => {
         // Make a request to Firebase Auth to obtain the user's account ID
         const userID = auth.currentUser.uid;
+        console.log(userID)
         const details = []
         // An asynchronous request for pulling customer account data
-        await firestore.collection('users').doc(userID).onSnapshot(
-            (userSnapshot) => {
-                details.push({
-                    id: userID,
-                    name: userSnapshot.data().name.toString(),
-                    phone: userSnapshot.data().phone.toString(),
-                    email: userSnapshot.data().email.toString(),
-                })
-                // Stores the pulled data in the user state array
-                dispatchHook(getUsersData({details: details[details.length - 1]}))
+        await firestore.collection('users').doc(userID).get()
+        .then((doc) => doc.data())
+        .then((docData) => {
+            console.log(docData)
+            details.push({
+                id: userID,
+                name: docData.name.toString(),
+                phone: docData.phone.toString(),
+                email: docData.email.toString(),
+                address: docData.address.toString(),
             })
+        })    
+        .catch((error) => console.log(error.message))
+
+        console.log(details)
+        dispatchHook(getUsersData({details: details[details.length - 1]}))
+        
     }
 
-    // const userData = async () => {
-    //     const userID = auth.currentUser.uid;
+    // useEffect rendered once due to having [] at the end
+    useEffect(() => {
+        userData()
+    }, [])
 
-    //     const details = []
-    //     //console.log(user)
-        
-    //     await firestore.collection('users').doc(userID).onSnapshot(
-    //         (userSnapshot) => {
-    //             details.push({
-    //                 id: userID,
-    //                 name: userSnapshot.data().name.toString(),
-    //                 phone: userSnapshot.data().phone.toString(),
-    //                 email: userSnapshot.data().email.toString(),
-    //             })
-                
-    //             // dispatchHook(getUsersData({
-    //             //     id: details[0].id,
-    //             //     name: details[0].name,
-    //             //     phone: details[0].phone, 
-    //             //     email: details[0].email,
-    //             // }))
-    //             dispatchHook(getUsersData({details: details[details.length - 1]}))
-                
-    //             //console.log(userDetails)
-    //         })
-        
-    // }
 
     const productDisplay = (categoryList) => {
         return (
@@ -135,8 +124,13 @@ const HomeScreen = () => {
             <View style={{paddingLeft: "85%", paddingTop: "14%",}}>
                 <Ionicons name="person-circle-outline" size={40} 
                     onPress={() => {
-                        userData()
-                        setTimeout(() => screenNavigate.navigate('Account'), 500)
+                        //dispatchHook(getUsersData({details: userData[userData.length - 1]}))
+                        //userData()
+                        //setTimeout(() => screenNavigate.navigate('Account'), 500)
+                        //setTimeout(() => console.log(userDetails), 500)
+                        //address()
+                        //signOut()
+                        screenNavigate.navigate('Account')
                     }}
                 />  
             </View>
@@ -300,7 +294,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         //paddingTop: "25%",
         // height: "130%",
-        marginTop: "20%",
+        marginTop: "4%",
     },
 
     scrollHorizontalView: {

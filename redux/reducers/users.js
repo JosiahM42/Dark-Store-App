@@ -16,7 +16,8 @@ export const userSlice = createSlice({
                     id: action.payload.details.id,
                     name: action.payload.details.name,
                     phone: action.payload.details.phone,
-                    email: action.payload.details.email
+                    email: action.payload.details.email,
+                    address: action.payload.details.address
                 })
             }
             
