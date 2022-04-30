@@ -22,23 +22,41 @@ const AccountScreen = () => {
     let [updateEmail, setUpdateEmail] = useState(userDetails[0].email);
     let [updatePhone, setUpdatePhone] = useState(userDetails[0].phone);
 
+    const phoneValidation = (phone) => {
+        // if (phone.length < 11){
+        //     alert("Invalid Phone Number")
+        // }
+        if (/^(?:0|\+?44)(?:\d\s?){9,10}$/.test(phone))
+        {
+            return true;
+        }
+        else{
+            alert("Invalid Phone Number")
+        }
+
+    }
+
     const updateUserData = () => {
         // Make a request to Firebase Auth to obtain the user's account ID
         const userID = auth.currentUser.uid;
         // Checks if any changes to the customer details have been made
         if(updateName !== userDetails[0].name || updatePhone !== userDetails[0].phone)
         {
-            // Updates the name and phone attributes of the customer's account details
-            firestore.collection('users').doc(userID).update({
-                name: updateName,
-                phone: updatePhone
-            })
-            .then(() => {
-                alert("Your details have been updated.")
-            })
-            .catch((error) => {
-                alert(error.message)
-            })
+            if(phoneValidation(updatePhone) == true){
+
+            
+                // Updates the name and phone attributes of the customer's account details
+                firestore.collection('users').doc(userID).update({
+                    name: updateName,
+                    phone: updatePhone
+                })
+                .then(() => {
+                    alert("Your details have been updated.")
+                })
+                .catch((error) => {
+                    alert(error.message)
+                })
+            }
         }
         // If no changes have been made
         else{
