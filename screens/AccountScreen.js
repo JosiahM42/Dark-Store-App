@@ -28,22 +28,51 @@ const AccountScreen = () => {
         // Checks if any changes to the customer details have been made
         if(updateName !== userDetails[0].name || updatePhone !== userDetails[0].phone)
         {
-            // Updates the name and phone attributes of the customer's account details
-            firestore.collection('users').doc(userID).update({
-                name: updateName,
-                phone: updatePhone
-            })
-            .then(() => {
-                alert("Your details have been updated.")
-            })
-            .catch((error) => {
-                alert(error.message)
-            })
+            // // Updates the name and phone attributes of the customer's account details
+            // firestore.collection('users').doc(userID).update({
+            //     name: updateName,
+            //     phone: updatePhone
+            // })
+            // .then(() => {
+            //     alert("Your details have been updated.")
+            // })
+            // .catch((error) => {
+            //     alert(error.message)
+            // })
+
+            if(phoneValidation(updatePhone) == true){
+
+
+                // Updates the name and phone attributes of the customer's account details
+                firestore.collection('users').doc(userID).update({
+                    name: updateName,
+                    phone: updatePhone
+                })
+                .then(() => {
+                    alert("Your details have been updated.")
+                })
+                .catch((error) => {
+                    alert(error.message)
+                })
+            }
         }
         // If no changes have been made
         else{
             alert("Please make changes")
         }
+    }
+
+    const phoneValidation = (phone) => {
+        // Allows for numbers that start with UK country code or 0
+        // Then it should be followed by 9 or 10 digits
+        if (/^(?:0|\+?44)(?:\d\s?){9,10}$/.test(phone))
+        {
+            return true;
+        }
+        else{
+            alert("Invalid Phone Number")
+        }
+
     }
 
     const signOut = () => {
@@ -175,7 +204,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#119822",
         padding: "3%",
         width: "50%",
-        height: "40%",
+        // height: "40%",
         bottom: "5%",
         marginLeft: "7%",
         
@@ -187,7 +216,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#119822",
         padding: "3%",
         width: "50%",
-        height: "40%",
+        // height: "40%",
         bottom: "30%",
         marginLeft: "7%",
         

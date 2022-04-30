@@ -104,7 +104,6 @@ const HomeScreen = () => {
                             <TouchableOpacity onPress={() => {
                                 dispatchHook(setSelectedProduct({selectedProduct: item.productName}))
                                 screenNavigate.navigate('Product')
-                                //selectedItem = item.productName
                             }}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
@@ -133,7 +132,6 @@ const HomeScreen = () => {
 
                 <View style={{}}> 
                         <FlatList
-                            //style={{height: "1%"}}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={categories}
@@ -143,8 +141,6 @@ const HomeScreen = () => {
                                     {
                                         dispatchHook(setSelectedCategory({selectedCategory: item.categoryName}))
                                         screenNavigate.navigate("Category")
-                                        //selectedCategory = item.categoryName
-                                        // dispatchHook(setSelectedCategory({selectedCategory: item.categoryName}))
                                     }
                                 }>
                                     <Image style={styles.categoryImage} source={{uri: item.imageUrl}}/>

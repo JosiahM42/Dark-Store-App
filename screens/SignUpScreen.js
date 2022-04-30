@@ -29,23 +29,56 @@ export const SignUpScreen = () => {
     const userSignUp = () => {
         // Clears the user data redux state if it contains any data
         dispatchHook(clearUserData())
-        auth
-            // This uses the email and password provided by the user to create a new account 
-            .createUserWithEmailAndPassword(getEmail, getPassword)
-            .then((userCredential) => {
-                // Stores the new user's details
-                const user = userCredential.user;
-                console.log("Signed up with", user.email);
-                // Navigates to the home screen
-                //screenNavigate.navigate("Home")
-                // Creates a new document in the users collection on Firebase using the new user's details
-                return firestore.collection('users').doc(user.uid).set({
-                    name: getName,
-                    phone: getPhone,
-                    email: user.email
-                })
-            } )
-            .catch(error => alert(error.message))
+        // auth
+        //     // This uses the email and password provided by the user to create a new account 
+        //     .createUserWithEmailAndPassword(getEmail, getPassword)
+        //     .then((userCredential) => {
+        //         // Stores the new user's details
+        //         const user = userCredential.user;
+        //         console.log("Signed up with", user.email);
+        //         // Navigates to the home screen
+        //         //screenNavigate.navigate("Home")
+        //         // Creates a new document in the users collection on Firebase using the new user's details
+        //         return firestore.collection('users').doc(user.uid).set({
+        //             name: getName,
+        //             phone: getPhone,
+        //             email: user.email
+        //         })
+        //     } )
+        //     .catch(error => alert(error.message))
+
+        if(phoneValidation(getPhone) == true)
+        {
+
+            auth
+                // This uses the email and password provided by the user to create a new account 
+                .createUserWithEmailAndPassword(getEmail, getPassword)
+                .then((userCredential) => {
+                    // Stores the new user's details
+                    const user = userCredential.user;
+                    console.log("Signed up with", user.email);
+                    // Navigates to the home screen
+                    //screenNavigate.navigate("Home")
+                    // Creates a new document in the users collection on Firebase using the new user's details
+                    return firestore.collection('users').doc(user.uid).set({
+                        name: getName,
+                        phone: getPhone,
+                        email: user.email
+                    })
+                } )
+                .catch(error => alert(error.message))
+        }
+    }
+
+    const phoneValidation = (phone) => {
+        if (/^(?:0|\+?44)(?:\d\s?){9,10}$/.test(phone))
+        {
+            return true;
+        }
+        else{
+            alert("Invalid Phone Number")
+        }
+
     }
 
     function reverseGeocodingGMaps() {
@@ -182,7 +215,7 @@ export const styles = StyleSheet.create({
     screenVerticalLayout: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: "25%",
+        paddingTop: "19%",
         //justifyContent: 'center',
         //justifyContent: 'space-evenly',
         //flexDirection: 'column',
@@ -192,62 +225,51 @@ export const styles = StyleSheet.create({
     buttonLayout: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: "2%",
-        width: '90%',
-        height: "8.5%",
+        // paddingTop: "2%",
+        // // width: '90%',
+        // height: "8.5%",
+        width: "60%",
         
     },
 
     title: {
         top: "0.005%",
-        //padding: "20%",
         fontSize: 25,
-        //textAlign: 'center',
         width: "25%"
     },
 
     headings: {
-        paddingTop: "4%",
-        //paddingBottom: "1%",
+        paddingTop: "6%",
         fontSize: 18,
         textAlign: 'left',
-        marginRight: "40%",
+        marginRight: "55%",
         width: "30%",
         height: "9%",
         
     },
     
     textInput: {
-        //top: "20%",
-        //padding: "2%", 
-        // borderColor: 'black',
-        // borderWidth: 1,
         fontSize: 16,
         width: "85%",
         height: "8%",
-        // justifyContent: 'space-between',
-        borderBottomColor: '#000', // Add this to specify bottom border color
-        borderBottomWidth: 1,     // Add this to specify bottom border thickness
+        borderBottomColor: '#000',
+        borderBottomWidth: 1,  
 
     },
 
     button: {
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
-        padding: "5%",
-        width: "50%",
+        padding: "8%",
+        width: "70%",
         top: "15%",
         borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
     },
 
     textButton: {
         fontSize: 24,
         textAlign: 'center',
         color: "#ffffff",
-        //padding: "4%",
         top: "2%",
     },
 
@@ -276,8 +298,9 @@ export const styles = StyleSheet.create({
     // },
     
     pageSwitch: {
+        position:'absolute',
         fontSize: 18,
-        bottom: "8%",
+        bottom: "4%",
     },
 })
 

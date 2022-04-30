@@ -120,7 +120,7 @@ const BasketScreen = () => {
     return (
         <View style={{flex:1}}>
             {/* <Button onPress={() => console.log(basket)} title="Testing"><Text>Testing</Text></Button> */}
-            <View style={{paddingLeft: "85%", paddingTop: "14%",}}>
+            <View style={{paddingLeft: "85%", paddingTop: "12%",}}>
               <Ionicons name="trash-outline" size={40} 
                 onPress={() => {
                     dispatchHook(clearBasket())
@@ -166,25 +166,26 @@ const BasketScreen = () => {
                 /> 
             </View>
             
-            <Text style={{fontSize: 20, bottom: "9%", marginLeft: 30}}>
+            
+            <Text style={{fontSize: 20, bottom: "11%", marginLeft: 30}}>
                     Summary
             </Text>
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
-                <Text style={{fontSize: 18, bottom: "17%", marginLeft: 15}}>Total Price:</Text>
-                <Text style={{fontSize: 18, bottom: "17%", marginLeft: 169}}>£{parseFloat(price).toFixed(2)}</Text>
+                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 15}}>Total Price:</Text>
+                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 169}}>£{parseFloat(price).toFixed(2)}</Text>
             </View>
             {/* <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>Total Price:</Text>
             <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>£{parseFloat(price).toFixed(2)}</Text> */}
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
-                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 15}}>Delivery Price:</Text>
-                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 146}}>£{parseFloat(deliveryPrice).toFixed(2)}</Text>
+                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 15}}>Delivery Price:</Text>
+                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 146}}>£{parseFloat(deliveryPrice).toFixed(2)}</Text>
             </View>
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
-                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 16}}>Order Total:</Text>
-                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 165}}>£{parseFloat(orderTotal).toFixed(2)}</Text>
+                <Text style={{fontSize: 18, bottom: "14%", marginLeft: 16}}>Order Total:</Text>
+                <Text style={{fontSize: 18, bottom: "14%", marginLeft: 165}}>£{parseFloat(orderTotal).toFixed(2)}</Text>
             </View>
             
             <View style={{flexDirection: "row"}}>
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
         flex: 1,
         //alignItems: 'center',
         marginBottom: "1%",
-        paddingTop: "8%",
+        paddingTop: "4%",
         paddingBottom: "15%",
     },
 
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#119822",
         padding: "5%",
         width: "50%",
-        bottom: "10%",
+        bottom: "8%",
         marginLeft: 100,
         marginRight: 100,
         borderRadius: 10,

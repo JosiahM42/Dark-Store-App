@@ -52,25 +52,25 @@ const OrderSummary = () => {
                 /> 
             </View>
             
-            <Text style={{fontSize: 20, bottom: "9%", marginLeft: 30}}>
+            <Text style={{fontSize: 20, bottom: "11%", marginLeft: 30}}>
                     Summary
             </Text>
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
-                <Text style={{fontSize: 18, bottom: "17%", marginLeft: 15}}>Total Price:</Text>
-                <Text style={{fontSize: 18, bottom: "17%", marginLeft: 169}}>£{parseFloat(orderPrice).toFixed(2)}</Text>
+                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 15}}>Total Price:</Text>
+                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 169}}>£{parseFloat(orderPrice).toFixed(2)}</Text>
             </View>
             {/* <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>Total Price:</Text>
             <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>£{parseFloat(price).toFixed(2)}</Text> */}
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
-                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 15}}>Delivery Price:</Text>
-                <Text style={{fontSize: 18, bottom: "16%", marginLeft: 146}}>£{parseFloat(deliveryPrice).toFixed(2)}</Text>
+                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 15}}>Delivery Price:</Text>
+                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 146}}>£{parseFloat(deliveryPrice).toFixed(2)}</Text>
             </View>
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
-                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 16}}>Order Total:</Text>
-                <Text style={{fontSize: 18, bottom: "15%", marginLeft: 165}}>£{parseFloat(Total).toFixed(2)}</Text>
+                <Text style={{fontSize: 18, bottom: "14%", marginLeft: 16}}>Order Total:</Text>
+                <Text style={{fontSize: 18, bottom: "14%", marginLeft: 165}}>£{parseFloat(Total).toFixed(2)}</Text>
             </View>
             
         </View>

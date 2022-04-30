@@ -6,6 +6,7 @@ import {selectedProduct} from './CategoryScreen';
 
 import { Ionicons} from '@expo/vector-icons';
 
+import { Dimensions } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket } from '../redux/reducers/basket';
@@ -20,6 +21,7 @@ import {
     poultryList,
     vegetableList,
 } from '../firebase/groceryData';
+
 
 
 export let searchResult;
@@ -90,7 +92,10 @@ const ProductScreen = () => {
                 <Text style={styles.sourceTitle}>Source</Text>
                 <Text style={styles.imageSource} onPress={() => Linking.openURL(`${searchResult.imageSource}`)}>Photo taken by {searchResult.imageAuthor} on Unsplash</Text>
                 
-                <View style={{flexDirection: "row"}}>
+            </View>
+
+            {/* <View style={styles.screenVerticalLayout}></View> */}
+                <View style={{flex:2}}>
                     {/* Add to basket button */}
                     <TouchableHighlight
                         onPress={() => {
@@ -103,9 +108,9 @@ const ProductScreen = () => {
                         backgroundColor="#99D98C">
                         <Text style={styles.buttonText}>Add to Basket</Text>
                     </TouchableHighlight>
-                </View>
+                {/* </View> */}
 
-                
+                {/* <View style={{flex:2}}> */}
                 <View style={styles.productQuantity}>
                         <View style={styles.subtract}> 
                             <Ionicons name="remove-outline" size={40} color="white" onPress={() => {
@@ -121,10 +126,8 @@ const ProductScreen = () => {
                                 setCount(() => count + 1)
                             }}/>
                         </View>
-                        
-                        
                 </View>
-            </View>
+                </View>
         </View>
 
     )
@@ -145,8 +148,9 @@ const styles = StyleSheet.create({
     },
     productImage: {
         //alignItems: 'center',
+        // flex
         width: "86%",
-        height: "36%",
+        height: "100%",
         borderRadius:10,
         marginLeft: "7%",
         marginRight: "7%",
@@ -194,12 +198,13 @@ const styles = StyleSheet.create({
         marginLeft: "10%",
     },
     button: {
+        position:'absolute',
         alignItems: "center",
         backgroundColor: "#119822",
-        padding: "4.5%",
+        padding: "5.3%",
         width: "40%",
-        top: "45%",
-        marginLeft: "55%",
+        top: "74.5%",
+        marginLeft: "50.2%",
         borderRadius: 20,
     },
     buttonText: {
@@ -207,13 +212,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     productQuantity: {
-        top: "30%", 
+        position:'absolute',
+        top: "74.7%",
+        //bottom:"20%", 
         left: '3%', 
         flexDirection:"row",
-
+        padding: "3.8%",
         backgroundColor: "#119822",
         width: "45%",
-        height: "8.6%",
+        // height: "14%",
         borderRadius: 20,
         justifyContent: 'space-around',
         // justifyContent: 'center',

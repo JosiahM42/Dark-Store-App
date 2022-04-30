@@ -18,40 +18,15 @@ export const SelectorScreen = () => {
     // 
     const screenNavigate = useNavigation();
 
-    // useEffect(() => {
-    //     const moveOn = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             screenNavigate.navigate("Home")
-    //         }
-    //     })
-    //     return moveOn
-    // })
-
-    // This will allow the user to move to the next screen if they are logged in
-    // useEffect(() => {
-    //     const moveOn = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             screenNavigate.reset({
-    //                 index: 0,
-    //                 routes: [{name: 'Home'}]
-    //             })
-    //         }
-    //     })
-    //     return moveOn
-    // }, [])
-    
     return (
-        <View style={styles.screenVerticalLayout}>
-            <View style={styles.imagePlaceholder}>
-                <Image style={styles.tick} source={require('../assets/circle-tick.png')}/>
-            </View>
-            <View>
+        <View style={{flex:1}}>
+
+            <View style={styles.screenVerticalLayout}>
+                <View style={styles.imagePlaceholder}>
+                    <Image source={require('../assets/circle-tick.png')}/>
+                </View>
                 <Text style={styles.mainText}>Congrats, we deliver to your area.{"\n\n"} Now you can {"\n"}order the food you want, when you want and in whatever quantity you want.</Text>
             </View>
-
-            {/* <View>
-                <Text style={styles.secondaryText}>Sign up today for a stress-free grocery shopping experience or if you are a returning customer, welcome back.</Text>
-            </View> */}
 
             <View style={styles.screenHorizontalLayout}>
                 <TouchableHighlight
@@ -71,8 +46,8 @@ export const SelectorScreen = () => {
                     <Text style={styles.textButton}>Sign In</Text>
                 </TouchableHighlight>
             </View>
-
         </View>
+
         
     );
 };
@@ -84,11 +59,12 @@ export const styles = StyleSheet.create({
         //justifyContent: 'center',
     },
     mainText: {
-        padding: "20%",
+        position:'absolute',
+        padding: "16%",
         top: "25%",
         //bottom: "50%",
-        paddingBottom: "16%",
-        fontSize: 24,
+        // paddingBottom: "16%",
+        fontSize: 26,
         textAlign: 'center',
     },
     secondaryText: {
@@ -98,32 +74,32 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     imagePlaceholder: {
-        top: "18%",
-        width: "30%", 
-        height: "15%", 
+        alignItems: "center",
+        top: "14%",
+        width: "30%",
+        padding: "1.5%", 
+        // height: "15%", 
         borderRadius: 100,
         backgroundColor: 'white',
         borderColor: "black",
         borderWidth: 2
         
     },
-    tick:{
-        top: "10%",
-        left: "10%",
-         
-    },
+   
     screenHorizontalLayout: {
+        // flex: 1,
         flexDirection:"row",
         justifyContent: 'space-around',
         width: '90%',
-        height: "8.5%",
-        top: "60%",
+        // height: "8.5%",
+        top: "8%",
+        marginLeft: "5%"
     },
     button: {
         alignItems: "center",
         // backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
-        padding: "5%",
+        padding: "6.5%",
         width: "45%",
         bottom: "29%",
         borderRadius: 10,
