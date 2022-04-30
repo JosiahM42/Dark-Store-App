@@ -29,42 +29,34 @@ export const SignUpScreen = () => {
     const userSignUp = () => {
         // Clears the user data redux state if it contains any data
         dispatchHook(clearUserData())
-        if(phoneValidation(getPhone) == true)
-        {
-
-            auth
-                // This uses the email and password provided by the user to create a new account 
-                .createUserWithEmailAndPassword(getEmail, getPassword)
-                .then((userCredential) => {
-                    // Stores the new user's details
-                    const user = userCredential.user;
-                    console.log("Signed up with", user.email);
-                    // Navigates to the home screen
-                    //screenNavigate.navigate("Home")
-                    // Creates a new document in the users collection on Firebase using the new user's details
-                    return firestore.collection('users').doc(user.uid).set({
-                        name: getName,
-                        phone: getPhone,
-                        email: user.email
-                    })
-                } )
-                .catch(error => alert(error.message))
-        }
+        auth
+            // This uses the email and password provided by the user to create a new account 
+            .createUserWithEmailAndPassword(getEmail, getPassword)
+            .then((userCredential) => {
+                // Stores the new user's details
+                const user = userCredential.user;
+                console.log("Signed up with", user.email);
+                // Navigates to the home screen
+                //screenNavigate.navigate("Home")
+                // Creates a new document in the users collection on Firebase using the new user's details
+                return firestore.collection('users').doc(user.uid).set({
+                    name: getName,
+                    phone: getPhone,
+                    email: user.email
+                })
+            } )
+            .catch(error => alert(error.message))
     }
 
-    const phoneValidation = (phone) => {
-        // if (phone.length < 11){
-        //     alert("Invalid Phone Number")
-        // }
-        if (/^(?:0|\+?44)(?:\d\s?){9,10}$/.test(phone))
-        {
-            return true;
-        }
-        else{
-            alert("Invalid Phone Number")
-        }
-
-    }
+    // useEffect(() => {
+    //     const moveOn = auth.onAuthStateChanged(user => {
+    //         if (user) {
+    //             gMaps()
+    //             setTimeout(() => screenNavigate.navigate("AddressEntry"), 500)
+    //         }
+    //     })
+    //     return moveOn
+    // })
 
     function gMaps() {
         const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
