@@ -4,7 +4,8 @@ export const selectedSlice = createSlice({
     name: 'selected',
     initialState: {
         selectedProduct: "",
-        selectedCategory: ""
+        selectedCategory: "",
+        existingUser: false
     },
     reducers: {
         setSelectedProduct: (state, action) => {
@@ -12,7 +13,10 @@ export const selectedSlice = createSlice({
         },
         setSelectedCategory: (state, action) => {
             state.selectedCategory = action.payload.selectedCategory
-        }
+        },
+        checkUser: (state, action) => {
+            state.existingUser =  action.payload.check
+        },
     }
 
 });
@@ -20,7 +24,8 @@ export const selectedSlice = createSlice({
 
 export const getProduct = state => state.selected.selectedProduct
 export const getCategory = state => state.selected.selectedCategory
+export const getExistingUser = state => state.selected.existingUser
 
-export const {setSelectedProduct, setSelectedCategory} = selectedSlice.actions;
+export const { setSelectedProduct, setSelectedCategory, checkUser } = selectedSlice.actions;
 
 export default selectedSlice.reducer

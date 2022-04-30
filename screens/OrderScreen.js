@@ -26,7 +26,6 @@ import { Ionicons} from '@expo/vector-icons';
 import StepIndicator from 'react-native-step-indicator';
 
 const OrderScreen = () => {
-    const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
 
     const dispatchHook = useDispatch();
     const accountDetails = useSelector(getUser)
@@ -64,11 +63,16 @@ const OrderScreen = () => {
     const [visibility, setVisibility] = useState(false)
 
     const getDeliveryTimeFrame = () => {
+        // Split the estimated delivery time string
         var separateEstimate = estimatedDeliveryTime.split(" ")
         var date = new Date();
+        // Calculating a delivery time from the current time and the estimated time
         var estimatedTimeFrame = new Date(date.getTime() + parseInt(separateEstimate[0])*60000);
+        // Calculating 10 minutes extra delivery time
         var extraTime = new Date(estimatedTimeFrame.getTime() + 10*60000);
-        return estimatedTimeFrame.getHours() + ":" + (("0" + estimatedTimeFrame.getMinutes()).slice(-2)) +  " - " + extraTime.getHours() + ":" + (("0" + extraTime.getMinutes()).slice(-2))
+        // Returning the estimated delivery time and the delivery net time
+        return estimatedTimeFrame.getHours() + ":" + (("0" + estimatedTimeFrame.getMinutes()).slice(-2)) 
+            +  " - " + extraTime.getHours() + ":" + (("0" + extraTime.getMinutes()).slice(-2))
     }
 
     
@@ -76,12 +80,12 @@ const OrderScreen = () => {
 
 
     useEffect(() => {
-        phase < 4 && setTimeout(() => setPhase(phase + 1), 3000)
-        if(phase == 4)
-        {
+        if (phase != 4) {
+            setTimeout(() => setPhase(phase + 1), 3000)
+        } 
+        else {
             setVisibility(true)
         }
-        //console.log(phase)
     }, [phase])
 
     return(

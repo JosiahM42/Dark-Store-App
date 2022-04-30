@@ -34,97 +34,42 @@ const BasketScreen = () => {
     const [deliveryPrice, setDeliveryPrice] = useState(0.80)
     const [orderTotal, setOrderTotal] = useState(0.00)
 
-    var dateTimeToday =  new Date();
-    // var date = dateTimeToday.slice(0,9)
-    // var time = dateTimeToday.slice(11,20)
-    var date = dateTimeToday.getDate() + "/" + (dateTimeToday.getMonth() + 1) + "/" + dateTimeToday.getFullYear();
-    var time = dateTimeToday.getHours() + ":" + dateTimeToday.getMinutes() + ":" + dateTimeToday.getSeconds();
-
 
     const dispatchHook = useDispatch()
     const accountDetails = useSelector(getUser)
 
     function submitOrder(){
+        // Sends a request to obtain the user's unique identifier
         const userID = auth.currentUser.uid;
-
-        if (basket.length !== 0)
-        {
+        if (basket.length !== 0) {   
+            // Pushes the new order to the firestore database
             firestore.collection('orders').add({
                 userID: userID,
                 basket: basket,
                 orderTotal: parseFloat(orderTotal).toFixed(2), 
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                // timePlaced: dateTimeToday.getHours() + ":" + dateTimeToday.getMinutes() + ":" + dateTimeToday.getSeconds(),
-                // datePlaced: dateTimeToday.getDate() + "/" + (dateTimeToday.getMonth() + 1) + "/" + dateTimeToday.getFullYear()
             })
-
+            // Stores the order totals 
             dispatchHook(setTotalPrice({totalPrice: price}))
             dispatchHook(setDeliveryTotal({deliveryTotal: deliveryPrice}))
             dispatchHook(setFinalPrice({finalPrice: orderTotal}))
-
-            //screenNavigate.navigate('Order')
+            // This will reset the navigational stack so that it starts from the order screen
             screenNavigate.reset({
                 index: 0,
                 routes: [{name: 'Order'}]
             })
-
         }
-        else
-        {
-            if (Platform.OS === 'android')
-            {
+        else {
+            // Checks which platform the customer is running the app on
+            if (Platform.OS === 'android') {
+                // This will only show up on android
                 ToastAndroid.show('Basket is empty', ToastAndroid.SHORT)
             }
-            else
-            {
+            else {
                 alert("Basket is empty")
             }
-            
         }
     }
-
-    // const userData = async () => {
-    //     // Make a request to Firebase Auth to obtain the user's account ID
-    //     const userID = auth.currentUser.uid;
-    //     console.log(userID)
-    //     var currentTimeStamp = firebase.firestore.Timestamp.fromDate(new Date());
-        
-    //     console.log(currentTimeStamp)
-        
-    //     //var ordersCollection = firestore.collection('orders')
-    //     //firestore.collection('orders').where("userID", "==", userID).where("timestamp", "<=", currentTimeStamp).orderBy("timestamp", ).get()
-    //     //firestore.collection('orders').where("userID", "==", userID).get()
-    //     await firestore.collection('orders')
-    //     .where("userID", "==", userID)
-    //     .where("timestamp", "<=", currentTimeStamp).orderBy("timestamp", "desc").limit(1).get()
-    //     .then((querySnapshot) => {
-    //         querySnapshot.forEach((doc) => {
-    //           console.log(doc.data());
-    //         });
-    //       })
-    //     // .then((doc) => {
-    //     //     if(doc.exists)
-    //     //     {
-    //     //         console.log("works")
-    //     //     }
-    //     //     else{
-    //     //         console.log("does not work")
-    //     //     }
-    //     // })
-    //     // .then((doc) => doc.data())
-    //     // .then((docData) => {
-    //     //     console.log(docData)
-    //     // })
-    //     .catch((error) => console.log(error.message))
-        
-    // }
-
-
-
-    // function pullUserOrderData() {
-
-    // }
-
 
     function calculateProductTotal(){
         let totalPrice = 0.00
@@ -153,16 +98,16 @@ const BasketScreen = () => {
         // Google Maps Distance Matrix API Call
         // This identifies the distance between 
         // the fulfilment centre and the customers address via Bike
-        await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + fulfilmentCentreAddress + '&mode=bicycling&destinations=side_of_road%' + customerAddress + '&key=' + googleMapsKey)
-        // await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + fulfilmentCentreAddress + '&mode=driving&destinations=side_of_road%' + customerAddress + '&key=' + googleMapsKey)
+        await fetch('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + fulfilmentCentreAddress + 
+        '&mode=bicycling&destinations=side_of_road%' + customerAddress + '&key=' + googleMapsKey)
         .then((response) => response.json())
         .then((responseJson) => {
             dispatchHook(setEstimatedDeliveryTime({estimatedTime: JSON.parse(JSON.stringify(responseJson.rows[0].elements[0].duration.text))}))
-            console.log(responseJson.rows[0].elements[0].duration.text)
         })
         .catch(error => alert(error.message))
     }
 
+    // console.log(responseJson.rows[0].elements[0].duration.text)
     useEffect (() => {
         setPrice(calculateProductTotal())
         setOrderTotal(calculateOrderTotal())

@@ -38,31 +38,14 @@ const ProductScreen = () => {
         {
             if (searchArray[product].productName === chosenProduct) 
             {
-                //console.log(searchArray[product])
-                //selectedItem = ""
                 return searchArray[product]
             }
-            // if (searchArray[product].productName === selectedItem) 
-            // {
-            //     //console.log(searchArray[product])
-            //     //selectedItem = ""
-            //     return searchArray[product]
-            // }
-            // else if (searchArray[product].productName === selectedProduct) 
-            // {
-            //     //selectedProduct = ""
-            //     //console.log(searchArray[product])
-            //     return searchArray[product]
-            // }
             // Checks if iterator is at the end of list
             if ((product + 1) == searchArray.length)
             {
-                //return "object is not in array";
                 return false
             }
         }
-        selectedItem = ""
-        selectedProduct = ""
     }
 
     function productSearch(){

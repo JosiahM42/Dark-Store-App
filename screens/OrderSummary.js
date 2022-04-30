@@ -44,6 +44,7 @@ const OrderSummary = () => {
                             <View style={{flex: 1, height: 90}}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
+                                <Text style={styles.productQuantity}> {item.quantity} </Text>
                                 <Text style={styles.productPrice}>£{parseFloat(item.price).toFixed(2)}</Text>
                     
                             </View> 
@@ -150,13 +151,11 @@ const styles = StyleSheet.create({
         // height: 30,
         bottom: "35%", 
         left: '140%', 
-        flexDirection:"row",
 
-        backgroundColor: "#119822",
+        fontSize: 18,
+        color: "white",
         width: "19%",
         height: "30%",
-        borderRadius: 15,
-        justifyContent: 'center',
         marginTop: 20
     },
 

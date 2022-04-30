@@ -26,6 +26,19 @@ export const SelectorScreen = () => {
     //     })
     //     return moveOn
     // })
+
+    // This will allow the user to move to the next screen if they are logged in
+    // useEffect(() => {
+    //     const moveOn = auth.onAuthStateChanged(user => {
+    //         if (user) {
+    //             screenNavigate.reset({
+    //                 index: 0,
+    //                 routes: [{name: 'Home'}]
+    //             })
+    //         }
+    //     })
+    //     return moveOn
+    // }, [])
     
     return (
         <View style={styles.screenVerticalLayout}>

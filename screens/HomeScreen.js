@@ -124,11 +124,6 @@ const HomeScreen = () => {
             <View style={{paddingLeft: "85%", paddingTop: "14%",}}>
                 <Ionicons name="person-circle-outline" size={40} 
                     onPress={() => {
-                        //dispatchHook(getUsersData({details: userData[userData.length - 1]}))
-                        //userData()
-                        //setTimeout(() => screenNavigate.navigate('Account'), 500)
-                        //setTimeout(() => console.log(userDetails), 500)
-                        //address()
                         //signOut()
                         screenNavigate.navigate('Account')
                     }}

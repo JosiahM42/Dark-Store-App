@@ -35,9 +35,6 @@ export const AddressEntryScreen = () => {
         })
         .then(() => {
             console.log("New Address added")
-
-            // Navigates to the home screen
-            // screenNavigate.navigate("Home")
         } )
         .catch(error => alert(error.message))
     }

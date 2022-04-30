@@ -17,10 +17,8 @@ export const SignInScreen = () => {
     const screenNavigate = useNavigation();
     const dispatchHook = useDispatch();
 
-    const [getName, setName] = useState('');
     const [getEmail, setEmail] = useState('');
     const [getPassword, setPassword] = useState('');
-    const [getPhone, setPhone] = useState('');
 
     const userSignIn = () => {
         // Clears the user data redux state if it contains any data
@@ -32,13 +30,12 @@ export const SignInScreen = () => {
                 // Stores the new user's details
                 const user = userCredential.user;
                 console.log("logged in with", user.email);
-                //screenNavigate.navigate("Home")
-                //screenNavigate.replace("Home")
+                // Resets the navigational stack and makes it start 
+                // from Home instead of the address screen
                 screenNavigate.reset({
                     index: 0,
                     routes: [{name: 'Home'}]
                 })
-
             })
             .catch(error => alert(error.message))
     } 

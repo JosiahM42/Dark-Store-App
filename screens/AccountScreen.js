@@ -51,7 +51,10 @@ const AccountScreen = () => {
             // Calls the authentication function and signs the user out
             .signOut()
             .then(() => {
-                screenNavigate.replace("Selector")
+                screenNavigate.reset({
+                    index: 0,
+                    routes: [{name: 'Address'}]
+                })
             })
             .catch(error => alert(error.message))
     }

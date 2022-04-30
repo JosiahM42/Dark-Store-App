@@ -48,26 +48,16 @@ export const SignUpScreen = () => {
             .catch(error => alert(error.message))
     }
 
-    // useEffect(() => {
-    //     const moveOn = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             gMaps()
-    //             setTimeout(() => screenNavigate.navigate("AddressEntry"), 500)
-    //         }
-    //     })
-    //     return moveOn
-    // })
-
-    function gMaps() {
+    function reverseGeocodingGMaps() {
         const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
-        
+        // Makes an API request to pull the customer's address information
         fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lng + '&key=' + googleMapsKey)
         .then((response) => response.json())
         .then((responseJson) => {
+            // Stores the API fetch request's response in redux states.
             dispatchHook(setStreetAddress({streetAddress: JSON.parse(JSON.stringify(responseJson.results[0].address_components[1].long_name))}))
             dispatchHook(setPostcode({postcode: JSON.parse(JSON.stringify(responseJson.results[0].address_components[6].long_name))}))
             dispatchHook(setCity({city: JSON.parse(JSON.stringify(responseJson.results[0].address_components[2].long_name))}))
-            //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].address_components[1].long_name));
         })
         .catch(error => alert(error.message))
     }
@@ -111,7 +101,6 @@ export const SignUpScreen = () => {
                 style={styles.textInput}
                 onChangeText={name => setName(name)}
                 placeholder="Enter your name"
-                //underlineColorAndroid= 'black'
             />
 
             <Text style={styles.headings}>Email</Text>
@@ -120,7 +109,6 @@ export const SignUpScreen = () => {
                 value={getEmail}
                 onChangeText={email => setEmail(email)}
                 placeholder="Enter your email"
-                //underlineColorAndroid= 'black'
             />
             
             <Text style={styles.headings}>Password</Text>
@@ -130,17 +118,15 @@ export const SignUpScreen = () => {
                 onChangeText={password => setPassword(password)}
                 placeholder="Enter your password"
                 secureTextEntry
-                //underlineColorAndroid= 'black'
             />
 
             <Text style={styles.headings} >Phone</Text>
             <TextInput
                 style={styles.textInput}
                 onChangeText={phone => {setPhone(phone)
-                    gMaps()
+                    reverseGeocodingGMaps()
                 }}
                 placeholder="Enter your phone number"
-                // underlineColorAndroid= 'black'
             />
 
 
@@ -148,15 +134,13 @@ export const SignUpScreen = () => {
                 <TouchableHighlight
                     onPress={() => {
                         userSignUp()
-                        auth.onAuthStateChanged(user => {
-                            if (user) {
-                                //gMaps()
-                                // setTimeout(() => screenNavigate.navigate("AddressEntry"), 200)
-                                screenNavigate.navigate("AddressEntry")
-                            }
+                        screenNavigate.reset({
+                            index: 0,
+                            routes: [{name: 'AddressEntry'}]
                         })
+                        
                         }}
-                    //onPress={() => screenNavigate.navigate('SignUp')}
+                    
                     style={styles.button}
                     underlayColor="#DDDDDD"
                     backgroundColor="#99D98C"

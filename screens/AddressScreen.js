@@ -9,11 +9,10 @@ import Geocoder from 'react-native-geocoding';
 import { auth } from '../firebase/firebaseConfig';
 import * as Location from 'expo-location';
 
-import { useSelector } from 'react-redux';
-import { setPostcode, setCoordinates } from '../redux/reducers/address';
+import { setCoordinates } from '../redux/reducers/address';
+import { checkUser, getExistingUser } from '../redux/reducers/selected';
 import { useDispatch } from 'react-redux';
-
-
+import { useSelector } from 'react-redux';
 
 import * as geolib from 'geolib';
 
@@ -26,6 +25,8 @@ export const AddressScreen = () => {
     const screenNavigate = useNavigation();
 
     const dispatchHook = useDispatch()
+
+    const authCheck = useSelector(getExistingUser)
     
     const [getLocate, setLocate] = useState('');
 
@@ -35,44 +36,23 @@ export const AddressScreen = () => {
 
     // This will allow the user to move to the next screen if they are logged in
     useEffect(() => {
-        const moveOn = auth.onAuthStateChanged(user => {
-            if (user) {
-                screenNavigate.reset({
-                    index: 0,
-                    routes: [{name: 'Home'}]
-                })
-            }
-        })
-        return moveOn
+        if (authCheck == false){
+            const moveOn = auth.onAuthStateChanged(user => {
+                if (user) {
+                    screenNavigate.reset({
+                        index: 0,
+                        routes: [{name: 'Home'}]
+                    })
+                }
+            })
+            return moveOn
+        }
+        else
+        {
+            dispatchHook(checkUser({check: true}))
 
-        // var user = auth.currentUser;
-
-        // if (user) {
-        //     screenNavigate.navigate("Home")
-        // } 
-        // // else {
-        // // No user is signed in.
-        // //}
+        }
     }, [])
-
-    // const alreadyAuthenticated = () => {
-    //     const moveOn = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             // if (hasRun == false)
-    //             // {
-    //             //     setHasRun(true)
-    //             //     screenNavigate.navigate("Home")
-    //             // }
-    //             // else{
-    //             //     return;
-    //             // }
-    //             screenNavigate.navigate("Home")
-    //         }
-    //     })
-    //     return moveOn
-    // }
-
-
 
     const darkStoreRegion = {
         latitude: 51.500986,
@@ -122,33 +102,17 @@ export const AddressScreen = () => {
         }) ();
     }, []);
 
-    // if (error === false){
-    //     alert('Location Permissions Denied')
-    // }
-    // else{
-    //     alert('Location Permissions Granted')
-    //     console.log(location)
-    // }   
-    
-
-    // https://instamobile.io/react-native-tutorials/react-native-location/
-    // https://docs.expo.dev/versions/latest/sdk/location/#locationgeocodedlocation
-    
-
-
     function getUserAddress(){
         return (
             <View style={styles.topScreenLayout}>
                 <Text style={styles.headings}>What's your postcode?</Text>
                 <TextInput
                     style={styles.textInput}
-                    //value={location.toString()}
                     value={getLocate}
                     onChangeText={(locate) => {
                         setLocate(locate)
                     }}
                     placeholder="Enter your postcode e.g. BS16 1QY"
-                    //underlineColorAndroid= 'black'
                 />
 
 
@@ -183,9 +147,8 @@ export const AddressScreen = () => {
                 {latitude: darkStoreRegion.latitude, longitude: darkStoreRegion.longitude},
                 {latitude: location.lat, longitude: location.lng}
             );
-
+            // Stores the customer's latitude and longitude values for google maps services
             dispatchHook(setCoordinates({longitude: location.lng, latitude: location.lat}))
-
             // Converts the distance to miles
             var miles = geolib.convertDistance(distance, 'mi');
             // Checks if the address is within 5 miles of the fulfilment centre
