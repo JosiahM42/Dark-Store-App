@@ -190,6 +190,10 @@ export const pullGroceries = () => {
 
 export const categories= [
   {
+    categoryName: "Sustainable",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Ftoothbrush-toa-heftiba.jpg?alt=media&token=2340c789-7b72-43b1-acba-157c62c2a9f7"
+  },
+  {
     categoryName: "Bakery",
     imageUrl: "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Bakery%2Fpain-au-chocolat-tabitha-turner.jpg?alt=media&token=ed63386b-cc52-4be3-af29-6993b13ae3cc"
   },
@@ -216,6 +220,92 @@ export const categories= [
 
 ]
 
+export const sustainableList = [
+  {
+    "description": "2 pack of sustainably sourced Natural Beechwood Toothbrush.",
+    "imageAuthor": "Toa Heftiba",
+    "imageSource": "https://unsplash.com/photos/UrgpmTHMd_Y",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Ftoothbrush-toa-heftiba.jpg?alt=media&token=2340c789-7b72-43b1-acba-157c62c2a9f7",
+    "price": 1.40,
+    "productName": "Natural Toothbrush",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Spruce Multi-purpose cleaning spray.",
+    "imageAuthor": "Spruce Refillable Cleaning",
+    "imageSource": "https://unsplash.com/photos/hKnPx2aUcxI",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fcleaning-spray-spruce-refillable-cleaning.jpg?alt=media&token=3539dcda-6854-4c12-822a-5a4074441fb7",
+    "price": 1.20,
+    "productName": "Cleaning spray",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Georganics Mineral Toothpaste.",
+    "imageAuthor": "Toa Heftiba",
+    "imageSource": "https://unsplash.com/photos/8iqtAV9rfNQ",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fmineral-toothpaste-toa-heftiba.jpg?alt=media&token=bd642260-63a2-43d3-b2bb-073294242fef",
+    "price": 1.60,
+    "productName": "Mineral Toothpaste",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Kinn Eco friendly fabric conditioner & detergent.",
+    "imageAuthor": "KINN Living",
+    "imageSource": "https://unsplash.com/photos/fSwhFnjgmTc",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Flaundry-kinn-living.jpg?alt=media&token=1fdaf12f-dfa0-433f-9793-1150741f2f52",
+    "price": 2.30,
+    "productName": "Laundry Combo",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Kinn Eco friendly hand soap.",
+    "imageAuthor": "KINN Living",
+    "imageSource": "https://unsplash.com/photos/fSwhFnjgmTc",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fbar-soap-kinn-living.jpg?alt=media&token=8ac9c6bb-703a-4224-8d47-b4b52a0f588a",
+    "price": 1.20,
+    "productName": "Hand Soap",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Kinn Eco friendly washing up liquid.",
+    "imageAuthor": "KINN Living",
+    "imageSource": "https://unsplash.com/photos/yVB4CKD_62g",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fwashing-up-kinn-living.jpg?alt=media&token=e5069b66-259f-4f3c-8bc4-49f5438b666a",
+    "price": 1.40,
+    "productName": "Washing Up Liquid",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Boxed Water 1 litre purified drinking water.",
+    "imageAuthor": "Boxed Water Is Better",
+    "imageSource": "https://unsplash.com/photos/v_GRKyfF2PM",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fboxed-water-is-better.jpg?alt=media&token=3f53a355-f5d5-4964-9342-a48d2e5839f8",
+    "price": 1.00,
+    "productName": "Boxed Water 1L",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Boxed Water 500ml purified drinking water.",
+    "imageAuthor": "Boxed Water Is Better",
+    "imageSource": "https://unsplash.com/photos/LKRBckl4jSI",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fsmall-boxed-water-is-better.jpg?alt=media&token=0c2c8ecf-8275-41ca-b3e3-e636ccb42283",
+    "price": 0.60,
+    "productName": "Boxed Water 500ml",
+    "QuantityInStock": 20,
+  },
+]
+
+export const reducedList = [
+  {
+    "description": "Locally baked 5 pack of brown bagels.",
+    "imageAuthor": "Mae Mu",
+    "imageSource": "https://unsplash.com/photos/8GzmzEyLNyc",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Bakery%2FBagels-mae-mu.jpg?alt=media&token=46f4ce9e-fd44-4208-bcc0-bc1d0249123d",
+    "price": 1.00,
+    "productName": "Bagels",
+    "QuantityInStock": 20,
+  },
+]
 export const bakeryList = [
     {
       "description": "Locally baked brown bagels.",
