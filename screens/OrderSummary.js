@@ -41,10 +41,10 @@ const OrderSummary = () => {
                         data={orderBasket}
                         renderItem={({item}) => (
 
-                            <View style={{flex: 1, height: 90}}>
+                            <View style={{flex: 1, height: 100}}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
-                                <Text style={styles.productQuantity}> {item.quantity} </Text>
+                                <Text style={styles.quantityText}> Quantity: {item.quantity} </Text>
                                 <Text style={styles.productPrice}>£{parseFloat(item.price).toFixed(2)}</Text>
                     
                             </View> 
@@ -80,9 +80,7 @@ const OrderSummary = () => {
 export default OrderSummary;
 
 const styles = StyleSheet.create({
-    // button: {
-    //     top: "20%"
-    // },
+
     exitCross: {
         fontSize: 40,
         marginTop: "10%",
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
         marginBottom: "1%",
         paddingTop: "8%",
-        paddingBottom: "15%",
+        paddingBottom: "20%",
     },
 
     title: {
@@ -122,46 +120,17 @@ const styles = StyleSheet.create({
     },
 
     productPrice: {
-        // textAlign: 'left',
-        // fontSize: 18,
-        // bottom: 68,
-        // left: '64%',
-        // height: 25
-        
         textAlign: 'left',
         fontSize: 18,
-        bottom: 90,
-        left: 320,
-        height: 25
-    },
-
-    removeItem: {
-        // bottom: 138, 
-        // left: '80%', 
-        // height: 304
-
-        bottom: "106%", 
-        left: "54%", 
-        height: 30
-    },
-
-    productQuantity: {
-        // bottom: 118, 
-        // left: 240, 
-        // height: 30,
-        bottom: "35%", 
-        left: '140%', 
-
-        fontSize: 18,
-        color: "white",
-        width: "19%",
-        height: "30%",
-        marginTop: 20
+        bottom: "106%",
+        left: '80%',
     },
 
     quantityText: {
         fontSize: 18,
-        color: "white",
+        color: "black",
+        left: '30%',
+        bottom: '70%',
     },
 
     button: {

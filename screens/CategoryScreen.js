@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux';
 
 import { 
     categories, 
+    sustainableList,
+    reducedList,
     bakeryList, 
     fruitList, 
     dairyList, 
@@ -31,6 +33,12 @@ const CategoryScreen = () => {
         switch(category)
         // switch(selectedCategory)
         {
+            case "Sustainable":
+                return sustainableList;
+                
+            case "Reduced":
+                return reducedList;
+
             case "Bakery":
                 return bakeryList;
                 
@@ -75,7 +83,7 @@ const CategoryScreen = () => {
                                     }>
                                     <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                     <Text style={styles.productTitles}> {item.productName}</Text>
-                                    <Text style={{marginLeft: 80}}>£{item.price}0</Text>
+                                    <Text style={{marginLeft: 80}}>£{parseFloat(item.price).toFixed(2)}</Text>
                                 </TouchableOpacity>
                             </View> 
 

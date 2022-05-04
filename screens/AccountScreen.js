@@ -134,7 +134,6 @@ const AccountScreen = () => {
                 <TouchableHighlight
                     onPress={() => {
                         changePassword()
-                        // dispatchHook(clearUserData())
                         setTimeout(signOut(), 500)
                     }}
                     style={styles.resetButton}

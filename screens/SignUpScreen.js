@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { clearUserData } from '../redux/reducers/users';
 import {setPostcode, getPostcode, setStreetAddress, setCity, getLatitude, getlongitude} from '../redux/reducers/address';
-
 //import auth from 'firebase';
 
 export const SignUpScreen = () => {
@@ -29,23 +28,6 @@ export const SignUpScreen = () => {
     const userSignUp = () => {
         // Clears the user data redux state if it contains any data
         dispatchHook(clearUserData())
-        // auth
-        //     // This uses the email and password provided by the user to create a new account 
-        //     .createUserWithEmailAndPassword(getEmail, getPassword)
-        //     .then((userCredential) => {
-        //         // Stores the new user's details
-        //         const user = userCredential.user;
-        //         console.log("Signed up with", user.email);
-        //         // Navigates to the home screen
-        //         //screenNavigate.navigate("Home")
-        //         // Creates a new document in the users collection on Firebase using the new user's details
-        //         return firestore.collection('users').doc(user.uid).set({
-        //             name: getName,
-        //             phone: getPhone,
-        //             email: user.email
-        //         })
-        //     } )
-        //     .catch(error => alert(error.message))
 
         if(phoneValidation(getPhone) == true)
         {

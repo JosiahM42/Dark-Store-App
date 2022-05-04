@@ -50,13 +50,9 @@ export const basketSlice = createSlice({
 
         },
         clearBasket: (state, action) => {
-            if (state.groceryBasket.length == 0){
-                ToastAndroid.show('Basket is empty', ToastAndroid.SHORT);
-            }
-            else{
+            if (state.groceryBasket.length != 0){
                 state.groceryBasket = []
             }
-            ToastAndroid.show('Basket Emptied', ToastAndroid.SHORT);
         },
 
         updateProductQuantityAdd: (state, action) => {

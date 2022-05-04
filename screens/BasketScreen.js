@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
         marginBottom: "1%",
         paddingTop: "4%",
-        paddingBottom: "15%",
+        paddingBottom: "20%",
     },
 
     title: {

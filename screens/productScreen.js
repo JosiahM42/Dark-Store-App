@@ -13,7 +13,9 @@ import { addToBasket } from '../redux/reducers/basket';
 import { getProduct } from '../redux/reducers/selected';
 
 import { 
-    categories, 
+    categories,
+    sustainableList,
+    reducedList,
     bakeryList, 
     fruitList, 
     dairyList, 
@@ -51,7 +53,15 @@ const ProductScreen = () => {
     }
 
     function productSearch(){
-        if (objectSearch(bakeryList) !== false){
+        if (objectSearch(sustainableList) !== false){
+            const result = objectSearch(sustainableList)
+            return result
+        }
+        else if (objectSearch(reducedList) !== false){
+            const result = objectSearch(reducedList)
+            return result
+        }
+        else if (objectSearch(bakeryList) !== false){
             const result = objectSearch(bakeryList)
             return result
         }
@@ -85,7 +95,7 @@ const ProductScreen = () => {
             <View style={styles.screenVerticalLayout}>
                 <Image style={styles.productImage} source={{uri: searchResult.imageUrl}}/>
                 <Text style={styles.title}>{searchResult.productName}</Text>
-                <Text style={styles.productPrice}>£{searchResult.price}0</Text>
+                <Text style={styles.productPrice}>£{parseFloat(searchResult.price).toFixed(2)}</Text>
                 <View style={styles.line}></View>
                 <Text style={styles.descTitle}>Description</Text>
                 <Text style={styles.description}>{searchResult.description}</Text>

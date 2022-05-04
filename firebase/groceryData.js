@@ -194,6 +194,10 @@ export const categories= [
     imageUrl: "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Ftoothbrush-toa-heftiba.jpg?alt=media&token=2340c789-7b72-43b1-acba-157c62c2a9f7"
   },
   {
+    categoryName: "Reduced",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fsmall-boxed-water-is-better.jpg?alt=media&token=0c2c8ecf-8275-41ca-b3e3-e636ccb42283"
+  },
+  {
     categoryName: "Bakery",
     imageUrl: "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Bakery%2Fpain-au-chocolat-tabitha-turner.jpg?alt=media&token=ed63386b-cc52-4be3-af29-6993b13ae3cc"
   },
@@ -302,7 +306,43 @@ export const reducedList = [
     "imageSource": "https://unsplash.com/photos/8GzmzEyLNyc",
     "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Bakery%2FBagels-mae-mu.jpg?alt=media&token=46f4ce9e-fd44-4208-bcc0-bc1d0249123d",
     "price": 1.00,
-    "productName": "Bagels",
+    "productName": "Bagels 5 pack",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "3 pack of Uk made Oat Milk.",
+    "imageAuthor": "Madalyn Cox",
+    "imageSource": "https://unsplash.com/photos/RVnDPsyiLEg",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/PlantBased%2FOat-Milk-madalyn-cox.jpg?alt=media&token=3014512a-033f-46a5-9d66-6569cf3be6eb",
+    "price": 3.50,
+    "productName": "Oat Milk 3 Pack",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "Locally baked 5 pack of croissants.",
+    "imageAuthor": "Conor Brown",
+    "imageSource": "https://unsplash.com/photos/sqkXyyj4WdE",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Bakery%2FCrossaint-conor-brown.jpg?alt=media&token=14453e2e-bd90-4439-b120-784b355416cc",
+    "price": 1.00,
+    "productName": "Croissants 5 Pack",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "6 Pack of Boxed Water 500ml purified drinking water.",
+    "imageAuthor": "Boxed Water Is Better",
+    "imageSource": "https://unsplash.com/photos/LKRBckl4jSI",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Sustainable%2Fsmall-boxed-water-is-better.jpg?alt=media&token=0c2c8ecf-8275-41ca-b3e3-e636ccb42283",
+    "price": 2.80,
+    "productName": "Boxed Water 500ml 6 Pack",
+    "QuantityInStock": 20,
+  },
+  {
+    "description": "8 Pack of Locally sourced pears.",
+    "imageAuthor": "Mockup Graphic",
+    "imageSource": "https://unsplash.com/photos/haSJEJYzl5A",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Fruit%2FPear-mockup-graphic.jpg?alt=media&token=3fbe2a35-05c6-490b-9342-281bb6b831a9",
+    "price": 2.20,
+    "productName": "8 Pack of Pears",
     "QuantityInStock": 20,
   },
 ]

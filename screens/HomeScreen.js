@@ -15,7 +15,9 @@ import { getLatitude, getlongitude, getAddress } from '../redux/reducers/address
 import { setSelectedProduct, setSelectedCategory } from '../redux/reducers/selected';
 
 import { 
-    categories, 
+    categories,
+    sustainableList,
+    reducedList, 
     bakeryList, 
     fruitList, 
     dairyList, 
@@ -60,7 +62,6 @@ const HomeScreen = () => {
     const userData = async () => {
         // Make a request to Firebase Auth to obtain the user's account ID
         const userID = auth.currentUser.uid;
-        console.log(userID)
         const details = []
         // An asynchronous request for pulling customer account data
         await firestore.collection('users').doc(userID).get()
@@ -76,10 +77,7 @@ const HomeScreen = () => {
             })
         })    
         .catch((error) => console.log(error.message))
-
-        console.log(details)
         dispatchHook(getUsersData({details: details[details.length - 1]}))
-        
     }
 
     // useEffect rendered once due to having [] at the end
@@ -107,7 +105,7 @@ const HomeScreen = () => {
                             }}>
                                 <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
                                 <Text style={styles.productTitles}> {item.productName}</Text>
-                                <Text style={{paddingLeft: "40%"}}>£{item.price}0</Text>
+                                <Text style={{paddingLeft: "40%"}}>£{parseFloat(item.price).toFixed(2)}</Text>
                             </TouchableOpacity>
                         </View> 
                     )}
@@ -150,7 +148,42 @@ const HomeScreen = () => {
                         />
                         <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.2)', borderBottomWidth: 1, marginRight: "5%", marginLeft: "5%"}}/>
                     </View>
-                <ScrollView contentContainerStyle={{ flexGrow: 1,  paddingVertical: "3%" }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1,  paddingVertical: "1%" }}>
+                    
+                    <View style={{paddingTop: "5%"}}>
+
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Sustainable</Text>
+                            <Text 
+                                style={{marginLeft: "40%", fontSize: 15}} 
+                                onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Sustainable'}))
+                                    screenNavigate.navigate("Category") 
+                                    //selectedCategory = 'Bakery'
+                                }}
+                            >
+                            View Category {'>'}</Text>
+                        </View>
+                    </View>
+
+                    {productDisplay(sustainableList)}
+
+                    <View style={{paddingTop: "5%"}}>
+
+                        <View style={{flexDirection:"row"}}>
+                            <Text style={{marginLeft: "5%", fontSize: 18, fontWeight: "bold",}}>Reduced</Text>
+                            <Text 
+                                style={{marginLeft: "45%", fontSize: 15}} 
+                                onPress={() => {
+                                    dispatchHook(setSelectedCategory({selectedCategory: 'Reduced'}))
+                                    screenNavigate.navigate("Category") 
+                                }}
+                            >
+                            View Category {'>'}</Text>
+                        </View>
+                    </View>
+
+                    {productDisplay(reducedList)}
 
                     <View style={{paddingTop: "5%"}}>
 
@@ -161,7 +194,6 @@ const HomeScreen = () => {
                                 onPress={() => {
                                     dispatchHook(setSelectedCategory({selectedCategory: 'Bakery'}))
                                     screenNavigate.navigate("Category") 
-                                    //selectedCategory = 'Bakery'
                                 }}
                             >
                             View Category {'>'}</Text>
@@ -180,7 +212,6 @@ const HomeScreen = () => {
                                 onPress={() => {
                                     dispatchHook(setSelectedCategory({selectedCategory: 'Fruit'}))
                                     screenNavigate.navigate("Category") 
-                                    //selectedCategory = 'Fruit'
                                 }}
                             >
                                 View Category {'>'}
@@ -189,8 +220,6 @@ const HomeScreen = () => {
                     </View>
 
                     {productDisplay(fruitList)}
-                    
-                    {/* https://www.npmjs.com/package/react-native-increment-decrement-button */}
 
                     <View style={{paddingTop: "5%" }}>
 
@@ -201,7 +230,6 @@ const HomeScreen = () => {
                                 onPress={() => {
                                     dispatchHook(setSelectedCategory({selectedCategory: 'Dairy'}))
                                     screenNavigate.navigate("Category") 
-                                    //selectedCategory = 'Dairy'
                                 }}
                             >
                                 View Category {'>'}
@@ -221,7 +249,6 @@ const HomeScreen = () => {
                                 onPress={() => {
                                     dispatchHook(setSelectedCategory({selectedCategory: 'Plant Based'}))
                                     screenNavigate.navigate("Category") 
-                                    // selectedCategory = 'Plant Based'
                                 }}
                             >
                                 View Category {'>'}
@@ -240,7 +267,6 @@ const HomeScreen = () => {
                                 onPress={() => {
                                     dispatchHook(setSelectedCategory({selectedCategory: 'Poultry'}))
                                     screenNavigate.navigate("Category") 
-                                    //selectedCategory = 'Poultry'
                                 }}
                             >
                                 View Category {'>'}
@@ -259,7 +285,6 @@ const HomeScreen = () => {
                                 onPress={() => {
                                     dispatchHook(setSelectedCategory({selectedCategory: 'Vegetables'}))
                                     screenNavigate.navigate("Category") 
-                                    //selectedCategory = 'Vegetables'
                                 }}
                             >
                                 View Category {'>'}
