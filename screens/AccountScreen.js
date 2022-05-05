@@ -1,15 +1,13 @@
 import React, { useState, Component, useEffect } from'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableHighlight, TextInput, Button, KeyboardAvoidingView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//import { userData } from '../firebase/userData';
 import { useDispatch } from 'react-redux';
 
 import { useSelector } from 'react-redux';
-import { getUser, getUsersData, clearUserData} from '../redux/reducers/users';
+import { getUser } from '../redux/reducers/users';
 
 import { auth, firestore } from '../firebase/firebaseConfig';
 
-//const user = getUserData()
 
 const AccountScreen = () => {
     
@@ -28,17 +26,6 @@ const AccountScreen = () => {
         // Checks if any changes to the customer details have been made
         if(updateName !== userDetails[0].name || updatePhone !== userDetails[0].phone)
         {
-            // // Updates the name and phone attributes of the customer's account details
-            // firestore.collection('users').doc(userID).update({
-            //     name: updateName,
-            //     phone: updatePhone
-            // })
-            // .then(() => {
-            //     alert("Your details have been updated.")
-            // })
-            // .catch((error) => {
-            //     alert(error.message)
-            // })
 
             if(phoneValidation(updatePhone) == true){
 
@@ -183,27 +170,19 @@ const styles = StyleSheet.create({
         marginLeft: "7%",
     },
     button: {
-        //flex: 1,
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "5%",
         width: "50%",
         bottom: "25%",
         marginLeft: "25%",
-        
         borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
     },
     resetButton: {
-        //flex: 1,
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "3%",
         width: "50%",
-        // height: "40%",
         bottom: "5%",
         marginLeft: "7%",
         
@@ -211,11 +190,9 @@ const styles = StyleSheet.create({
     },
     signOutButton: {
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "3%",
         width: "50%",
-        // height: "40%",
         bottom: "30%",
         marginLeft: "7%",
         
@@ -227,9 +204,8 @@ const styles = StyleSheet.create({
         height: "8%",
         bottom: "7.5%",
         marginLeft: "7%",
-        borderBottomColor: '#000', // Add this to specify bottom border color
-        borderBottomWidth: 1,     // Add this to specify bottom border thickness
-        //position: "absolute",
+        borderBottomColor: '#000', 
+        borderBottomWidth: 1,     
     },
     textInputEmail: {
         fontSize: 16,
@@ -237,9 +213,8 @@ const styles = StyleSheet.create({
         height: "8%",
         bottom: "8%",
         marginLeft: "7%",
-        borderBottomColor: '#000', // Add this to specify bottom border color
-        borderBottomWidth: 1,     // Add this to specify bottom border thickness
-        //position: "absolute",
+        borderBottomColor: '#000', 
+        borderBottomWidth: 1,     
     },
     textInputPhone: {
         fontSize: 16,
@@ -247,51 +222,33 @@ const styles = StyleSheet.create({
         height: "8%",
         bottom: "7%",
         marginLeft: "7%",
-        borderBottomColor: '#000', // Add this to specify bottom border color
-        borderBottomWidth: 1,     // Add this to specify bottom border thickness
-        //position: "absolute",
+        borderBottomColor: '#000', 
+        borderBottomWidth: 1,     
+
     },
     screenVerticalLayout: {
         flex: 1,
-        //alignItems: 'center',
         paddingTop: "10%",
-        // height: "100%"
-        // justifyContent: 'center',
-        // justifyContent: 'space-evenly',
-        // flexDirection: 'column',
-        
     },
     headingName: {
-        //paddingTop: "4%",
-        //paddingBottom: "1%",
         bottom: "4%",
-        //position: "absolute",
         fontSize: 18,
-        //textAlign: 'left',
         marginLeft: "7%",
         width: "40%",
         height: "9%",
         
     },
     headingEmail: {
-        //paddingTop: "4%",
-        //paddingBottom: "1%",
         bottom: "4%",
-        //position: "absolute",
         fontSize: 18,
-        //textAlign: 'left',
         marginLeft: "7%",
         width: "40%",
         height: "9%",
         
     },
     headingPhone: {
-        //paddingTop: "4%",
-        //paddingBottom: "1%",
         bottom: "4%",
-        //position: "absolute",
         fontSize: 18,
-        //textAlign: 'left',
         marginLeft: "7%",
         width: "40%",
         height: "9%",

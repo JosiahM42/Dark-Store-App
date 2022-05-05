@@ -6,11 +6,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import {Ionicons} from '@expo/vector-icons';
 
-import { userData } from '../firebase/userData';
 import { useSelector } from 'react-redux';
 import { getUser, getUsersData, clearUserData } from '../redux/reducers/users';
 import { useDispatch } from 'react-redux';
-import { getLatitude, getlongitude, getAddress } from '../redux/reducers/address';
 
 import { setSelectedProduct, setSelectedCategory } from '../redux/reducers/selected';
 
@@ -25,14 +23,6 @@ import {
     poultryList,
     vegetableList,
 } from '../firebase/groceryData';
-// import { FlatList } from 'react-native-gesture-handler';
-
-
-// https://www.youtube.com/watch?v=ql4J6SpLXZA&t=1268s
-//watch this 
-//https://www.youtube.com/watch?v=-40TBdSRk6E&list=PL4cUxeGkcC9ixPU-QkScoRBVxtPPzVjrQ&index=22 
-
-//LogBox.ignoreAllLogs();
 
 export let selectedItem = '';
 export let selectedCategory = '';
@@ -43,20 +33,6 @@ const HomeScreen = () => {
     const userDetails = useSelector(getUser);
 
     const dispatchHook = useDispatch()
-
-    const bakeryProducts = []
-
-    // bakeryProducts.push(pullGroceries)
-    //let [quantity, setQuantity] = useState(0);
-
-    const signOut = () => {
-        auth
-            .signOut()
-            .then(() => {
-                screenNavigate.replace("Selector")
-            })
-            .catch(error => alert(error.message))
-    }
 
 
     const userData = async () => {
@@ -159,7 +135,6 @@ const HomeScreen = () => {
                                 onPress={() => {
                                     dispatchHook(setSelectedCategory({selectedCategory: 'Sustainable'}))
                                     screenNavigate.navigate("Category") 
-                                    //selectedCategory = 'Bakery'
                                 }}
                             >
                             View Category {'>'}</Text>
@@ -307,7 +282,6 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
     button: {
-        //top: "%",
         width: "10%",
         height: "10%",
 
@@ -315,22 +289,15 @@ const styles = StyleSheet.create({
 
     screenVerticalLayout: {
         flex: 1,
-        // alignItems: 'center',
-        //paddingTop: "25%",
-        // height: "130%",
         marginTop: "4%",
     },
 
     scrollHorizontalView: {
         flex: 1,
         height: "20%",
-        // backgroundColor: 'red',
-        // marginTop: "20%",
-        // marginBottom: "60%"
     },
 
     categoryTitles: {
-        //padding: "5%",
         marginLeft:20,
         textAlign: 'center',
         fontSize: 16,
@@ -338,8 +305,6 @@ const styles = StyleSheet.create({
     },
 
     categoryImage:{
-        // top: "10%",
-        // left: "10%",
         width: 90,
         height: 90,
         borderRadius:10,
@@ -351,7 +316,6 @@ const styles = StyleSheet.create({
         marginLeft:2,
         textAlign: 'center',
         fontSize: 16,
-        //justifyContent: 'center',
     },
 
     productImage: {
@@ -363,7 +327,6 @@ const styles = StyleSheet.create({
     },
 
     quantityFormat: {
-        // flex: 1,
         flexDirection: 'row',
     }
 })

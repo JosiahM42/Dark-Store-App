@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableHighlight, TextInput, Button, ToastAndroid} from 'react-native';
-import { useNavigation, NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { auth, firestore} from '../firebase/firebaseConfig';
 import firebase from 'firebase';
 import { Platform } from 'expo-modules-core';
@@ -21,10 +21,6 @@ import {
 import { setEstimatedDeliveryTime } from '../redux/reducers/order';
 import { getUser } from '../redux/reducers/users';
 import { Ionicons} from '@expo/vector-icons';
-
-// https://www.youtube.com/watch?v=Xfgjh2QbM-U
-
-// See Redux folder
 
 
 const BasketScreen = () => {
@@ -107,7 +103,7 @@ const BasketScreen = () => {
         .catch(error => alert(error.message))
     }
 
-    // console.log(responseJson.rows[0].elements[0].duration.text)
+
     useEffect (() => {
         setPrice(calculateProductTotal())
         setOrderTotal(calculateOrderTotal())
@@ -119,7 +115,6 @@ const BasketScreen = () => {
 
     return (
         <View style={{flex:1}}>
-            {/* <Button onPress={() => console.log(basket)} title="Testing"><Text>Testing</Text></Button> */}
             <View style={{paddingLeft: "85%", paddingTop: "12%",}}>
               <Ionicons name="trash-outline" size={40} 
                 onPress={() => {
@@ -175,8 +170,6 @@ const BasketScreen = () => {
                 <Text style={{fontSize: 18, bottom: "16%", marginLeft: 15}}>Total Price:</Text>
                 <Text style={{fontSize: 18, bottom: "16%", marginLeft: 169}}>£{parseFloat(price).toFixed(2)}</Text>
             </View>
-            {/* <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>Total Price:</Text>
-            <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>£{parseFloat(price).toFixed(2)}</Text> */}
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
                 <Text style={{fontSize: 18, bottom: "15%", marginLeft: 15}}>Delivery Price:</Text>
@@ -192,8 +185,6 @@ const BasketScreen = () => {
                 <TouchableHighlight
                     onPress={() => {
                         submitOrder()
-                        //setTimeout(() => userData(), 1000)
-                        //userData()
                     }}
                     style={styles.button}
                     underlayColor="#DDDDDD"
@@ -201,12 +192,6 @@ const BasketScreen = () => {
                     <Text style={{color: "white"}}>Order</Text>
                 </TouchableHighlight>
             </View>
-
-            {/* <View style={{flex: 1, paddingTop: "10%"}}>
-                <Text style={{fontSize: 20}}>
-                    Summary
-                </Text>
-            </View> */}
             
             
         </View>
@@ -216,13 +201,9 @@ const BasketScreen = () => {
 export default BasketScreen
 
 const styles = StyleSheet.create({
-    // button: {
-    //     top: "20%"
-    // },
 
     screenVerticalLayout: {
         flex: 1,
-        //alignItems: 'center',
         marginBottom: "1%",
         paddingTop: "4%",
         paddingBottom: "20%",
@@ -231,34 +212,23 @@ const styles = StyleSheet.create({
     title: {
         marginLeft: 30,
         fontSize: 30,
-        //paddingTop: "1%",
     },
 
     productTitles: {
-        // marginLeft:6,
         textAlign: 'left',
         fontSize: 18,
         bottom: 70,
         height: 40,
         left: '30%',
-        //justifyContent: 'center',
     },
     productImage: {
         width: 70,
         height: 70,
         borderRadius:5,
         marginLeft: '10%'
-        // marginLeft:5,
-        // marginRight: 25
     },
 
     productPrice: {
-        // textAlign: 'left',
-        // fontSize: 18,
-        // bottom: 68,
-        // left: '64%',
-        // height: 25
-        
         textAlign: 'left',
         fontSize: 18,
         bottom: 90,
@@ -267,19 +237,12 @@ const styles = StyleSheet.create({
     },
 
     removeItem: {
-        // bottom: 138, 
-        // left: '80%', 
-        // height: 304
-
         bottom: "106%", 
         left: "54%", 
         height: 30
     },
 
     productQuantity: {
-        // bottom: 118, 
-        // left: 240, 
-        // height: 30,
         bottom: "35%", 
         left: '140%', 
         flexDirection:"row",
@@ -300,7 +263,6 @@ const styles = StyleSheet.create({
     button: {
         flex: 1,
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "5%",
         width: "50%",
@@ -308,8 +270,6 @@ const styles = StyleSheet.create({
         marginLeft: 100,
         marginRight: 100,
         borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
     },
     
 })

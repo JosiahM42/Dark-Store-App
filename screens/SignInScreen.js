@@ -50,18 +50,6 @@ export const SignInScreen = () => {
             .catch((error) => alert(error.message))
     }
 
-    // This will allow the user to move to the next screen if they are logged in
-    // useEffect(() => {
-    //     // Checks if the user has been authenticated
-    //     const moveOn = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             // Redirects user to the home screen
-    //             screenNavigate.navigate("Home")
-    //         }
-    //     })
-    //     return moveOn
-    // })
-
     return (
 
         <View style={styles.screenVerticalLayout}>
@@ -72,7 +60,6 @@ export const SignInScreen = () => {
                 value={getEmail}
                 onChangeText={email => setEmail(email)}
                 placeholder="Enter your email"
-                //underlineColorAndroid= 'black'
             />
             
             <Text style={styles.headings}>Password</Text>
@@ -82,7 +69,6 @@ export const SignInScreen = () => {
                 onChangeText={password => setPassword(password)}
                 placeholder="Enter your password"
                 secureTextEntry
-                //underlineColorAndroid= 'black'
             />
 
             <View style = {styles.forgotPassword}>
@@ -94,7 +80,6 @@ export const SignInScreen = () => {
             <View style = {styles.buttonLayout}>
                 <TouchableHighlight
                     onPress={() => {userSignIn()}}
-                    //onPress={() => screenNavigate.navigate('SignUp')}
                     style={styles.button}
                     underlayColor="#DDDDDD"
                     backgroundColor="#99D98C"
@@ -109,15 +94,6 @@ export const SignInScreen = () => {
                     <Text>Don't have an account? Sign Up</Text>
                 </Pressable>
             </View>
-
-            {/* <TouchableHighlight
-                onPress={() => screenNavigate.navigate('Home')}
-                style={styles.button}
-                underlayColor="#DDDDDD"
-                backgroundColor="#99D98C"
-            >
-                <Text style={styles.textButton}>Sign Up</Text>
-            </TouchableHighlight> */}
         </View>
     )
 }
@@ -127,9 +103,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: "25%",
-        //justifyContent: 'center',
-        //justifyContent: 'space-evenly',
-        //flexDirection: 'column',
         
     },
 
@@ -144,15 +117,12 @@ export const styles = StyleSheet.create({
 
     title: {
         top: "0.005%",
-        //padding: "20%",
         fontSize: 25,
-        //textAlign: 'center',
         width: "25%"
     },
 
     headings: {
         paddingTop: "4%",
-        //paddingBottom: "1%",
         fontSize: 18,
         textAlign: 'left',
         marginRight: "55%",
@@ -162,16 +132,11 @@ export const styles = StyleSheet.create({
     },
     
     textInput: {
-        //top: "20%",
-        //padding: "2%", 
-        // borderColor: 'black',
-        // borderWidth: 1,
         fontSize: 16,
         width: "85%",
         height: "8%",
-        // justifyContent: 'space-between',
-        borderBottomColor: '#000', // Add this to specify bottom border color
-        borderBottomWidth: 1,     // Add this to specify bottom border thickness
+        borderBottomColor: '#000', 
+        borderBottomWidth: 1,     
 
     },
 
@@ -183,21 +148,17 @@ export const styles = StyleSheet.create({
 
     button: {
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "5%",
         width: "50%",
         top: "20%",
         borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
     },
 
     textButton: {
         fontSize: 24,
         textAlign: 'center',
         color: "#ffffff",
-        //padding: "4%",
         top: "2%",
     },
 

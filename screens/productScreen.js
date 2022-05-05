@@ -1,12 +1,14 @@
+/*
+    Author:  Josiah Murray
+    Date Started: 06/08/2021
+*/
+
 import React, { useState, Component , useEffect} from'react';
 import { StyleSheet, Text, View, Image, Linking, TouchableHighlight, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {selectedItem} from './HomeScreen';
-import {selectedProduct} from './CategoryScreen';
 
 import { Ionicons} from '@expo/vector-icons';
 
-import { Dimensions } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket } from '../redux/reducers/basket';
@@ -104,7 +106,6 @@ const ProductScreen = () => {
                 
             </View>
 
-            {/* <View style={styles.screenVerticalLayout}></View> */}
                 <View style={{flex:2}}>
                     {/* Add to basket button */}
                     <TouchableHighlight
@@ -118,9 +119,7 @@ const ProductScreen = () => {
                         backgroundColor="#99D98C">
                         <Text style={styles.buttonText}>Add to Basket</Text>
                     </TouchableHighlight>
-                {/* </View> */}
 
-                {/* <View style={{flex:2}}> */}
                 <View style={styles.productQuantity}>
                         <View style={styles.subtract}> 
                             <Ionicons name="remove-outline" size={40} color="white" onPress={() => {
@@ -157,8 +156,6 @@ const styles = StyleSheet.create({
         marginTop: "2%",
     },
     productImage: {
-        //alignItems: 'center',
-        // flex
         width: "86%",
         height: "100%",
         borderRadius:10,
@@ -166,19 +163,16 @@ const styles = StyleSheet.create({
         marginRight: "7%",
     },
     title: {
-        //flex: 1,
         top: "1%",
         fontSize: 25,
         marginLeft: "7%",
     },
     productPrice: {
-        //flex: 1,
         top: "2%",
         fontSize: 22,
         marginLeft: "7%",
     },
     line: {
-        //flex: 1,
         top: "4%",
         borderBottomColor: 'rgba(0, 0, 0, 0.6)', 
         borderBottomWidth: 1.2, 
@@ -186,7 +180,6 @@ const styles = StyleSheet.create({
         marginRight: "7%", 
         marginLeft: "7%"},
     descTitle: {
-        //flex: 1,
         top: "6%",
         fontSize: 19,
         marginLeft: "7%",
@@ -197,7 +190,6 @@ const styles = StyleSheet.create({
         marginLeft: "10%",
     },
     sourceTitle: {
-        //flex: 1,
         top: "9%",
         fontSize: 19,
         marginLeft: "7%",
@@ -224,16 +216,13 @@ const styles = StyleSheet.create({
     productQuantity: {
         position:'absolute',
         top: "74.7%",
-        //bottom:"20%", 
         left: '3%', 
         flexDirection:"row",
         padding: "3.8%",
         backgroundColor: "#119822",
         width: "45%",
-        // height: "14%",
         borderRadius: 20,
         justifyContent: 'space-around',
-        // justifyContent: 'center',
 
     },
     quantity: {
@@ -249,17 +238,3 @@ const styles = StyleSheet.create({
     },
 
 });
-
-
-//roundedRect: {
-    //     flex: 1,
-    //     bottom: "20%",
-    //     marginTop:10,
-    //     paddingTop:20,
-    //     paddingBottom:20,
-    //     marginLeft:20,
-    //     marginRight:20,
-    //     borderRadius:10,
-    //     borderWidth: 1,
-    //     borderColor: 'rgba(0, 0, 0, 0.15)',
-    // },

@@ -1,10 +1,8 @@
-//https://github.com/react-native-maps/react-native-maps
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import React, { useState, useEffect } from'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, Image} from 'react-native';
 
-//import Geocoder from 'react-native-geocoder';
 import Geocoder from 'react-native-geocoding';
 import { auth } from '../firebase/firebaseConfig';
 import * as Location from 'expo-location';
@@ -29,8 +27,6 @@ export const AddressScreen = () => {
     const authCheck = useSelector(getExistingUser)
     
     const [getLocate, setLocate] = useState('');
-
-    const [hasRun, setHasRun] = useState(false)
 
     
 
@@ -166,29 +162,9 @@ export const AddressScreen = () => {
 		.catch(error => alert(error.message));
     }
 
-    // function gMaps() {
-        
-    //     const googleMapsKey = "AIzaSyDDRYyy-kCd1dNrRH-eeQ4YHhQ4FoNRYIo";
-        
-    //     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lng + '&key=' + googleMapsKey)
-    //     .then((response) => response.json())
-    //     .then((responseJson) => {
-    //         //var add = responseJson.results
-    //         //dispatchHook(setMapsAddresses({label:responseJson.results[1].formatted_address, value: responseJson.results[1].formatted_address}))
-    //         for(let i = 0; i <= 4; i+=1) {
-    //             //dispatchHook(setMapsAddresses({label:responseJson.results[i].formatted_address, value: responseJson.results[i].formatted_address}))
-
-    //             console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[i].formatted_address));
-    //         }
-    //     })
-
-    // }
-
-
     return (
 
         <View style={{flex: 1}}>
-            {/* {alreadyAuthenticated()} */}
             {displayMap()}
             {getUserAddress()}
         </View>
@@ -205,24 +181,18 @@ export const styles = StyleSheet.create({
     },
     topScreenLayout: {
         position: 'absolute',
-        //top: "%",
         bottom: "46%",
         height: "80%",
         width: "100%",
         alignItems:'center',
         justifyContent:'center',
-        
-        // paddingTop: "50%",
     },
     headings: {
-        //paddingTop: "1%",
         fontSize: 22,
         textAlign: 'left',
         marginLeft: "15%",
         width: "100%",
         top: "6%",
-        //height: "10%",
-        
     },
 
     textInput: {
@@ -230,29 +200,24 @@ export const styles = StyleSheet.create({
         width: "85%",
         height: "8%",
         top: "7%",
-        borderBottomColor: '#000', // Add this to specify bottom border color
-        borderBottomWidth: 1,     // Add this to specify bottom border thickness
+        borderBottomColor: '#000', 
+        borderBottomWidth: 1, 
 
     },
     buttonlayout: {
         position: 'absolute',
         alignItems: "center",
-        // padding: "5%",
         width: "50%",
         top: "132%",
     },
 
     button: {
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "8%",
         width: "70%",
-        //top: "80%",
         borderRadius: 10,
-        
-        //borderColor: 'black',
-        //borderWidth: 1,
+    
     },
 
     textButton: {

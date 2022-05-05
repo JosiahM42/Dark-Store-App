@@ -10,7 +10,6 @@ export const DeclineScreen = () => {
         <View style={styles.screenVerticalLayout}>
             <View style={styles.imagePlaceholder}>
                 <Image style={styles.tick} source={require('../assets/circle-cross.png')}/>
-                {/* <Image style={styles.tick} source={{uri: 'https://firebasestorage.googleapis.com/v0/b/project-dark-store.appspot.com/o/Apples-matheus-cenali.jpg?alt=media&token=6b0d5a03-2c9f-4272-8db2-dcebb1de3c68'}}/> */}
             </View>
             <View>
                 <Text style={styles.mainText}>Sorry our service does not deliver to your area.</Text>
@@ -36,12 +35,10 @@ export const styles = StyleSheet.create({
     screenVerticalLayout: {
         flex: 1,
         alignItems: 'center', 
-        //justifyContent: 'center',
     },
     mainText: {
         padding: "20%",
         top: "40%",
-        //bottom: "50%",
         paddingBottom: "16%",
         fontSize: 24,
         textAlign: 'center',
@@ -78,7 +75,6 @@ export const styles = StyleSheet.create({
     },
     button: {
         alignItems: "center",
-        // backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "5%",
         width: "45%",

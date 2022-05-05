@@ -24,8 +24,8 @@ const OrderSummary = () => {
 
     return (
         <View style={{flex:1}}>
-            {/* <Button onPress={() => console.log(basket)} title="Testing"><Text>Testing</Text></Button> */}
             <Text style={styles.exitCross} onPress={() => {
+                // Resets the naviagational flow to the home screen
                 screenNavigate.reset({
                     index: 0,
                     routes: [{name: 'Home'}]
@@ -60,8 +60,6 @@ const OrderSummary = () => {
                 <Text style={{fontSize: 18, bottom: "16%", marginLeft: 15}}>Total Price:</Text>
                 <Text style={{fontSize: 18, bottom: "16%", marginLeft: 169}}>£{parseFloat(orderPrice).toFixed(2)}</Text>
             </View>
-            {/* <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>Total Price:</Text>
-            <Text style={{fontSize: 18, bottom: "13%", marginLeft: 30}}>£{parseFloat(price).toFixed(2)}</Text> */}
 
             <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
                 <Text style={{fontSize: 18, bottom: "15%", marginLeft: 15}}>Delivery Price:</Text>
@@ -89,7 +87,6 @@ const styles = StyleSheet.create({
 
     screenVerticalLayout: {
         flex: 1,
-        //alignItems: 'center',
         marginBottom: "1%",
         paddingTop: "8%",
         paddingBottom: "20%",
@@ -102,21 +99,17 @@ const styles = StyleSheet.create({
     },
 
     productTitles: {
-        // marginLeft:6,
         textAlign: 'left',
         fontSize: 18,
         bottom: 70,
         height: 40,
         left: '30%',
-        //justifyContent: 'center',
     },
     productImage: {
         width: 70,
         height: 70,
         borderRadius:5,
         marginLeft: '10%'
-        // marginLeft:5,
-        // marginRight: 25
     },
 
     productPrice: {
@@ -136,7 +129,6 @@ const styles = StyleSheet.create({
     button: {
         flex: 1,
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "5%",
         width: "50%",
@@ -144,8 +136,6 @@ const styles = StyleSheet.create({
         marginLeft: 100,
         marginRight: 100,
         borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
     },
     
 })

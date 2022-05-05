@@ -1,12 +1,3 @@
-// Possible Methods
-// https://www.youtube.com/watch?v=yzkX00Cj4jw
-// https://www.npmjs.com/package/react-native-step-indicator
-// OR
-// https://www.npmjs.com/package/react-native-progress-steps
-
-
-// https://developers.google.com/maps/documentation/distance-matrix/distance-matrix#maps_http_distancematrix_plus_code-txt
-// https://www.youtube.com/watch?v=fq6pKkSwEsY&t=411s
 
 import React, {useState, useEffect} from'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableHighlight, TextInput, Button, ToastAndroid} from 'react-native';
@@ -18,10 +9,7 @@ import { Platform } from 'expo-modules-core';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../redux/reducers/users';
-import { clearBasket } from '../redux/reducers/basket';
 import { setEstimatedDeliveryTime, getEstimatedDeliveryTime } from '../redux/reducers/order';
-
-import { Ionicons} from '@expo/vector-icons';
 
 import StepIndicator from 'react-native-step-indicator';
 
@@ -35,6 +23,7 @@ const OrderScreen = () => {
 
     const labels = ["Order Confirmation", "Packing Groceries", "Out For Delivery", "Delivered"];
 
+    // Styling required by step indicator package
     const customStyles = {
         stepIndicatorSize: 45,
         currentStepIndicatorSize:50,
@@ -75,8 +64,6 @@ const OrderScreen = () => {
             +  " - " + extraTime.getHours() + ":" + (("0" + extraTime.getMinutes()).slice(-2))
     }
 
-    
-
 
 
     useEffect(() => {
@@ -105,33 +92,18 @@ const OrderScreen = () => {
 
                 <View style={styles.rectangle}>
                     <Text style={styles.deliveryText}>Estimated Delivery Between</Text>
-                    {/* <Text style={styles.deliveryText}> </Text> */}
                     <Text style={styles.deliveryTimeText}>{getDeliveryTimeFrame()}</Text>
                 </View>
 
-            {/* <View style={{flex:1}}> */}
                 <TouchableHighlight
                     onPress={() => {
-                        //setPhase(phase + 1)
-                        //getEstimatedDeliveryTime()
-                        //console.log("was invisible")
-                        // if(visibility == false){
-                        //     console.log("invisible")
-                        // }
-                        // else{
-                        //     useDispatch(clearBasket())
-                        //     setTimeout(() => screenNavigate.navigate('Home'), 500)
-                        // }
-                        // dispatchHook(clearBasket())
                         setTimeout(() => screenNavigate.navigate('OrderSummary'), 500)
                     }}
-                    //onPress={() => dispatchHook(clearBasket())}
                     style={ visibility == false ? styles.hiddenButton : styles.button}
                     underlayColor="#DDDDDD"
                     backgroundColor="#99D98C">
                     <Text style={{color: "white"}}>Delivered</Text>
                 </TouchableHighlight>
-            {/* </View> */}
 
             </View>
         </View>
@@ -143,17 +115,13 @@ export default OrderScreen;
 const styles = StyleSheet.create({
     screenVerticalLayout: {
         flex: 1,
-        //alignItems: 'center',
-        //marginBottom: "1%",
         paddingTop: "24%",
-        //paddingBottom: "15%",
     },
 
     title: {
         marginLeft: 30,
         fontSize: 30,
         top: "10%",
-        //paddingTop: "1%",
     },
 
     rectangle: {
@@ -180,33 +148,23 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        //display: "none",
-        //flex: 1,
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "6%",
         width: "45%",
         bottom: "13%",
         marginLeft: "28%",
         borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
     },
 
     hiddenButton: {
-        //display: "none",
-        //flex: 1,
         opacity: 0,
         alignItems: "center",
-        //backgroundColor: "#d3d3d3",
         backgroundColor: "#FFFFFF",
         padding: "6%",
         width: "45%",
         bottom: "13%",
         marginLeft: "28%",
         borderRadius: 10,
-        //borderColor: 'black',
-        //borderWidth: 1,
     }
 })

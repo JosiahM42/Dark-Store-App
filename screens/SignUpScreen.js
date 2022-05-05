@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { clearUserData } from '../redux/reducers/users';
 import {setPostcode, getPostcode, setStreetAddress, setCity, getLatitude, getlongitude} from '../redux/reducers/address';
-//import auth from 'firebase';
+
 
 export const SignUpScreen = () => {
     const [getName, setName] = useState('');
@@ -77,34 +77,6 @@ export const SignUpScreen = () => {
         .catch(error => alert(error.message))
     }
 
-    const signUpWithGoogle = () => {
-        // This creates a new instance of the Google authentication provider class
-        var authProvider = new auth.GoogleAuthProvider()
-        
-        // This will set the authentication popup to be in english
-        auth.languageCode = 'en';
-
-        auth
-            .signInWithPopup(authProvider)
-            .then((signUpResult) => {
-                var userCredential = signUpResult.userCredential;
-                
-                var token = userCredential.accessToken;
-
-                var user = signUpResult.user
-            })
-            .catch(error => {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-            })
-                
-    }
-
     return (
 
         <View style={styles.screenVerticalLayout}>
@@ -164,25 +136,7 @@ export const SignUpScreen = () => {
                 </TouchableHighlight>
                 
             </View>
-            
-            {/*The following View container contains the line*/}
-            {/* <View style={styles.signUpWithContainer}>
-                <View style={styles.signUpWithGoogleLine} />
-                    <View>
-                        <Text style={styles.signUpWithGoogleText}>Or sign up with Google</Text>
-                    </View>
-                <View style={styles.signUpWithGoogleLine} />
-            </View> */}
-            
-            {/* <View style={styles.signInWithGoogleButtonLayout}>
-                <TouchableOpacity
-                    onPress={() => signUpWithGoogle}
-                >
-                    <Image style={{}}> 
-                    source={require('./assets/btn-google-signin.png')} 
-                    </Image>
-                </TouchableOpacity>
-            </View> */}
+        
 
             <View style = {styles.pageSwitch}>
                 <Pressable onPress={() => screenNavigate.navigate('SignIn')}>
@@ -198,18 +152,11 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: "19%",
-        //justifyContent: 'center',
-        //justifyContent: 'space-evenly',
-        //flexDirection: 'column',
-        
     },
 
     buttonLayout: {
         flex: 1,
         alignItems: 'center',
-        // paddingTop: "2%",
-        // // width: '90%',
-        // height: "8.5%",
         width: "60%",
         
     },
@@ -255,29 +202,6 @@ export const styles = StyleSheet.create({
         top: "2%",
     },
 
-    // signUpWithContainer: {
-    //     flexDirection: 'row',
-    //     alignItems: 'center', 
-    //     bottom: '50%',
-    // },
-
-    // signUpWithGoogleLine: {
-    //     flex: 1, 
-    //     height: 1, 
-    //     backgroundColor: 'black', 
-    //     margin: "5%",
-    // },
-    
-    // signUpWithGoogleText: {
-    //     width: "100%", 
-    //     textAlign: 'center',
-    // },
-    
-    // signInWithGoogleButtonLayout: {
-    //     flex: 1,
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    // },
     
     pageSwitch: {
         position:'absolute',
@@ -285,11 +209,3 @@ export const styles = StyleSheet.create({
         bottom: "4%",
     },
 })
-
-{/* <View style={{flexDirection: 'row', alignItems: 'center', bottom: '45%'}}>
-                <View style={{flex: 1, height: 1, backgroundColor: 'black', margin: "5%"}} />
-                    <View>
-                        <Text style={{width: "100%", textAlign: 'center'}}>Or sign up with Google</Text>
-                    </View>
-                <View style={{flex: 1, height: 1, width: 2, backgroundColor: 'black', margin: "5%"}} />
-    </View> */}

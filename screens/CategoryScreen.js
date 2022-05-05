@@ -2,7 +2,7 @@ import React, { useState, Component , useEffect} from'react';
 import { StyleSheet, Text, View, Image, Linking, TouchableHighlight, FlatList, TouchableOpacity, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import {selectedCategory} from './HomeScreen';
+
 
 import { setSelectedProduct, getCategory} from '../redux/reducers/selected';
 import { useSelector } from 'react-redux';
@@ -31,7 +31,6 @@ const CategoryScreen = () => {
 
     function selected() {
         switch(category)
-        // switch(selectedCategory)
         {
             case "Sustainable":
                 return sustainableList;
@@ -78,7 +77,6 @@ const CategoryScreen = () => {
                                 <TouchableOpacity onPress={() => {
                                     dispatchHook(setSelectedProduct({selectedProduct: item.productName}))
                                     screenNavigate.navigate("Product")
-                                    //selectedProduct = item.productName
                                 }
                                     }>
                                     <Image style={styles.productImage} source={{uri: item.imageUrl}}/>
@@ -101,9 +99,6 @@ const styles = StyleSheet.create({
 
     screenVerticalLayout: {
         flex: 1,
-        // alignItems: 'center',
-        //paddingTop: "25%",
-        // height: "130%",
         marginTop: "5%",
     },
     backArrow: {
@@ -112,8 +107,6 @@ const styles = StyleSheet.create({
         marginLeft: "7%",
     },
     categoryTitles: {
-        //padding: "5%",
-        //marginLeft:20,
         textAlign: 'center',
         fontSize: 30,
         
@@ -122,7 +115,6 @@ const styles = StyleSheet.create({
         marginLeft:2,
         textAlign: 'center',
         fontSize: 16,
-        //justifyContent: 'center',
     },
 
     productImage: {

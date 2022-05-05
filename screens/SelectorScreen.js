@@ -14,8 +14,7 @@ import { auth } from '../firebase/firebaseConfig';
 */
 
 export const SelectorScreen = () => {
-    
-    // 
+     
     const screenNavigate = useNavigation();
 
     return (
@@ -56,14 +55,11 @@ export const styles = StyleSheet.create({
     screenVerticalLayout: {
         flex: 1,
         alignItems: 'center', 
-        //justifyContent: 'center',
     },
     mainText: {
         position:'absolute',
         padding: "16%",
         top: "25%",
-        //bottom: "50%",
-        // paddingBottom: "16%",
         fontSize: 26,
         textAlign: 'center',
     },
@@ -78,7 +74,6 @@ export const styles = StyleSheet.create({
         top: "14%",
         width: "30%",
         padding: "1.5%", 
-        // height: "15%", 
         borderRadius: 100,
         backgroundColor: 'white',
         borderColor: "black",
@@ -87,17 +82,14 @@ export const styles = StyleSheet.create({
     },
    
     screenHorizontalLayout: {
-        // flex: 1,
         flexDirection:"row",
         justifyContent: 'space-around',
         width: '90%',
-        // height: "8.5%",
         top: "8%",
         marginLeft: "5%"
     },
     button: {
         alignItems: "center",
-        // backgroundColor: "#d3d3d3",
         backgroundColor: "#119822",
         padding: "6.5%",
         width: "45%",
@@ -113,9 +105,3 @@ export const styles = StyleSheet.create({
     }
 
 });
-
-// Colours I like
-// #38b000
-// #55a630 Or #529e30 // They are similar
-// #119822
-// #ED8F4E
