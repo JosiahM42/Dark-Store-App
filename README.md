@@ -1,7 +1,9 @@
 # Dissertation Project (First Class): Dark Store App
-This application was developed was developed as a proof of concept for my dissertation project "Dark Stores: A sustainable approach to enhancing our way of life".
+This application was developed was developed as a proof of concept for my dissertation project "Dark Stores: A sustainable approach to enhancing our way of life" *.
 - The application is a react native app for providing a convenient solution to buying locally sourced & sustainable groceries.
 - The application was built using a mix of React Native, React, vanila JavaScript and Redux.
+
+\* A PDF version can be found within the Repo under Dissertation.pdf 
 
 ## Requirements
 - Node.js v16.13.02
